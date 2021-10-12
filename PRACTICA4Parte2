@@ -1,0 +1,352 @@
+1. a. Dado un vector de enteros de a lo sumo 500 valores, realice un módulo que reciba dicho vector y un 
+valor n y retorne si n se encuentra en el vector o no. 
+
+program Hello;
+const dimF=5;//500 valores
+type  vector=array[1..dimF]of integer;
+
+function buscar( v:vector;dimL:integer;n:integer):boolean;
+var pos:integer;esta:boolean;
+begin
+  pos:=1;
+  esta:=false;
+  while (pos<=dimL)and(not esta)do begin
+    if(v[pos]=n)then
+      esta:=true;
+    else
+      pos:=pos+1;
+  end;
+  buscar:=esta;
+end;
+var v:vector;
+    n,dimL:integer;
+begin
+  write('Ingrese el valor a buscar:');
+  readln(n);
+  if(buscar(v,dimL,n))then
+    writeln('Se ha encontrado el elemento ',n);
+  else
+    writeln('No se ha encontrado el elemento ',n);
+end.
+
+1. a. Dado un vector de enteros de a lo sumo 500 valores, realice un módulo que reciba dicho vector y un 
+valor n y retorne si n se encuentra en el vector o no. 
+b. Modifique el módulo del inciso a. considerando ahora que el vector se encuentra ordenado de manera 
+ascendente.
+
+program Hello;
+const dimF=5;//500 valores
+type  vector=array[1..dimF]of integer;
+
+function buscar( v:vector;dimL:integer;n:integer):boolean;
+var pos:integer;
+begin
+  pos:=1;
+  while (pos<=dimL)and(v[pos]<n)do begin
+    pos:=pos+1;
+    if(pos<=dimL)and(v[pos]=n)then
+      buscar:=true;
+    else
+      buscar:=false;
+  end;
+end;
+var v:vector;
+    n,dimL:integer;
+begin
+  write('Ingrese el valor a buscar:');
+  readln(n);
+  if(buscar(v,dimL,n))then
+    writeln('Se ha encontrado el elemento ',n);
+  else
+    writeln('No se ha encontrado el elemento ',n);
+end.
+
+2. Realice un programa que resuelva los siguientes incisos:
+a. Lea nombres de alumnos y los almacene en un vector de a lo sumo 500 elementos. La lectura finaliza 
+cuando se lee el nombre ‘ZZZ’, que no debe procesarse.
+b. Lea un nombre y elimine la primera ocurrencia de dicho nombre en el vector.
+c. Lea un nombre y lo inserte en la posición 4 del vector.
+d. Lea un nombre y lo agregue al vector.
+Nota: Realizar todas las validaciones necesarias.
+
+program Hello;
+const dimF=5;            //500
+type cadena50=string[50];
+     valumnos=array[1..dimF]of cadena50;
+     
+procedure leerAlumnos(var alumno:cadena50);
+begin
+  write('Ingrese el nombre del alumno:');
+  readln(alumno);
+end;
+procedure cargarAlumnos(var v:valumnos;var dimL:integer);
+var a:cadena50;
+begin
+  dimL:=0;
+  leerAlumnos(a);
+  while(dimL<dimF)and(a<>'ZZZ')do begin
+    dimL:=dimL+1;
+    v[dimL]:=a;
+    leerAlumnos(a);
+  end;
+end;
+procedure borrar(var v:valumnos;var dimL:integer;var ok:boolean);
+var nom:cadena50;pos, i:integer;
+begin
+  pos:=1; 
+  ok:=false;
+  write('Ingrese el nombre que desea borrar:');
+  readln(nom);
+  while(pos<=dimL)and(not ok)do begin
+    if(v[pos]=nom)then begin
+      for i:=pos to (dimL-1)do
+        v[i]:=v[i+1];
+      ok:=true;
+      dimL:=dimL-1;
+    end
+    else pos:=pos+1;
+  end;
+end;
+procedure insertar(var v:valumnos;var dimL:integer;var ok:boolean);
+var nom:cadena50;i:integer;
+begin
+  ok:=false;
+  write('Ingrese el nombre que desea insertar en la posicion 4:');
+  readln(nom);
+  if((dimL+1)<=dimF)then begin
+    for i:=dimL downto 4 do
+      v[i+1]:=v[i];
+    ok:=true;
+    v[4]:=nom;
+    dimL:=dimL+1;
+  end;
+end;
+procedure agregar(var v:valumnos;var dimL:integer;var ok:boolean);
+var nom:cadena50;
+begin
+  ok:=false;
+  write('Ingrese el nombre que desea agregar:');
+  readln(nom);
+  if((dimL+1)<=dimF)then begin
+    ok:=true;
+    dimL:=dimL+1;
+    v[dimL]:=nom;
+  end;
+end;
+procedure imprimir(v:valumnos,dimL:integer);
+var i:integer;
+begin
+  for i:=1 to dimL do
+    writeln('Posicion ',i ,' : ' v[i]);
+end;
+var v:valumnos;
+    dimL:integer;
+    ok:boolean;
+begin
+  cargarAlumnos(v,dimL);
+  borrar(v,dimL,ok);
+  insertar(v,dimL,ok);
+  agregar(v,dimL,ok);
+  imprimir(v,dimL);
+end.
+
+3. Una empresa de transporte de caudales desea optimizar el servicio que brinda a sus clientes. Para ello, 
+cuenta con información sobre todos los viajes realizados durante el mes de marzo. De cada viaje se cuenta 
+con la siguiente información: día del mes (de 1 a 31), monto de dinero transportado y distancia recorrida 
+por el camión (medida en kilómetros).
+a) Realizar un programa que lea y almacene la información de los viajes (a lo sumo 200). La lectura finaliza 
+cuando se ingresa una distancia recorrida igual a 0 km, que no debe procesarse.
+b) Realizar un módulo que reciba el vector generado en a) e informe:
+- El monto promedio transportado de los viajes realizados
+- La distancia recorrida y el día del mes en que se realizó el viaje que transportó menos dinero.
+- La cantidad de viajes realizados cada día del mes.
+c) Realizar un módulo que reciba el vector generado en a) y elimine todos los viajes cuya distancia recorrida 
+sea igual a 100 km.
+Nota: para realizar el inciso b, el vector debe recorrerse una única vez.
+
+program Hello;  //da error no funciona
+const dimF=200;
+type  rango=1..31;
+      viaje=record
+        dia:rango;
+        monto:real;
+        km:real;
+      end;
+      viajes=array[1..dimF]of viaje;
+      vmes=array[rango]of integer;
+procedure leerViaje(var v:viaje);
+begin
+  write('Ingrese la distancia recorrida por el camion:');
+  readln(v.km);
+  if(v.km<>0)then begin
+    write('Ingrese el dia del mes:');
+    readln(v.km);
+    write('Ingrese el monto de dinero transportado:');
+    readln(v.km);
+  end;
+end;
+procedure cargarViajes(var v:viajes;var dimL:integer);
+var via:viaje;
+begin
+  dimL:=0;
+  leerViaje(via);
+  while ((dimL<dimF)and(via.km<>0))do begin
+    dimL:=dimL+1;
+    v[dimL]:=via;
+    leerViaje(via);
+  end;
+end;
+procedure minViaje(km:real;dia:rango;monto:real;var min,minkm:real;var minDia:rango);
+begin
+  if(monto<min)then begin
+    min:=monto;
+    minkm:=km;
+    minDia:=dia;
+  end;
+end;
+procedure inicializar(var vm:vmes);
+var i:rango;
+begin
+  for i:=1 to 31 do
+    vm[i]:=0;
+end;
+procedure imprimirDias(vm:vmes);
+var i:rango;
+begin
+  for i:=1 to 31 do
+    writeln('Cantidad del viaje del dia:',i,' es ',vm[i]);
+end;
+procedure recorrerViajes(var v:viajes;dimL:integer;var min,minkm:real;var minDia:rango;vm:vmes);
+var montoTotal:real;i:integer;
+begin
+  montoTotal:=0;
+  min:=999;
+  inicializar(vm);
+  for i:=1 to dimL do begin
+    montoTotal:=montoTotal+v[i].monto;
+    minViaje(v[i].monto,v[i].km,v[i].dia,min,minkm,minDia);//main.pas(78,32) Error: Incompatible type for arg no. 2: Got "Real", expected "rango"
+    vm[v[i].dia]:= vm[v[i].dia]+1;
+  end;
+  writeln('El monto promedio es:',(montoTotal/dimL):2:2);
+  writeln('La distancia recorrida y el día del mes en que se realizó el viaje que transportó menos dinero es:',minkm,minDia);
+  imprimirDias(vm);
+end;
+procedure borrar(var v:viajes;var dimL:integer);
+var i:integer;
+begin
+  for i:=1 to (dimL-1)do begin
+    if(v[i].km=100)then begin
+      v[i]:=v[i+1];
+      dimL:=dimL-1;
+    end;
+  end;
+end;
+var v:viajes;
+    dimL:integer;
+    min,minkm:real;
+    minDia:rango;
+    vm:vmes;
+begin
+  cargarViajes(v,dimL);
+  recorrerViajes(v,dimL,min,minkm,minDia,vm);
+  borrar(v,dimL);
+end.
+
+4. Una cátedra dispone de información de sus alumnos (a lo sumo 1000). De cada alumno se conoce nro de 
+alumno, apellido y nombre y cantidad de asistencias a clase. Dicha información se encuentra ordenada por 
+nro de alumno de manera ascendente. Se pide:
+a. Un módulo que retorne la posición del alumno con un nro de alumno recibido por parámetro. El 
+alumno seguro existe.
+b. Un módulo que reciba un alumno y lo inserte en el vector.
+c. Un módulo que reciba la posición de un alumno dentro del vector y lo elimine. 
+d. Un módulo que reciba un nro de alumno y elimine dicho alumno del vector
+e. Un módulo que elimine del vector todos los alumnos con cantidad de asistencias en 0.
+Nota: Realizar el programa principal que invoque los módulos desarrollados en los incisos previos con 
+datos leídos de teclado.
+
+program Hello;    //no funciona,tira mucho error
+const dimF=1000;
+type  cadena20=string[20];
+      alumno=record
+        numero:integer;
+        apellido:cadena20;
+        nombre:cadena20;
+        cantidad:integer;
+      end;
+      vector=array[1..dimF]of alumno;
+function buscarPosElem(x:integer;v:vector;dimL:integer):integer;
+var pos:integer;exito:boolean;
+begin
+  pos:=1;
+  exito:=false;
+  while(pos<=dimL)and(not exito)do 
+    if(x=v[pos])then
+      exito:=true
+    else
+      pos:=pos+1;
+  if(exito=false)then pos:=0;
+  buscarPosElem:=pos;
+end;
+procedure insertarPos(var v:vector;var dimL:integer;pos:integer;var exito:boolean);
+var i:integer;
+begin
+  exito:=false;
+  if(dimL<dimF)and(pos>=1)and(pos<=dimL)then begin
+    exito:=true;
+    for i:=dimL downto pos do
+      v[i+1]:=v[i];
+    v[pos]:=alu;
+    dimL:=dimL+1;
+  end;
+end;
+procedure borrarPos(var v:vector;var dimL:integer;pos:integer;var exito:boolean);
+var i:integer;
+begin
+  exito:=false;
+  if(pos>=1)and(pos<=dimL)then begin
+    exito:=true;
+    for i:=pos+1 to dimL do
+      v[i-1]:=v[i];
+    v[pos]:=alu;
+    dimL:=dimL-1;
+  end;
+end;
+procedure borrarPosModifPos(var v:vector;var dimL:integer;pos:integer);
+var i:integer;
+begin
+    for i:=pos+1 to dimL do
+      v[i-1]:=v[i];
+    dimL:=dimL-1;
+end;
+procedure borrarAlumno(var v:vector;var dimL:integer;numero:integer;var exito:boolean);
+var pos:integer;
+begin
+  exito:=false;
+  pos:=buscarPosElem(numero,v,dimL);
+  if(pos<>0)then begin
+    borrarPosModif(v,dimL,pos);
+    exito:=true;
+  end;
+end;
+var v:vector;
+    dimL,num,cantidad,pos,i:integer;
+    alu:alumno;
+    ok:boolean;
+begin
+  dimL:=0;
+  write('Ingrese el numero de alumno:');
+  readln(num);
+  writeln('El alumno esta en la posicion:',buscarPosElem(num,v,dimL));
+  write('Ingrese el numero de alumno a insertar:');
+  readln(num); 
+  insertarPos(v,dimL,alu,pos,ok);
+  write('Ingrese la posicion del alumno a eliminar:');
+  readln(pos);
+  borrarPos(v,dimL,pos,ok);
+  write('Ingrese el numero del alumno a eliminar:');
+  readln(num);
+  borrarAlumno(v,dimL,num,ok);
+  for i:=1 to dimF do
+    if(v[i].cantidad=0)then
+      borrarAlumno(v,dimL,v[i],ok);
+end.
