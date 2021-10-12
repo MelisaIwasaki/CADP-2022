@@ -1,0 +1,201 @@
+PARTE CONCEPTUAL
+1) ¿Qué se define como memoria estática?
+Espacio de memoria se reserva con anticipacion y no cambia durante la ejecucion del programa.
+2) ¿Qué se define como memoria dinámica?
+Los espacios de memoria asignados a las variables dinamicas se reservan y se liberan durante la ejecucion del progarma.
+3) ¿Qué es una variable de tipo puntero?
+Un puntero es un tipo de variable usada para almacenar la direccion de memoria dinamica de otra variable ,en lugar de un dato convencional
+4) ¿Qué hace la operación “NEW” aplicada en una variable del tipo puntero?
+Reserva espacio en la pila. 
+5) ¿Qué hace la operación “DISPOSE” aplicada en una variable del tipo puntero?
+Libera espacio en la pila.
+
+PARTE PRÁCTICA
+Para algunos ejercicios de la parte práctica, se utilizará la función de Pascal “sizeof”, que recibe como
+parámetro una variable de cualquier tipo y retorna la cantidad de bytes que dicha variable ocupa en la
+memoria principal. Para realizar estos ejercicios, considerar la siguiente tabla, que indica la cantidad de bytes
+que ocupa la representación interna de distintos tipos de datos en un compilador de Pascal típico. Se
+recomienda graficar cada una de las situaciones planteadas a partir de una prueba de escritorio.
+
+TIPO CANTIDAD DE BYTES
+Entero 2 bytes
+Real 4 bytes
+Char 1 byte
+String Tantos bytes como indique la longitud del String + 1
+Record La suma de las longitudes de los campos del registro
+Puntero 4 bytes
+Boolean 1 byte
+
+1) Indicar los valores que imprime el siguiente programa en Pascal. Justificar mediante prueba de
+escritorio.}
+program punteros;
+type
+cadena = string[50];
+puntero_cadena = ^cadena;
+var
+pc: puntero_cadena;
+begin
+writeln(sizeof(pc), ' bytes');  //4 bytes (puntero)
+new(pc);
+writeln(sizeof(pc), ' bytes');  //4 bytes 
+pc^:= 'un nuevo nombre';
+writeln(sizeof(pc), ' bytes');  //4 bytes
+writeln(sizeof(pc^), ' bytes'); //51 bytes (string+1)
+pc^:= 'otro nuevo nombre distinto al anterior';
+writeln(sizeof(pc^), ' bytes'); //51 bytes
+end.
+
+2) Indicar los valores que imprime el siguiente programa en Pascal. Justificar mediante prueba de
+escritorio.
+
+program punteros;
+type
+cadena = string[9];
+producto = record
+codigo: integer;      //2
+descripcion: cadena;  //10
+precio: real;         //4
+end;
+puntero_producto = ^producto; 
+var
+p: puntero_producto;  //4
+prod: producto;       //16
+begin
+writeln(sizeof(p), ' bytes');     //4
+writeln(sizeof(prod), ' bytes');  //16
+new(p);
+writeln(sizeof(p), ' bytes');     //4
+p^.codigo := 1;
+p^.descripcion := 'nuevo producto';
+writeln(sizeof(p^), ' bytes');    //16
+p^.precio := 200;
+writeln(sizeof(p^), ' bytes');    //16
+prod.codigo := 2;
+prod.descripcion := 'otro nuevo producto';
+writeln(sizeof(prod), ' bytes');  //16
+end.
+
+3) Indicar los valores que imprime el siguiente programa en Pascal. Justificar mediante prueba de
+escritorio.
+
+program punteros;
+type
+numeros = array[1..10000] of integer;  //10000* 2 bytes(integer)
+puntero_numeros = ^numeros;
+var
+n: puntero_numeros;  //4
+num: numeros;        //20000
+i:integer;
+begin
+writeln(sizeof(n), ' bytes');   //4
+writeln(sizeof(num), ' bytes'); //20000
+new(n);
+writeln(sizeof(n^), ' bytes');  //20000
+for i:= 1 to 5000 do
+n^[i]:= i;
+writeln(sizeof(n^), ' bytes');  //20000
+end.
+
+4) Indicar los valores que imprimen los siguientes programas en Pascal. Justificar mediante prueba de
+escritorio.
+
+a) program punteros;
+type
+cadena = string[50];       //51
+puntero_cadena = ^cadena;  //4
+var
+pc: puntero_cadena;        //4
+begin
+pc^:= 'un nuevo texto';
+new(pc);
+writeln(pc^);              //ERROR porque new esta despues de la asignacion de pc^,por lo tanto no se le
+end.                       //reservo espacio en memoria heap. 
+
+b) program punteros;
+type
+cadena = string[50];       //51
+puntero_cadena = ^cadena;  //4
+var
+pc: puntero_cadena;        //4
+begin
+new(pc);
+pc^:= 'un nuevo nombre';
+writeln(sizeof(pc^), ' bytes'); //51
+writeln(pc^);                   //un nuevo nombre
+dispose(pc);                    
+pc^:= 'otro nuevo nombre';      
+end.
+
+c) program punteros;
+type
+cadena = string[50];      //51
+puntero_cadena = ^cadena; //4
+procedure cambiarTexto(pun: puntero_cadena);
+begin
+pun^:= 'Otro texto';
+end;
+var
+pc: puntero_cadena;  //4
+begin
+new(pc);
+pc^:= 'Un texto';
+writeln(pc^);        //Un texto
+cambiarTexto(pc);
+writeln(pc^);        //Otro texto
+end.
+
+d) program punteros;
+type
+cadena = string[50];      //51
+puntero_cadena = ^cadena; //4
+procedure cambiarTexto(pun: puntero_cadena);
+begin
+new(pun);
+pun^:= 'Otro texto';
+end;
+var
+pc: puntero_cadena; //4
+begin
+new(pc);
+pc^:= 'Un texto';
+writeln(pc^);       //Un texto
+cambiarTexto(pc);   
+writeln(pc^);       //Un texto
+end.
+
+5) De acuerdo a los valores de la tabla que indica la cantidad de bytes que ocupa la representación
+interna de cada tipo de dato en Pascal, calcular el tamaño de memoria en los puntos señalados a partir
+de(I), suponiendo que las variables del programa ya están declaradas y se cuenta con 400.000 bytes
+libres. Justificar mediante prueba de escritorio.
+
+Program Alocacion_Dinamica;
+Type
+TEmpleado = record
+sucursal: char;               //1
+apellido: string[25];         //26
+correoElectrónico: string[40];//41
+sueldo: real;                 //4  1+26+41+4=72 vale record
+end;
+Str50 = string[50];           //51
+Var
+alguien: TEmpleado;           //72
+PtrEmpleado: ^TEmpleado;      //4
+Begin
+{Suponer que en este punto se cuenta con 400.000 bytes de memoria disponible (I)}
+Readln( alguien.apellido ); //400000-72-4
+
+{Pensar si la lectura anterior ha hecho variar la cantidad de memoria (II)}
+New( PtrEmpleado ); //No cambia, 400000-72-4
+
+{¿Cuánta memoria disponible hay ahora? (III)}
+Readln( PtrEmpleado^.Sucursal, PtrEmpleado^.apellido ); 
+
+Readln( PtrEmpleado^.correoElectrónico, PtrEmpleado^.sueldo );//400000-72-4-72
+
+{¿Cuánta memoria disponible hay ahora? (IV)}
+Dispose( PtrEmpleado );//400000-72-4-72
+
+{¿Cuánta memoria disponible hay ahora? (V)}
+//Libero espacio en memoria por lo tanto tengo nuevamente 400000-72-4
+end.
+
