@@ -1094,3 +1094,376 @@ begin
   eliminarNumero(L,numElimino);
   mostrarListaCargada(L);  //para corroborar si se elimino el numero.
 end.
+
+8. Una entidad bancaria de la ciudad de La Plata solicita realizar un programa destinado a la
+administración de transferencias de dinero entre cuentas bancarias, efectuadas entre los meses de
+Enero y Noviembre del año 2018.
+El banco dispone de una lista de transferencias realizadas entre Enero y Noviembre del 2018. De cada
+transferencia se conoce: número de cuenta origen, DNI de titular de cuenta origen, número de cuenta
+destino, DNI de titular de cuenta destino, fecha, hora, monto y el código del motivo de la
+transferencia (1: alquiler, 2: expensas, 3: facturas, 4: préstamo, 5: seguro, 6: honorarios y 7: varios).
+Esta estructura no posee orden alguno.
+Se pide:
+a) Generar una nueva estructura que contenga sólo las transferencias a terceros (son aquellas en las
+que las cuentas origen y destino no pertenecen al mismo titular). Esta nueva estructura debe
+estar ordenada por número de cuenta origen.
+Una vez generada la estructura del inciso a), utilizar dicha estructura para:
+b) Calcular e informar para cada cuenta de origen el monto total transferido a terceros.
+c) Calcular e informar cuál es el código de motivo que más transferencias a terceros tuvo.
+d) Calcular e informar la cantidad de transferencias a terceros realizadas en el mes de Junio en las
+cuales el número de cuenta destino posea menos dígitos pares que impares.
+
+program Hello;
+const tam=7;
+type  rango=1..tam;
+      fecha=record
+        dia:1..31;
+        mes:1..12;
+        anio:integer;
+      end;
+      hora=record
+        horas:1..24;
+        min:0..59;
+      end;
+      transferencia=record
+        numOrigen:integer;
+        dniOrigen:integer;
+        numDestino:integer;
+        dniDestino:integer;
+        f:fecha;
+        h:hora;
+        monto:real;
+        cod:rango;
+      end;
+      vector=array[rango]of integer;
+      lista=^nodo;
+      nodo=record
+        dato:transferencia;
+        sig:lista;
+      end;
+procedure inicializar(var v:vector);
+var i:integer;
+begin
+  for i:=1 to tam do 
+    v[i]:=0;
+end;
+function cumple(dniOrigen,dniDestino:integer):boolean;
+begin
+  cumple:=(dniOrigen<>dniDestino);
+end;
+procedure insertarOrdenado(var L2:lista;trans:transferencia);
+var  nue,act,ant:lista;
+begin
+  new(nue);
+  nue^.dato:=trans;
+  nue^.sig:=nil;
+  if(L2=nil)then  L2:=nue
+            else begin  
+                  act:=L2;
+                  ant:=L2;
+    while(act<>nil)and(act^.dato.numOrigen<nue^.dato.numOrigen)do begin
+      ant:=act;
+      act:=act^.sig;
+    end;
+    if(ant=act)then begin
+      nue^.sig:=L2;
+      L2:=nue;
+    end
+    else if(act<>nil)then begin
+           ant^.sig:=nue;
+           nue^.sig:=act;
+         end
+         else begin
+           ant^.sig:=nue;
+           nue^.sig:=nil;
+         end;
+    end;
+end;
+procedure leerTransferencia(var t:transferencia);  //se dispone
+begin
+  write('Ingrese numero cuenta origen:');
+  readln(t.numOrigen);
+  if(t.numOrigen<>-1)then begin
+    write('DNI de titular de cuenta origen:');
+    readln(t.dniOrigen);
+    write('Ingrese numero cuenta destino:');
+    readln(t.numDestino);
+    write('DNI de titular de cuenta destino:');
+    readln(t.dniDestino);
+    write('Ingrese el dia:');
+    readln(t.f.dia);
+    write('Ingrese el mes:');
+    readln(t.f.mes);
+    write('Ingrese el anio:');
+    readln(t.f.anio);
+    write('Ingrese la hora:');
+    readln(t.h.horas);
+    write('Ingrese el minuto:');
+    readln(t.h.min);
+    write('Ingrese el monto:');
+    readln(t.monto);
+    write('Ingrese código del motivo de la transferencia:');
+    readln(t.cod);
+  end;
+end;
+procedure insertarPrincipio(var L:lista;t:transferencia);
+var nue:lista;
+begin
+  new(nue);
+  nue^.dato:=t;
+  nue^.sig:=nil;
+  if(L=nil)then  L:=nue;
+           else  nue^.sig:=L;
+  L:=nue;
+  end;
+end;
+procedure cargarLista(var L:lista);
+var t:transferencia;
+begin
+  leerTransferencia(t);
+  while(t.numOrigen<>-1)do begin
+    insertarPrincipio(L,t);
+    leerTransferencia(t);
+  end;
+end;
+procedure recorrerLista(L:lista;var L2:lista);
+begin
+  while(L<>nil)do begin
+    if(cumple(L^.dato.dniOrigen,L^.dato.dniDestino))then
+      insertarOrdenado(L2,L^.dato);
+      L:=L^.sig
+  end;
+end;
+procedure calcularMaximo(v:vector;var codmax:integer);
+var i,max:integer;
+begin
+  max:=-1;
+  for i:=1 to tam do begin
+    if(v[i]>max)then begin
+      max:=v[i];
+      codmax:=i;
+    end;
+  end;
+end;
+function cumpleMenosPares(numero:integer):boolean;
+var resto,cantp,canti:integer;
+begin
+  cantp:=0;canti:=0;
+  while(numero<>0)do begin
+    resto:=numero mod 10;
+    if(resto mod 2=0)then
+      cantp:=cantp+1
+    else
+      canti:=canti+1;
+    numero:=numero div 10;
+  end;
+  if(canti>cantp)then
+     cumpleMenosPares:=true
+  else
+     cumpleMenosPares:=false;
+end;
+procedure recorrerLista2(L2:lista;v:vector);
+var codmax,cant,aux:integer;suma:real;
+begin
+  cant:=0;
+  while(L2<>nil)do begin
+    aux:=L2^.dato.numOrigen;
+    suma:=0;
+    while(L2<>nil)and(aux=L2^.dato.numOrigen)do
+      suma:=suma+L2^.dato.monto;
+    v[L2^.dato.cod]:=v[L2^.dato.cod]+1;
+    if(L2^.dato.mes=6)and(cumpleMenosPares(L2^.dato.numDestino))then
+      cant:=cant+1;
+    L2:=L2^.sig;
+    writeln('Monto total:',suma:2:2);
+  end;
+  calcularMaximo(v,codmax);
+  writeln('Código de motivo que más transferencias a terceros tuvo:',codmax);
+  writeln('la cantidad de transferencias a terceros realizadas en el mes de Junio en las
+cuales el número de cuenta destino posea menos dígitos pares que impares:',cant);
+end;
+var  L:lista;
+     L2:lista;
+     v:vector;
+begin
+  L:=nil;
+  L2:=nil;
+  inicializar(v);
+  cargarLista(L);  //se dispone
+  recorrerLista(L,L2);
+  recorrerLista2(L2,v);
+end.
+  
+9. Un cine posee la lista de películas que proyectará durante el mes de Febrero. De cada película se
+tiene: código de película, título de la película, código de género (1: acción, 2: aventura, 3: drama, 4:
+suspenso, 5: comedia, 6: bélica, 7: documental y 8: terror) y puntaje promedio otorgado por las
+críticas. Dicha estructura no posee orden alguno.
+Se pide:
+a) Actualizar (en la lista que se dispone) el puntaje promedio otorgado por las críticas. Para ello se
+debe leer desde teclado las críticas que han realizado críticos de cine, de cada crítica se lee: DNI
+del crítico, apellido y nombre del crítico, código de película y el puntaje otorgado. La lectura
+finaliza cuando se lee el código de película -1 y la información viene ordenada por código de
+película.
+b) Informar el código de género que más puntaje obtuvo entre todas las críticas.
+c) Informar el apellido y nombre de aquellos críticos que posean la misma cantidad de dígitos pares
+que impares en su DNI.
+d) Realizar un módulo que elimine de la lista que se dispone una película cuyo código se recibe
+como parámetro (el mismo puede no existir).
+
+program Hello;
+const  dimF=8;
+type   rango=1..dimF;
+       cadena50=string[50];
+       pelicula=record
+         codigo:integer;
+         nombre:cadena50;
+         codGenero:rango;
+         puntaje:real;
+       end;
+       lista=^nodo;
+       nodo=record
+         dato:pelicula;
+         sig:lista;
+       end;
+       critico=record
+         dni:integer;
+         nomape:cadena50;
+         cod:integer;
+         punto:real;
+       end;
+       vector=array[rango]of real;
+procedure inicializar(var v:vector);
+var i:integer;
+begin
+  for i:=1 to dimF do
+    v[i]:=-1;
+end;
+procedure leerCritico(var c:critico);
+begin
+  write('Ingrese el codigo:');
+  readln(c.cod);
+  if(c.cod<>-1)then begin
+    write('Ingrese el DNI:');
+    readln(c.cod);
+    write('Ingrese nombre y apellido:');
+    readln(c.cod);
+    write('Ingrese el puntaje:');
+    readln(c.cod);
+  end;
+end;
+procedure leerPelicula(var p:pelicula);
+begin
+  write('Ingrese el codigo:');
+  readln(p.codigo);
+  if(p.codigo<>-1)then begin
+    write('Ingrese el nombre:');
+    readln(p.nombre);
+    write('Ingrese el codigo de genero:');
+    readln(p.codGenero);
+    write('Ingrese el punteje:');
+    readln(p.puntaje);
+  end;
+end;
+procedure insertarPrincipio(var L:lista;p:pelicula);
+var nue:lista;
+begin
+  new(nue);
+  nue^.dato:=p;
+  nue^.sig:=nil;
+  if(L=nil)then 
+    L:=nue
+  else 
+    nue^.sig:=L;
+  L:=nue;
+end;
+procedure cargarLista(var L:lista);
+var p:pelicula;
+begin
+  leerPelicula(p);
+  while(p.codigo<>-1)do begin
+    insertarPrincipio(L,p);
+    leerPelicula(p);
+  end;
+end;
+function parImpar(dni:integer):boolean;
+var par,impar,dig:integer;
+begin
+  par:=0;impar:=0;
+  while(dni<>0)do begin
+    dig:=dni mod 10;
+    if(dig mod 2=0)then
+      par:=par+1
+    else
+      impar:=impar+1;
+    dni:=dni div 10;
+  end;
+  parImpar:=(par=impar);
+end;
+procedure masPuntaje(v:vector);
+var i,cod:integer;max:real;
+begin
+  max:=-1;
+  for i:=1 to dimF do  
+    if(v[i]>max)then begin
+      cod:=i;
+      max:=v[i];
+    end;
+    writeln(cod,' tuvo el mayor puntaje:',max:2:2);
+end;
+procedure actualizar(var v:vector;L:lista);
+var c:critico;Actual,cant:integer;promedio,suma:real;
+begin
+  leerCritico(c);
+  suma:=0;cant:=0;
+  while(c.cod<>-1)do begin
+    Actual:=c.cod;
+    while(c.cod<>-1)and(Actual=c.cod)do begin
+      if(parImpar(c.dni))then
+        writeln('Nombre y apellido de aquellos críticos con cantidad de dígitos pares que impares en su DNI:',c.nomape);
+      suma:=suma+c.punto;
+      cant:=cant+1;
+      leerCritico(c);
+    end;
+    promedio:=suma/cant;
+    while(L<>nil)do begin
+      if(L^.dato.codigo=c.cod)then
+        L^.dato.puntaje:=promedio;
+      if(v[L^.dato.codigo]<L^.dato.puntaje)then
+        v[L^.dato.codigo]:=L^.dato.puntaje;
+      L:=L^.sig;
+    end;
+  end;
+end;
+procedure Eliminar(var L:lista;numero:integer);
+var act,ant:lista;ok:boolean;
+begin
+  act:=L;ant:=L;ok:=false;
+  while(act<>nil)and(not ok)do 
+    if(act^.dato.codigo=numero)then
+      ok:=true
+    else begin
+      ant:=act;
+      act:=act^.sig;
+    end;
+    if(ok=true)then begin
+      if(act=L)then
+        L:=act^.sig
+      else
+        ant^.sig:=act^.sig;
+      dispose(act);
+  end;
+end;
+var L:lista;
+    v:vector;
+    cod:integer;
+begin
+  L:=nil;
+  inicializar(v);
+  cargarLista(L);
+  actualizar(v,L);
+  masPuntaje(v);
+  write('Ingrese el codigo a borrar:');
+  readln(cod);
+  Eliminar(L,cod);
+end.
+
