@@ -1,0 +1,238 @@
+{
+La plataforma YouTube está analizando algunos de sus principales canales de video.Para eso YouTube cuenta con
+una tablacon el nombre de las 60 categorías que utilizan para clasificar los videos(música,educación y ciencia,
+hogar,deportes,etc).De cada video se conoce su título,nombre del canal donde fué publicado, duración en segundos,
+año de publicación,cantidades de visualizaciones y el código de categoría a la que pertenece el video(1..60).
+Realizar un programa que:
+A)Invoque a un módulo.Que lea la información de los videos hasta ingresar un video de duración -1(que no debe 
+procesarse)y devuelva en una estructura de datos adecuada para el canal "Paulina Cocina",la siguiente información:
+-Nombre de canal de videos publicados.
+-Cantidad total de visualizaciones entre todos los videos.
+-Detalle del título,nombre de la categoría y duración de todos los videos con más de 1000 visualizaciones.
+B)Invoque a un módulo que reciba a estructura generada en A) e imprima nombre del canal y el título de cada 
+video con más de 1000 visualizaciones.
+}
+program Hello;
+const 
+      cantCategorias=60;
+type  
+      rangoCategorias=1..cantCategorias;
+      cadena20=string[20];
+      categorias=array[rangoCategorias]of cadena20;
+      videoYouTube=record
+        titulo:cadena20;
+        canal:cadena20;
+        duracion:integer;
+        anioPublicacion:integer;
+        cantVisualizaciones:integer;
+        categoria:rangoCategorias;
+      end;
+      videoCanal=record
+        titulo:cadena20;
+        categoria:cadena20;
+        duracion:integer;
+      end;
+      lista=^nodo;
+      nodo=record
+        dato:videoCanal;
+        sig:lista;
+      end;
+      canal=record
+        nombre:cadena20;
+        anioMasReciente:integer;
+        cantVideos:integer;
+        cantVisualizaciones:integer;
+        videos:lista;
+      end;
+procedure leerVideo(var v:videoYouTube);
+begin
+  write('Ingrese duracion del video:');
+  readln(v.duracion);
+  if(v.duracion<>-1)then begin
+    write('Ingrese el titulo:');
+    readln(v.titulo);
+    write('Ingrese el canal:');
+    readln(v.canal);
+    write('Ingrese el anio de publicacion:');
+    readln(v.anioPublicacion);
+    write('Ingrese cantidad de viasualizaciones:');
+    readln(v.cantVisualizaciones);
+    write('Ingrese la categoria:');
+    readln(v.categoria);
+  end;
+end;
+procedure agregarAdelante(dato:videoCanal;var L:lista);
+var nue:lista;
+begin
+  new(nue);
+  nue^.dato:=dato;
+  nue^.sig:=L;
+  L:=nue;
+end;
+procedure armarVideoCanal(v:videoYouTube;var vc:videoCanal;cat:categorias);
+begin
+  vc.titulo:=v.titulo;
+  vc.categoria:=cat[v.categoria];
+  vc.duracion:=v.duracion;
+end;
+procedure inicializarCanal(nombreCanal:cadena20;var datos:canal);
+begin
+  datos.nombre:=nombreCanal;
+  datos.anioMasReciente:=-1;
+  datos.cantVideos:=0;
+  datos.cantVisualizaciones:=0;
+  datos.videos:=nil;
+end;
+procedure armarCanal(nombre:cadena20;var datos:canal;c:categorias);
+var v:videoYouTube;vc:videoCanal;L:lista;
+begin
+  inicializarCanal(nombre,datos);
+  leerVideo(v);
+  while(v.duracion<>-1)do begin
+    if(v.canal=nombre)then begin
+      datos.cantVideos:=datos.cantVideos+1;
+      datos.cantVisualizaciones:=datos.cantVisualizaciones+v.cantVisualizaciones;
+      if(v.anioPublicacion>datos.anioMasReciente)then
+        datos.anioMasReciente:=v.anioPublicacion;
+        if(v.cantVisualizaciones>1000)then begin
+          armarVideoCanal(v,vc,c);
+          agregarAdelante(vc,L);
+        end;
+    end;
+    leerVideo(v);
+  end;
+end;
+procedure imprimirCanal(nombre:cadena20;L:lista);
+begin
+  writeln(nombre);
+  while(L<>nil)do begin 
+    writeln(L^.dato.titulo);
+    L:=L^.sig;
+  end;
+end;
+var   datos:canal;
+      cat:categorias;
+      L:lista;
+begin
+  //inicializarCategorias(cat)  //se dispone
+  armarCanal('Paulina Cocina',datos,cat);
+  imprimirCanal(datos.nombre,dato.videos);
+end.
+
+{
+Una consesionaria de la ciudad de La Plata necesita un programa para administrar información de ventas de autos 
+efectuadas en Febrero de 2020.Para ello se debe leer la información de ventas realizadas.De cada venta se lee
+su código de venta, modelo de auto,DNI del cliente al que se vendió el auto,el día de la venta(1..28).La 
+información de la venta se lee de manera ordenada por modelo de auto y finaliza cuando se ingresa el modelo
+'ZZZ'(que no debe procesarse).Se pide:
+- Generar una estructura que contenga,para cada modelo de auto la cantidad de veces que fué vendido.Esta 
+estructura debe quedar ordenada por modelo de auto.
+- Calcular e informar el día del mes en que se realizaron más ventas a cliente con DNI impar.
+- Calcular e informar el porcentaje de ventas con código par.
+}
+program Hello;
+type
+     rango_dia=1..28;
+     cadena20=string[20];
+     venta=record
+       cod_venta:integer;
+       modelo:cadena20;
+       dni:integer;
+       dia:rango_dia;
+     end;
+     venta_modelo=record
+       modelo:cadena20;
+       cantidad:integer;
+     end;
+     lista=^nodo;
+     nodo=record
+       dato:venta_modelo;
+       sig:lista;
+     end;
+     vector_dias=array[rango_dia]of integer;
+procedure inicializar_vector(var v:vector_dias);
+var i:rango_dia;
+begin
+  for i:=1 to 28 do 
+    v[i]:=0;
+end;
+procedure leer_Venta(var vent:venta);
+begin
+  write('Ingrese modelo:');
+  readln(vent.modelo);
+  if(vent.modelo<>'ZZZ')then begin
+    write('Ingrese codigo de venta:');
+    readln(vent.cod_venta);
+    write('Ingrese DNI:');
+    readln(vent.dni);
+    write('Ingrese dia:');
+    readln(vent.dia);
+  end;
+end;
+procedure insertar(var L:lista;var ult:lista;vent_modelo:venta_modelo);
+var aux:lista;
+begin
+  new(aux);
+  aux^.dato:=vent_modelo;
+  aux^.sig:=nil;
+  if(L=nil)then  
+    L:=aux
+  else
+    ult^.sig:=aux;
+  ult:=aux;
+end;
+function es_par(dni:integer):boolean;
+begin
+  es_par:=((dni mod 2)=0);
+end;
+procedure procesar_ventas(var L:lista;var porcentaje:real;var v:vector_dias);
+var
+  cant_total:integer;
+  cant_par:integer;
+  vent:venta;
+  vent_mod:venta_modelo;
+  ult:lista;
+begin
+  cant_total:=0;
+  cant_par:=0;
+  leer_Venta(vent);
+  while(vent.modelo<>'ZZZ')do begin
+    vent_mod.modelo:=vent.modelo;
+    vent_mod.cantidad:=0;
+    while((vent.modelo<>'ZZZ')and(vent.modelo=vent_mod.modelo))do begin
+      cant_total:=cant_total+1;
+      vent_mod.cantidad:=vent_mod.cantidad+1;
+      if(es_par(vent.cod_venta))then
+        cant_par:=cant_par+1;
+      if(es_par(vent.dni))then
+        v[vent.dia]:=v[vent.dia]+1;
+      leer_Venta(vent);
+    end;
+    insertar(L,ult,vent_mod);
+  end;
+  porcentaje:=(cant_par*100)/cant_total;
+end;
+procedure calcular_maximo(v:vector_dias;var dia_max:rango_dia);
+var i,max:integer;
+begin
+  max:=0;
+  for i:=1 to 28 do begin
+    if(v[i]>max)then begin
+      max:=v[i];
+      dia_max:=i;
+    end;
+  end;
+end;
+var  L:lista;
+     v:vector_dias;
+     porcentaje:real;
+     dia_max_venta:rango_dia;
+begin
+  L:=nil;
+  inicializar_vector(v);
+  procesar_ventas(L,porcentaje,v);
+  calcular_maximo(v,dia_max_venta);
+  writeln('El dia del mes en que se realizaron mas ventas a clientes con DNI impar es el:',dia_max_venta);
+  writeln('El porcentaje de ventas con codigo par es:',porcentaje:2:2);
+end.
+
