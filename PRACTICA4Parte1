@@ -459,7 +459,7 @@ begin
 end;
 function porcentajeAlu(alumnosPares:integer):real;
 begin
-  porcentajeAlu:=(alumnosPares/dimF)*100;
+  porcentajeAlu:=(alumnosPares*100)/dimF;
 end;
 var v:vector; 
     i,max1,max2,alumnosPares,edad:integer;
@@ -806,7 +806,7 @@ begin
       irregMenos1k:=irregMenos1k+1;
     maxYmin(vg[i].masa,vg[i].nombre,max1,max2,min1,min2,nomMax1,nomMax2,nomMin1,nomMin2);
   end;
-  porcentaje3:=()kg3Galaxias/masaTotal)*100;
+  porcentaje3:=(kg3Galaxias*100)/masaTotal;
 end;
 var vg:vgalaxias;
     v:vtipoGalax;
