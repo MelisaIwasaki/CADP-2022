@@ -625,7 +625,7 @@ begin
 end;
 function porcentaje(cantVotos:integer;totalVotos:integer):real;
 begin
-  porcentaje:=(cantVotos/totalVotos)*100;
+  porcentaje:=(cantVotos*100)/totalVotos;
 end;
 procedure mayorPorcentaje(porActual:real;apellido:cadena30;var maxP:real;var maxNom:cadena30);
 begin
