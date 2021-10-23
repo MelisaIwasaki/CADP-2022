@@ -1,3 +1,4 @@
+{
 1. Una productora nacional realiza un casting de personas para la selección de actores extras de una
 nueva película, para ello se debe leer y almacenar la información de las personas que desean
 participar de dicho casting. De cada persona se lee: DNI, apellido y nombre, edad y el código de
@@ -8,7 +9,7 @@ a. Informar la cantidad de personas cuyo DNI contiene más dígitos pares que im
 b. Informar los dos códigos de género más elegidos.
 c. Realizar un módulo que reciba un DNI, lo busque y lo elimine de la estructura. El DNI puede no
 existir. Invocar dicho módulo en el programa principal.
-
+}
 program Hello;
 const tam=5;
 type  rango=1..tam;
@@ -149,7 +150,7 @@ begin
   readln(dni);
   EliminarDNI(L,dni);
 end.
-
+{
 2. Implementar un programa que lea y almacene información de clientes de una empresa aseguradora
 automotriz. De cada cliente se lee: código de cliente, DNI, apellido, nombre, código de póliza
 contratada (1..6) y monto básico que abona mensualmente. La lectura finaliza cuando llega el cliente
@@ -163,7 +164,7 @@ por su seguro automotriz (monto básico + monto adicional).
 b. Informar apellido y nombre de aquellos clientes cuyo DNI contiene al menos dos dígitos 9.
 c. Realizar un módulo que reciba un código de cliente, lo busque (seguro existe) y lo elimine de la
 estructura.
-    
+}  
 program Hello;
 type  cadena50=string[50];
       cliente=record
@@ -293,15 +294,15 @@ begin
   readln(codBorrar);
   borrarCodigo(codBorrar,L);
 end.
-
- 3. Una remisería dispone de información acerca de los viajes realizados durante el mes de mayo de
+{
+3. Una remisería dispone de información acerca de los viajes realizados durante el mes de mayo de
 2020. De cada viaje se conoce: número de viaje, código de auto, dirección de origen, dirección de
 destino y kilómetros recorridos durante el viaje. Esta información se encuentra ordenada por código
 de auto y para un mismo código de auto pueden existir 1 o más viajes. Se pide:
 a. Informar los dos códigos de auto que más kilómetros recorrieron.
 b. Generar una lista nueva con los viajes de más de 5 kilómetros recorridos, ordenada por número
 de viaje.
-
+}
 program Hello;
 type cadena20=string[20];
      viaje=record 
@@ -449,13 +450,13 @@ begin
   mostrarListaCargada(L);
   recorrerLista(L);
 end.
-
+{
 4. Una maternidad dispone información sobre sus pacientes. De cada una se conoce: nombre, apellido y
 peso registrado el primer día de cada semana de embarazo (a lo sumo 42). La maternidad necesita un
 programa que analice esta información, determine e informe:
 a. Para cada embarazada, la semana con mayor aumento de peso.
 b. El aumento de peso total de cada embarazada durante el embarazo.
-
+}
 program Hello;
 const dimF=42;
 type  vector=array[1..dimF]of real;
@@ -559,7 +560,7 @@ begin
   muestroListaCargada(L);
   recorrerLista(L);
 end.
-
+{
 5. Una empresa de transporte de cargas dispone de la información de su flota compuesta por 100
 camiones. De cada camión se tiene: patente, año de fabricación y capacidad (peso máximo en
 toneladas que puede transportar).
@@ -575,7 +576,7 @@ toneladas y que posean una antigüedad mayor a 5 años al momento de realizar el
 que se realizó el viaje).
 3. Informar los códigos de los viajes realizados por choferes cuyo DNI tenga sólo dígitos impares.
 Nota: Los códigos de viaje no se repiten.
-
+}
 program Hello;
 const dimF=3;    //100 camiones
 type  rango=1..dimF;
@@ -723,7 +724,7 @@ begin
    crearLista(L);
    recorrerLista(L,v);
 end.
-
+{
 6. El Observatorio Astronómico de La Plata ha realizado un relevamiento sobre los distintos objetos
 astronómicos observados durante el año 2015. Los objetos se clasifican en 7 categorías: 1: estrellas,
 2: planetas, 3: satélites, 4: galaxias, 5: asteroides, 6: cometas y 7: nebulosas.
@@ -741,7 +742,7 @@ información:
 3. La cantidad de objetos observados por cada categoría.
 4. Los nombres de las estrellas cuyos códigos de objeto poseen más dígitos pares que
 impares.
-
+}
 program Hello;
 const tam=7;
 type  rango=1..tam;
@@ -887,7 +888,7 @@ begin
   mostrarListaCargada(L);
   recorrerLista(L,v);
 end.
-
+{
 7. La Facultad de Informática desea procesar la información de los alumnos que finalizaron la carrera de
 Analista Programador Universitario. Para ello se deberá leer la información de cada alumno, a saber:
 número de alumno, apellido, nombres, dirección de correo electrónico, año de ingreso, año de egreso
@@ -903,7 +904,7 @@ c. El apellido, nombres y dirección de correo electrónico de los dos alumnos q
 se recibieron (o sea, que tardaron menos años)
 3. Realizar un módulo que, dado un número de alumno leído desde teclado, lo busque y elimine de
 la estructura generada en el inciso 1. El alumno puede no existir.
- 
+}
 program Hello;
 const  dimF=24;
 type   rango=1..dimF;
@@ -1094,7 +1095,7 @@ begin
   eliminarNumero(L,numElimino);
   mostrarListaCargada(L);  //para corroborar si se elimino el numero.
 end.
-
+{
 8. Una entidad bancaria de la ciudad de La Plata solicita realizar un programa destinado a la
 administración de transferencias de dinero entre cuentas bancarias, efectuadas entre los meses de
 Enero y Noviembre del año 2018.
@@ -1112,7 +1113,7 @@ b) Calcular e informar para cada cuenta de origen el monto total transferido a t
 c) Calcular e informar cuál es el código de motivo que más transferencias a terceros tuvo.
 d) Calcular e informar la cantidad de transferencias a terceros realizadas en el mes de Junio en las
 cuales el número de cuenta destino posea menos dígitos pares que impares.
-
+}
 program Hello;
 const tam=7;
 type  rango=1..tam;
@@ -1293,7 +1294,7 @@ begin
   recorrerLista(L,L2);
   recorrerLista2(L2,v);
 end.
-  
+{ 
 9. Un cine posee la lista de películas que proyectará durante el mes de Febrero. De cada película se
 tiene: código de película, título de la película, código de género (1: acción, 2: aventura, 3: drama, 4:
 suspenso, 5: comedia, 6: bélica, 7: documental y 8: terror) y puntaje promedio otorgado por las
@@ -1309,7 +1310,7 @@ c) Informar el apellido y nombre de aquellos críticos que posean la misma canti
 que impares en su DNI.
 d) Realizar un módulo que elimine de la lista que se dispone una película cuyo código se recibe
 como parámetro (el mismo puede no existir).
-
+}
 program Hello;
 const  dimF=8;
 type   rango=1..dimF;
