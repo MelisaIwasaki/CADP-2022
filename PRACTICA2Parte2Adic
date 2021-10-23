@@ -1,4 +1,6 @@
+{
 1. Dado el siguiente programa:
+}
 program Ejercicio1_ad;
  procedure intercambio(var num1,num2 : integer);
  var
@@ -23,17 +25,19 @@ begin
  end;
  writeln(num1);
 end.
+{
 a. ¿Qué imprime si se leen los valores num1=10 y num2=5 ? 
 Imprime 9
 b. ¿Qué imprime si se leen los valores num1=5 y num2=10 ?
 Imprime 14
-
+}
+{
 2. Realice un programa modularizado que lea 10 pares de números (X,Y) e informe, para cada par de números, 
 la suma y el producto de todos los números entre X e Y.
 Por ejemplo, dado el par (3,6), debe informar:
 “La suma es 18“ (obtenido de calcular 3+4+5+6)
 “El producto es 360“ (obtenido de calcular 3*4*5*6)
-
+}
 program Hello;
 procedure sumaYProd(x,y:integer;var suma,producto:integer);
 var i:integer;
@@ -57,12 +61,12 @@ begin
      writeln('El producto es:',prod);
     end; 
 end.
-
+{
 3. Realizar un programa modularizado que lea información de 200 productos de un supermercado. De cada 
 producto se lee código y precio (cada código es un número entre 1 y 200). Informar en pantalla:
 ● Los códigos de los dos productos más baratos.
 ● La cantidad de productos de más de 16 pesos con código par.
-
+}
 program Hello;
 type rango:1..200;
 procedure prodMasBarato(precio:real;codigo:rango;var min1,min2:real;var codMin1,codMin2:rango);
@@ -96,7 +100,7 @@ begin
     writeln('Los codigos de los dos productos mas baratos',codMin1,'y',codMin2);
     writeln('La cantidad de productos de mas de 16 pesos co codigo par:', cantidad16);
 end.
-
+{
 4. a. Realizar un módulo que reciba como parámetro el radio de un círculo y retorne su diámetro y su 
 perímetro.
 b. Utilizando el módulo anterior, realizar un programa que analice información de planetas obtenidas del 
@@ -106,7 +110,7 @@ Informar:
 ● Nombre y distancia de los planetas que poseen un diámetro menor o igual que el de la Tierra (12.700 
 km) y mayor o igual que el de Marte (6.780 km).
 ● Cantidad de planetas con un perímetro superior al del planeta Júpiter (439.264 km).
-
+}
 program Hello;
 const pi:=3.14;
 type cadena20=string[20];
