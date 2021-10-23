@@ -1,3 +1,4 @@
+{
 PARTE CONCEPTUAL
 1) ¿Qué se define como memoria estática?
 Espacio de memoria se reserva con anticipacion y no cambia durante la ejecucion del programa.
@@ -25,9 +26,11 @@ String Tantos bytes como indique la longitud del String + 1
 Record La suma de las longitudes de los campos del registro
 Puntero 4 bytes
 Boolean 1 byte
-
+}
+{
 1) Indicar los valores que imprime el siguiente programa en Pascal. Justificar mediante prueba de
-escritorio.}
+escritorio.
+}
 program punteros;
 type
 cadena = string[50];
@@ -44,10 +47,10 @@ writeln(sizeof(pc^), ' bytes'); //51 bytes (string+1)
 pc^:= 'otro nuevo nombre distinto al anterior';
 writeln(sizeof(pc^), ' bytes'); //51 bytes
 end.
-
+{
 2) Indicar los valores que imprime el siguiente programa en Pascal. Justificar mediante prueba de
 escritorio.
-
+}
 program punteros;
 type
 cadena = string[9];
@@ -74,10 +77,10 @@ prod.codigo := 2;
 prod.descripcion := 'otro nuevo producto';
 writeln(sizeof(prod), ' bytes');  //16
 end.
-
+{
 3) Indicar los valores que imprime el siguiente programa en Pascal. Justificar mediante prueba de
 escritorio.
-
+}
 program punteros;
 type
 numeros = array[1..10000] of integer;  //10000* 2 bytes(integer)
@@ -95,10 +98,10 @@ for i:= 1 to 5000 do
 n^[i]:= i;
 writeln(sizeof(n^), ' bytes');  //20000
 end.
-
+{
 4) Indicar los valores que imprimen los siguientes programas en Pascal. Justificar mediante prueba de
 escritorio.
-
+}
 a) program punteros;
 type
 cadena = string[50];       //51
@@ -162,12 +165,12 @@ writeln(pc^);       //Un texto
 cambiarTexto(pc);   
 writeln(pc^);       //Un texto
 end.
-
+{
 5) De acuerdo a los valores de la tabla que indica la cantidad de bytes que ocupa la representación
 interna de cada tipo de dato en Pascal, calcular el tamaño de memoria en los puntos señalados a partir
 de(I), suponiendo que las variables del programa ya están declaradas y se cuenta con 400.000 bytes
 libres. Justificar mediante prueba de escritorio.
-
+}
 Program Alocacion_Dinamica;
 Type
 TEmpleado = record
