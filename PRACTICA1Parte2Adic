@@ -1,3 +1,4 @@
+{
 Actividad 1: Revisando Inversiones
 Realizar un programa que analice las inversiones de las empresas más grandes del país. Para cada
 empresa se lee su código (un número entero), la cantidad de inversiones que tiene, y el monto
@@ -27,7 +28,7 @@ Resultado del análisis: Empresa 100 Monto promedio 84000.34
 (Fin de la lectura)
 La empresa 41 es la que mayor dinero posee invertido ($167000.22).
 Hay 3 empresas con inversiones por más de $50000.
-
+}
 
 program Hello;
 var  codigo,cantInv,codMax,cant5,i:integer;
@@ -60,7 +61,7 @@ begin
   writeln('Hay ',cant5,' empresas con inversiones por mas de $50000.');
 end.
 
-
+{
 Actividad 2: procesamiento de las autoevaluaciones de CADP
 La cátedra de CADP está analizando los resultados de las autoevaluaciones que realizaron los
 alumnos durante el cuatrimestre. Realizar un programa que lea, para cada alumno, su legajo, su
@@ -89,7 +90,7 @@ total de alumnos RECURSANTES.
 Nota: recuerde que, para poder rendir el EXAMEN PARCIAL, el alumno deberá obtener “Presente” en al
 menos el 75% del total de las autoevaluaciones propuestas. Se considera “Presente” la autoevaluación que se
 entrega en tiempo y forma y con al menos el 40% de respuestas correctas.
-
+}
 
 program Hello;
 var nota,notaT,nota0,nota10,notamin10,notamin102,notamin0,notamin02:real;
@@ -168,7 +169,7 @@ begin
   writeln('Los dos alumnos con mayor cantidad de autoevaluaciones con nota 0 son:',legajo01,' y ',legajo02);
 end.
 
-
+{
 Actividad 3: Ventas de tanques de agua
 Un fabricante de tanques de agua está analizando las ventas de sus tanques durante el 2020. La
 empresa fabrica tanques a medida, que pueden ser rectangulares (tanques ‘R’) o cilíndricos (tanques
@@ -183,7 +184,7 @@ lectura, el programa debe informar:
 - Volumen promedio de todos los tanques rectangulares vendidos
 - Cantidad de tanques cuyo alto sea menor a 1.40 metros
 - Cantidad de tanques cuyo volumen sea menor a 800 metros cúbicos
-  
+}  
   
 program Hello;
 const PI=3.14159;
