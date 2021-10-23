@@ -1,10 +1,11 @@
+{
 1. Dado el siguiente programa:
 a. Completar el programa principal para que lea información de alumnos (código, nombre, promedio) e informe
 la cantidad de alumnos leídos. La lectura finaliza cuando ingresa un alumno con código 0, que no debe
 procesarse. Nota: utilizar el módulo leer.
 b. Modificar al programa anterior para que, al finalizar la lectura de todos los alumnos, se informe también el
 nombre del alumno con mejor promedio.
-
+}
 program Registros;
 type
 str20 = string[20];
@@ -51,7 +52,7 @@ begin
   writeln('Cantidad de alumnos leidos',cant);
   writeln('Nombre del alumno con meor promedio',maxNom);
 end.
-
+{
 2. El registro civil de La Plata ha solicitado un programa para analizar la distribución de casamientos durante el año
 2019. Para ello, cuenta con información de las fechas de todos los casamientos realizados durante ese año.
 a) Analizar y definir un tipo de dato adecuado para almacenar la información de la fecha de cada casamiento.
@@ -61,7 +62,7 @@ c) Implementar un programa que lea la fecha de todos los casamientos realizados 
 ingresar el año 2020, que no debe procesarse, e informe la cantidad de casamientos realizados durante los
 meses de verano (enero, febrero y marzo) y la cantidad de casamientos realizados en los primeros 10 días de
 cada mes. Nota: utilizar el módulo realizado en b) para la lectura de fecha.
-
+}
 program Hello;
 type
   rangoD=1..31;
@@ -108,7 +109,7 @@ begin
   writeln('Cantidad de casamientos realizados en los primeros 10 dias de cada mes:',cantDiez);
   writeln('Cantidad de casamiento realizado durante los meses de verano:',cantVerano);
 end.
-
+{
 3. El Ministerio de Educación desea realizar un relevamiento de las 2400 escuelas primarias de la provincia de Bs. As,
 con el objetivo de evaluar si se cumple la proporción de alumnos por docente calculada por la UNESCO para el año
 2015 (1 docente cada 23,435 alumnos). Para ello, se cuenta con información de: CUE (código único de
@@ -120,7 +121,7 @@ El programa debe utilizar:
 a) Un módulo para la lectura de la información de la escuela.
 b) Un módulo para determinar la relación docente-alumno (esa relación se obtiene del cociente entre la cantidad
 de alumnos y la cantidad de docente.
-
+}
 program Hello;
 const
     escuelas=3;//2400
@@ -188,7 +189,7 @@ begin
   writeln('Cantidad de escuelas de La Plata con una relación de alumnos por docente superior a la sugerida por UNESCO:', cantEsc);
   writeln('CUE y nombre de las dos escuelas con mejor relación entre docentes y alumnos:',cue1,nom1,'y',cue2,nom2);
 end.
-
+{
 4. Una compañía de telefonía celular debe realizar la facturación mensual de sus 9300 clientes con planes de
 consumo ilimitados (clientes que pagan por lo que consumen). Para cada cliente se conoce su código de cliente y
 cantidad de líneas a su nombre. De cada línea se tiene el número de teléfono, la cantidad de minutos consumidos
@@ -199,7 +200,7 @@ b. Realizar un módulo que reciba los datos de un cliente, lea la información d
 módulo desarrollado en el inciso a. ) y retorne la cantidad total de minutos y la cantidad total de MB a facturar
 del cliente.
 Nota: para realizar los cálculos tener en cuenta que cada minuto cuesta $3,40 y cada MB consumido cuesta $1,35.
-
+}
 program Hello;
 const
     CLIMAX=3;//9300
@@ -256,13 +257,13 @@ begin
     writeln ('Cliente',i,'el monto total a facturar es',montoTotal:4:2);
   end;
 end.
-
+{
 5. Realizar un programa que lea información de autos que están a la venta en una concesionaria. De cada auto se lee:
 marca, modelo y precio. La lectura finaliza cuando se ingresa la marca “ZZZ” que no debe procesarse. La
 información se ingresa ordenada por marca. Se pide calcular e informar:
 a. El precio promedio por marca.
 b. Marca y modelo del auto más caro.
-
+}
 program Hello;
 type 
     cadena20=string[20];
@@ -314,7 +315,7 @@ begin
   end;
   writeln('Marca y modelo del auto mas caro:',maxMar,' ',MaxMod);
 end.
-
+{
 6. Una empresa importadora de microprocesadores desea implementar un sistema de software para analizar la
 información de los productos que mantiene actualmente en stock. Para ello, se conoce la siguiente información de
 los microprocesadores: marca (Intel, AMD, NVidia, etc), línea (Xeon, Core i7, Opteron, Atom, Centrino, etc.),
@@ -327,7 +328,7 @@ importadora e informe:
 ● Las dos marcas con mayor cantidad de procesadores con transistores de 14 nm.
 ● Cantidad de procesadores multicore (de más de un core) de Intel o AMD, cuyos relojes alcancen velocidades de
 al menos 2 Ghz.
-
+}
 program Hello;
 type
   cadena20=string[20];
@@ -403,7 +404,7 @@ begin
   writeln('Las dos marcas con mayor cantidad de procesadores con transistores de 14 nm:',maxMarca1,' y ',maxMarca2);
   writeln('Cantidad de procesadores multicore de Intel o AMD, cuyos relojes alcancen velocidades de al menos 2 Ghz es:',cantMulticore);
 end.
-
+{
 7. Realizar un programa que lea información de centros de investigación de Universidades Nacionales. De cada
 centro se lee su nombre abreviado (ej. LIDI, LIFIA, LINTI), la universidad a la que pertenece, la cantidad de
 investigadores y la cantidad de becarios que poseen. La información se lee de forma consecutiva por universidad y
@@ -411,7 +412,7 @@ la lectura finaliza al leer un centro con 0 investigadores, que no debe procesar
 ● Cantidad total de centros para cada universidad.
 ● Universidad con mayor cantidad de investigadores en sus centros.
 ● Los dos centros con menor cantidad de becarios.
-
+}
 program Hello;
 type 
     cadena30=string[30];
@@ -477,7 +478,7 @@ begin
   writeln('Universidad con mayor cantidad de investigadores en su centro',univMax);
   writeln('Los dos centros con menor cantidad de becarios:', minNon1,' y ',minNom2);
 end.
-
+{
 8. La Comisión Provincial por la Memoria desea analizar la información de los proyectos presentados en el programa
 Jóvenes y Memoria durante la convocatoria 2020. Cada proyecto posee un código único, un título, el docente
 coordinador (DNI, nombre y apellido, email), la cantidad de alumnos que participan del proyecto, el nombre de la
@@ -488,7 +489,7 @@ informe:
 ● Cantidad total de escuelas que participan en la convocatoria 2018 y cantidad de escuelas por cada localidad.
 ● Nombres de las dos escuelas con mayor cantidad de alumnos participantes.
 ● Título de los proyectos de la localidad de Daireaux cuyo código posee igual cantidad de dígitos pares e impares.
-
+}
 program Hello;
 type 
     cadena20=string[20];
@@ -588,14 +589,14 @@ begin
   end;
   writeln('Las dos escuelas con mas cantidad de alumnos son:',esc1,' con ',max1,' y ',esc2,' con ',max2);
 end.
-
+{
 9. Realizar un programa que lea información de los candidatos ganadores de las últimas elecciones a intendente de
 la provincia de Buenos Aires. Para cada candidato se lee: localidad, apellido del candidato, cantidad de votos
 obtenidos y cantidad de votantes de la localidad. La lectura finaliza al leer la localidad ‘Zárate’, que debe procesarse.
 Informar:
 ● El intendente que obtuvo la mayor cantidad de votos en la elección.
 ● El intendente que obtuvo el mayor porcentaje de votos de la elección.
-
+}
 program Hello;
 type
     cadena30=string[30];
@@ -653,7 +654,7 @@ begin
   writeln('Intendente con mayor cantidad de votos:',maxApe);
   writeln('Intendente con mayor porcentaje de votos:',maxNom);
 end.
-
+{
 10. Un centro de investigación de la UNLP está organizando la información de las 320 especies de plantas con las
 que trabajan. Para cada especie se ingresa su nombre científico, tiempo promedio de vida (en meses), tipo de
 planta (por ej. árbol, conífera, arbusto, helecho, musgo, etc.), clima (templado, continental, subtropical, desértico,
@@ -665,7 +666,7 @@ lectura, informar:
 ● El nombre científico de las dos plantas más longevas.
 ● Los nombres de las plantas nativas de Argentina que se encuentran en regiones con clima subtropical.
 ● El nombre de la planta que se encuentra en más países.
-
+}
 program Hello;
 const
     PLANTS=3;//320
@@ -765,7 +766,7 @@ begin
   writeln('Nonmbre cientifico de las dos plantas mas longevas:',nom1,' y ',nom2);
   writeln('Nonmbre de la planta que se encuentra en mas paises',nomPaises);
 end.
-
+{
 11. Una compañía de vuelos internacionales está analizando la información de todos los vuelos realizados por sus
 aviones durante todo el año 2019. De cada vuelo se conoce el código de avión, país de salida, país de llegada,
 cantidad de kilómetros recorridos y porcentaje de ocupación del avión. La información se ingresa ordenada por
@@ -774,7 +775,7 @@ código de avión y, para cada avión, por país de salida. La lectura finaliza 
 ● El avión que salió desde más países diferentes.
 ● La cantidad de vuelos de más de 5.000 km que no alcanzaron el 60% de ocupación del avión.
 ● La cantidad de vuelos de menos de 10.000 km que llegaron a Australia o a Nueva Zelanda.
-
+}
 program Hello;
 type cadena30=string[30];
      vuelo=record
