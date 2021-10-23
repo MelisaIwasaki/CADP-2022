@@ -1,4 +1,6 @@
+{
 1. Dado el siguiente programa:
+}
 1. program sumador;
 2. type
 3. vnums = array [1..10] of integer;
@@ -12,6 +14,7 @@
 11. for i := 2 to 10 do {segundo bloque for}
 12. numeros[i] := numeros[i] + numeros [i-1]
 13. end.
+{
 a) ¿Qué valores toma la variable numeros al finalizar el primer bloque for?
 b) Al terminar el programa, ¿con qué valores finaliza la variable números?
 c) Si se desea cambiar la línea 11 por la sentencia: for i:=1 to 9 do ¿Cómo debe modificarse el
@@ -19,13 +22,15 @@ código para que la variable números contenga los mismos valores que en 1.b)?
 d) ¿Qué valores están contenidos en la variable numeros si la líneas 11 y 12 se reemplazan por:
 for i:=1 to 9 do
 numeros[i+1] := numeros[i];
-
+}
+{
 2. Dado el siguiente programa, complete las líneas indicadas, considerando que:
 a) El módulo cargarVector debe leer números reales y almacenarlos en el vector que se pasa como
 parámetro. Al finalizar, debe retornar el vector y su dimensión lógica. La lectura finaliza cuando se ingresa
 el valor 0 (que no debe procesarse) o cuando el vector está completo.
 b) El módulo modificarVectorySumar debe devolver el vector con todos sus elementos incrementados con
 el valor n y también debe devolver la suma de todos los elementos del vector.
+}
 program Vectores;
 const
 cant_datos = 150;
@@ -60,7 +65,7 @@ end.
 begin
 . . . { completar }
 end;
-
+{
 3. Se dispone de un vector con números enteros, de dimensión física dimF y dimensión lógica dimL.
 a) Realizar un módulo que imprima el vector desde la primera posición hasta la última.
 b) Realizar un módulo que imprima el vector desde la última posición hasta la primera.
@@ -70,7 +75,7 @@ d) Realizar un módulo que reciba el vector, una posición X y otra posición Y,
 posición X hasta la Y. Asuma que tanto X como Y son menores o igual a la dimensión lógica. Y considere
 que, dependiendo de los valores de X e Y, podría ser necesario recorrer hacia adelante o hacia atrás.
 e) Utilizando el módulo implementado en el inciso anterior, vuelva a realizar los incisos a, b y c.
-
+}
 program Hello;
 const
   dimF=5;
@@ -139,7 +144,7 @@ begin
   moduloC(v,dimL);
   moduloD(v,x,y,dimL);
 end.
-
+{
 4. Se dispone de un vector con 100 números enteros. Implementar los siguientes módulos:
 a) posicion: dado un número X y el vector de números, retorna la posición del número X en dicho vector,
 o el valor -1 en caso de no encontrarse.
@@ -149,7 +154,7 @@ c) sumaVector: retorna la suma de todos los elementos del vector.
 d) promedio: devuelve el valor promedio de los elementos del vector.
 e) elementoMaximo: retorna la posición del mayor elemento del vector
 f) elementoMinimo: retorna la posicion del menor elemento del vector
-
+}
 function posicion(x,dimL:integer;v:vector):integer;
 begin
   if(x<=dimL)and(x>1)then
@@ -204,13 +209,13 @@ begin
   end;
   elementoMinimo:=pos;
 end;
-
+{
 5. Utilizando los módulos implementados en el ejercicio 3, realizar un programa que lea números enteros
 desde teclado (a lo sumo 100) y los almacene en un vector. La carga finaliza al leer el número 0. Al finalizar
 la carga, se debe intercambiar la posición del mayor elemento por la del menor elemento, e informe la
 operación realizada de la siguiente manera: “El elemento máximo ... que se encontraba en la posición ...
 fue intercambiado con el elemento mínimo ... que se encontraba en la posición ...”.
-
+}
 program Hello;
 const dimF=100;
 type  vector=array[1..dimF]of integer;
@@ -269,11 +274,11 @@ begin
   writeln ('El elemento maximo ',v[posMin],' que se encontraba en la posicion ',posMax,
   ' fue intercambiado con el elemento minimo ',v[posMax],' que se encontraba en la posicion ',posMin);
 end.
-
+{
 6. Dado que en la solución anterior se recorre dos veces el vector (una para calcular el elemento máximo y
 otra para el mínimo), implementar un único módulo que recorra una única vez el vector y devuelva ambas
 posiciones.
-
+}
 program Hello;
 const dimF=100;
 type  vector=array[1..dimF]of integer;
@@ -320,7 +325,7 @@ begin
   writeln ('El elemento maximo ',v[posMin],' que se encontraba en la posicion ',posMax,
   ' fue intercambiado con el elemento minimo ',v[posMax],' que se encontraba en la posicion ',posMin);
 end.
-
+{
 7. Realizar un programa que lea números enteros desde teclado hasta que se ingrese el valor -1 (que no
 debe procesarse) e informe:
 a. la cantidad de ocurrencias de cada dígito procesado.
@@ -333,7 +338,7 @@ Número 6: 2 veces
 Número 9: 4 veces
 El dígito más leído fue el 9.
 Los dígitos que no tuvieron ocurrencias son: 0, 1, 2, 5, 7, 8
-
+}
 program Hello;
 const dimF=9;
 type  rango=0..dimF;
@@ -387,13 +392,13 @@ begin
   end;
   imprimir(v);
 end.
-
+{
 8. Realizar un programa que lea y almacene la información de 400 alumnos ingresantes a la Facultad de
 Informática de la UNLP en el año 2020. De cada alumno se lee: nro de inscripción, DNI, apellido, nombre y
 año de nacimiento. Una vez leída y almacenada toda la información, calcular e informar:
 a) El porcentaje de alumnos con DNI compuesto sólo por dígitos pares.
 b) Apellido y nombre de los dos alumnos de mayor edad.
-
+}
 program Hello;
 const dimF=2; //400 No compila,error en porcentaje y recorrerVector
 type  cadena20=string[20];
@@ -482,10 +487,10 @@ begin
   writeln('El porcentaje de alumnos con DNI compuesto sólo por dígitos pares:',porcentaje:2:2,' % ');
   writeln('Apellido y nombre de los dos alumnos de mayor edad:',ape1,' ',nom1,' y ',ape2,' ',nom2);
 end.
-
+{
 9. Modificar la solución del punto anterior considerando que el programa lea y almacene la información de a
 lo sumo 400 alumnos. La lectura finaliza cuando se ingresa el DNI -1 (que no debe procesarse).
-
+}
 program Hello;
 const dimF=2; //400 No compila,error en porcentaje y recorrerVector
 type  cadena20=string[20];
@@ -580,7 +585,7 @@ begin
   writeln('El porcentaje de alumnos con DNI compuesto sólo por dígitos pares:',porcentaje:2:2,' % ');
   writeln('Apellido y nombre de los dos alumnos de mayor edad:',ape1,' ',nom1,' y ',ape2,' ',nom2);
 end.
-
+{
 10. Realizar un programa que lea y almacene el salario de los empleados de una empresa de turismo (a lo
 sumo 300 empleados). La carga finaliza cuando se lea el salario 0 (que no debe procesarse) o cuando se
 completa el vector. Una vez finalizada la carga de datos se pide:
@@ -588,7 +593,7 @@ a) Realizar un módulo que incremente el salario de cada empleado en un 15%. Par
 módulo que reciba como parámetro un valor real X, el vector de valores reales y su dimensión lógica y
 retorne el mismo vector en el cual cada elemento fue multiplicado por el valor X.
 b) Realizar un módulo que muestre en pantalla el sueldo promedio de los empleados de la empresa.
-                       
+}                      
 program Hello;
 const dimF=300;
 type rango=1..dimF;
@@ -630,7 +635,7 @@ begin
   incrementar(x,v,dimL);
   promedio(v,dimL);
 end.
-
+{
 11. El colectivo de fotógrafos ArgenPics desea conocer los gustos de sus seguidores en las redes sociales. Para
 ello, para cada una de las 200 fotos publicadas en su página de Facebook, cuenta con la siguiente
 información: título de la foto, el autor de la foto, cantidad de Me gusta, cantidad de clics y cantidad de
@@ -639,7 +644,7 @@ lectura, el programa debe procesar los datos e informar:
 a) Título de la foto más vista (la que posee mayor cantidad de clics).
 b) Cantidad total de Me gusta recibidas a las fotos cuyo autor es el fotógrafo “Art Vandelay”.
 c) Cantidad de comentarios recibidos para cada una de las fotos publicadas en esa página.
-
+}
 program Hello;
 const dimF=2;//200 fotos
 type  cadena20=string[20];
@@ -705,7 +710,7 @@ begin
   writeln('Titulo de la foto mas vista:',maxTitulo);
   writeln('Cantidad total de Me gusta recibidas a la foto cuyo autor es el fotografo Art Vandelay:',cantTotal);
 end.
-
+{
 12. En astrofísica, una galaxia se identifica por su nombre, su tipo (1. elíptica; 2. espiral; 3. lenticular; 4.
 irregular), su masa (medida en kg) y la distancia en pársecs (pc) medida desde la Tierra. La Unión
 Astronómica Internacional cuenta con datos correspondientes a las 53 galaxias que componen el Grupo
@@ -715,7 +720,7 @@ b) la masa total acumulada de las 3 galaxias principales (la Vía Láctea, Andr�
 porcentaje que esto representa respecto a la masa de todas las galaxias.
 c) la cantidad de galaxias no irregulares que se encuentran a menos de 1000 pc.
 d) el nombre de las dos galaxias con mayor masa y el de las dos galaxias con menor masa.
-
+}
 program Hello;
 const dimF=2;//53 galaxias
 type  cadena20=string[20];
@@ -823,7 +828,7 @@ begin
   writeln('Nombre de las dos galaxias con mayor masa:',nomMax1,' y ',nomMax2);
   writeln('Nombre de las dos galaxias con menor masa:',nomMin1,' y ',nomMin2');
 end.
-
+{
 13. El Grupo Intergubernamental de Expertos sobre el Cambio Climático de la ONU (IPCC) realiza todos los
 años mediciones de temperatura en 100 puntos diferentes del planeta y, para cada uno de estos lugares,
 obtiene un promedio anual. Este relevamiento se viene realizando desde hace 50 años, y con todos los
@@ -832,7 +837,7 @@ programa que lea y almacene los datos correspondientes a las mediciones de los �
 información se ingresa ordenada por año). Una vez finalizada la carga de la información, obtener:
 a) el año con mayor temperatura promedio a nivel mundial.
 b) el año con la mayor temperatura detectada en algún punto del planeta en los últimos 50 años.
-
+}
 program Hello;
 const dimF=2;  //100
 type  cadana30=string[30];
@@ -885,7 +890,7 @@ begin
   writeln('El año con mayor temperatura promedio a nivel mundial:',mayorTempPromedio(v));
   writeln('El año con la mayor temperatura detectada en algún punto del planeta en los últimos 50 años:',anioMax);
 end.
-
+{
 14. El repositorio de código fuente más grande en la actualidad, GitHub, desea estimar el monto invertido en
 los proyectos que aloja. Para ello, dispone de una tabla con información de los desarrolladores que
 participan en un proyecto de software, junto al valor promedio que se paga por hora de trabajo:
@@ -905,7 +910,7 @@ a) El monto total invertido en desarrolladores con residencia en Argentina.
 b) La cantidad total de horas trabajadas por Administradores de bases de datos.
 c) El código del proyecto con menor monto invertido.
 d) La cantidad de Arquitectos de software de cada proyecto.
-
+}
 program Hello;//tiene miles de errores!
 const dimF=3; //1000 proyectos
 type  rango=1..dimF;
