@@ -1,5 +1,6 @@
+{
 1. Dado el siguiente programa, indicar qué imprime.
-
+}
 program alcance1;
 var a,b: integer;
 procedure uno;
@@ -14,9 +15,9 @@ begin
  uno;
 writeln(b, a);  //imprime 2,1
 end.
-
+{
 2. Dado el siguiente programa, indicar qué imprime.
-
+}
 program alcance2;
 var a,b: integer;
 procedure uno;
@@ -30,9 +31,9 @@ begin
  uno;
  writeln(b, a); //imprime 3,1
 end.
-
+{
 3. Dado el siguiente programa, indicar cuál es el error y su causa.
-
+}
 program alcance3;
 var a: integer;
 procedure uno;
@@ -46,9 +47,9 @@ begin         //no esta declarada b
  uno;
  writeln(a, b);  //ERROR quieren imprimir en el P.P.una variable local al procedimiento
 end.
-
+{
 4. Dado los siguientes programas, explicar la diferencia.
-
+}
 program alcance4a;
 var a,b: integer;  //posee 2 variables globales
 procedure uno;
@@ -76,9 +77,9 @@ begin
  uno;
  writeln(b, a);    //imprime 2,1
 end.
-
+{
 5. Dado el siguiente programa, indicar cuál es el error.
-
+}
 program alcance4;
 function cuatro: integer;
 begin
@@ -89,11 +90,11 @@ begin
  cuatro;        //mal la invocacion a:=cuatro
  writeln(a);    //la variable a no esta inicializado,el valor de retorno de la funcion
 end.
-
+{
 6. a. Realice un módulo que lea de teclado números enteros hasta que llegue un valor negativo. Al finalizar la 
 lectura el módulo debe imprimir en pantalla cuál fue el número par más alto. 
 b. Implemente un programa que invoque al módulo del inciso a.
-
+}
 procedure modulo();
 var numero,max:integer;
 begin
@@ -112,9 +113,9 @@ end;
 begin
   modulo();
 end.
-  
+{ 
 7. Dado el siguiente programa:
-
+}
 program alcanceYFunciones;
 var
  suma, cant : integer;
@@ -137,6 +138,7 @@ begin { programa principal }
  else
  writeln(‘Dividir por cero no parece ser una buena idea’);
 end.
+{
 a) La función calcularPromedio calcula y retorna el promedio entre las variables globales suma y cant, pero 
 parece incompleta. ¿qué debería agregarle para que funcione correctamente?
 //Falta retornar el resultado de la funcion--> calcularPromedio:=prom
@@ -151,9 +153,11 @@ ii) El programa luego de realizar la modificación del inciso a)
 //Imprime -1.Porque inicializa cant a cero e invoca nuevamente al calculo.
 iii) El programa luego de realizar las modificaciones de los incisos a) y b).
 //Imprime 8.
+}
 
+{
 8 Dado el siguiente programa:
-
+}
 program anidamientos;
  procedure leer;
  var
@@ -181,6 +185,7 @@ begin { programa principal }
  if ok then
  writeln(‘Gracias, vuelva prontosss’); 
 end.
+{
 a) La función analizarLetra fue declarada como un submódulo dentro del procedimiento leer. Pero esto puede
 traer problemas en el código del programa principal.
 i) ¿qué clase de problema encuentra?
@@ -193,3 +198,4 @@ ii) ¿Qué sucede en nuestro programa si se ingresa uno de estos valores?
 iii) ¿Cómo se puede resolver este problema?
 //Porque if (letra >= ‘A’) and (letra <= ‘Z’) then tiene que dar verdadera.
 //Se resuelve con analizarletra:=true.
+}
