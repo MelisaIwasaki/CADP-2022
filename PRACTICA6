@@ -1,3 +1,4 @@
+{
 1. Dado el siguiente programa:
 
 a. Indicar qué hace el programa.
@@ -7,7 +8,7 @@ b. Indicar cómo queda conformada la lista si se lee la siguiente secuencia de n
 Se crea una lista de 4 elementos.
 c. Implementar un módulo que imprima los números enteros guardados en la lista generada. 
 d. Implementar un módulo que reciba la lista y un valor, e incremente con ese valor cada dato de la lista. 
-
+}
 program JugamosConListas;
 type
 lista = ^nodo;  //Crea un puntero hacia un nodo
@@ -52,9 +53,10 @@ begin
  end;
  imprimirLista(pri);{ imprimir lista }
 end.
-
+{
 2. Dado el siguiente código que lee información de personas hasta que se ingresa la persona con dni 0 y luego 
-imprime dicha información en el orden inverso al que fue leída, identificar los 9 errores.}
+imprime dicha información en el orden inverso al que fue leída, identificar los 9 errores.
+}
 program ejercicio2;
 type
  lista = ^nodo;  //esto va abajo de end de registro
@@ -109,11 +111,11 @@ begin
  generarLista(l);       //falta inicializar la lista en nil, L:=nil
  imprimirInformacion(l);
 end.
-
+{
 3. Utilizando el programa del ejercicio 1, realizar los siguientes cambios:
 a. Modificar el módulo armarNodo para que los elementos se guarden en la lista en el orden en que fueron 
 ingresados (agregar atrás).
-
+}
 program JugamosConListas;
 type
 lista = ^nodo;
@@ -159,10 +161,10 @@ begin
  end;
  imprimirLista(pri);
 end.
-
+{
 b. Modificar el módulo armarNodo para que los elementos se guarden en la lista en el orden en que fueron 
 ingresados, manteniendo un puntero al último ingresado
-
+}
 program JugamosConListas;
 type
 lista = ^nodo;
@@ -204,13 +206,13 @@ begin
  end;
  imprimirLista(pri);
 end.
-
+{
 4. Utilizando el programa del ejercicio 1, realizar los siguientes módulos:
 a. Máximo: recibe la lista como parámetro y retorna el elemento de valor máximo.
 b. Mínimo: recibe la lista como parámetro y retorna el elemento de valor mínimo.
 c. Múltiplos: recibe como parámetros la lista L y un valor entero A, y retorna la cantidad de elementos de la 
 lista que son múltiplos de A.
- 
+}
 program JugamosConListas;
 type
 lista = ^nodo;  //Crea un puntero hacia un nodo
@@ -293,14 +295,14 @@ begin
  readln(dato);
  incrementar(pri,dato);
 end.
-
+{
 5. Realizar un programa que lea y almacene la información de productos de un supermercado. De cada 
 producto se lee: código, descripción, stock actual, stock mínimo y precio. La lectura finaliza cuando se ingresa 
 el código -1, que no debe procesarse. Una vez leída y almacenada toda la información, calcular e informar:
 a. Porcentaje de productos con stock actual por debajo de su stock mínimo.
 b. Descripción de aquellos productos con código compuesto por al menos tres dígitos pares.
 c. Código de los dos productos más económicos.
-
+}
 program Hello;                    //compila pero no salen los resultados
 type  cadena50=string[50];
       producto=record
@@ -415,7 +417,7 @@ begin
   recorrerLista(L,porcentaje,cod1,cod2);
   informar(L,porcentaje,cod1,cod2);
 end.
-
+{
 6. La Agencia Espacial Europea (ESA) está realizando un relevamiento de todas las sondas espaciales lanzadas 
 al espacio en la última década. De cada sonda se conoce su nombre, duración estimada de la misión (cantidad 
 de meses que permanecerá activa), el costo de construcción, el costo de mantenimiento mensual y rango del 
@@ -429,7 +431,7 @@ b. La cantidad de sondas que realizarán estudios en cada rango del espectro ele
 c. La cantidad de sondas cuya duración estimada supera la duración promedio de todas las sondas.
 d. El nombre de las sondas cuyo costo de construcción supera el costo promedio entre todas las sondas.
 Nota: para resolver los incisos a), b), c) y d), la lista debe recorrerse una única vez
- 
+} 
 program Hello;
 const tam=7;
 type  rango=1..tam;
@@ -555,7 +557,7 @@ begin
   generarLista(L,prom,costoPromedio);
   recorrerLista(L,v,prom,costoPromedio);
 end.
-
+{
 7. El Programa Horizonte 2020 (H2020) de la Unión Europea ha publicado los criterios para financiar proyectos 
 de investigación avanzada. Para los proyectos de sondas espaciales vistos en el ejercicio anterior, se han 
 determinado los siguientes criterios:
@@ -572,7 +574,7 @@ los cumplen.
 c. Invoque a un módulo que reciba una lista de proyectos de sondas espaciales e informe la cantidad y el costo 
 total (construcción y mantenimiento) de los proyectos que no serán financiados por H2020. Para ello, utilice 
 el módulo realizado en b.
-
+}
 program Hello;
 const tam=7;
 type  rango=1..tam;
@@ -666,10 +668,10 @@ begin
   recorrerLista(L,siCumple,noCumple);
   noFinanciacion(noCumple);
 end.
-
+{
 8. Utilizando el programa del ejercicio 1, modificar el módulo armarNodo para que los elementos de la lista 
 queden ordenados de manera ascendente (insertar ordenado)                           
-
+}
 program JugamosConListas;
 type
 lista = ^nodo;  //Crea un puntero hacia un nodo
@@ -726,11 +728,11 @@ begin
  end;
  imprimirLista(pri);{ imprimir lista }
 end.
-
+{
 9. Utilizando el programa del ejercicio 1, realizar los siguientes módulos:
 a. EstáOrdenada: recibe la lista como parámetro y retorna true si la misma se encuentra ordenada, o false en 
 caso contrario.
-
+}
 function EstaOrdenada(L:lista):boolean;
 var ordenada:boolean; act,ant:integer;
 begin
@@ -767,10 +769,10 @@ begin
   end
   else writeln('El valor no se encontraba en la lista.');
 end;
-
+{
 c. Sublista: recibe como parámetros la lista L y dos valores enteros A y B, y retorna una nueva lista con todos 
 los elementos de la lista L mayores que A y menores que B.
-
+}
 procedure sublista(L:lista;valorA,valorB:integer;var lista2:lista);
 var aux:lista;
 begin
@@ -780,10 +782,10 @@ begin
     L:=L^.sig;
   end;
 end;
-
+{
 d. Modifique el módulo Sublista del inciso anterior, suponiendo que la lista L se encuentra ordenada de manera 
 ascendente.
-
+}
 procedure sublista(L:lista;valorA,valorB:integer;var lista2:lista);
 var aux:lista;
 begin
@@ -793,10 +795,10 @@ begin
     L:=L^.sig;
   end;
 end;
-
+{
 e. Modifique el módulo Sublista del inciso anterior, suponiendo que la lista L se encuentra ordenada de manera 
 descendente.
-
+}
 procedure sublista(L:lista;valorA,valorB:integer;var lista2:lista);
 var aux:lista;
 begin
@@ -806,7 +808,7 @@ begin
     L:=L^.sig;
   end;
 end;
-
+{
 10. Una empresa de sistemas está desarrollando un software para organizar listas de espera de clientes. Su 
 funcionamiento es muy sencillo: cuando un cliente ingresa al local, se registra su DNI y se le entrega un número 
 (que es el siguiente al último número entregado). El cliente quedará esperando a ser llamado por su número, 
@@ -820,7 +822,7 @@ de espera.
 d. Implementar un programa que simule la atención de los clientes. En dicho programa, primero llegarán todos 
 los clientes juntos, se les dará un número de espera a cada uno de ellos, y luego se los atenderá de a uno por 
 vez. El ingreso de clientes se realiza hasta que se lee el DNI 0, que no debe procesarse.
-
+}
 program Hello;
 type cliente=record
         DNI:integer;
@@ -885,7 +887,7 @@ begin
   cargarListaClientes(L,ult);
   recorrerLista(L);
 end.
-
+{
 11. La Facultad de Informática debe seleccionar los 10 egresados con mejor promedio a los que la UNLP les 
 entregará el premio Joaquín V. González. De cada egresado se conoce su número de alumno, apellido y el 
 promedio obtenido durante toda su carrera.
@@ -894,7 +896,7 @@ a. Lea la información de todos los egresados, hasta ingresar el código 0, el c
 b. Una vez ingresada la información de los egresados, informe el apellido y número de alumno de los egresados 
 que recibirán el premio. La información debe imprimirse ordenada según el promedio del egresado (de mayor 
 a menor).
-
+}
 program Hello;
 const dimF=10;
 type  rango=1..dimF;
@@ -963,7 +965,7 @@ begin
   cargarAlumnos(L);
   imprimirLista(L);
 end.
-
+{
 12. Una empresa desarrolladora de juegos para teléfonos celulares con Android dispone de información de 
 todos los dispositivos que poseen sus juegos instalados. De cada dispositivo se conoce la versión de Android 
 instalada, el tamaño de la pantalla (en pulgadas) y la cantidad de memoria RAM que posee (medida en GB). La 
@@ -972,7 +974,7 @@ información disponible de todos los dispositivos e informe:
 a. La cantidad de dispositivos para cada versión de Android.
 b. La cantidad de dispositivos con más de 3 GB de memoria y pantallas de a lo sumo a 5 pulgadas.
 c. El tamaño promedio de las pantallas de todos los dispositivos.
-
+}
 program Hello;
 type  celular=record
         version:real;
@@ -1024,7 +1026,7 @@ begin
   writeln('La cantidad de dispositivos con más de 3 GB de memoria y pantallas de a lo sumo a 5 pulgadas:',cantCond);
   writeln('El tamaño promedio de las pantallas de todos los dispositivos:',tamProm:2:2);
 end.
-
+{
 13. El Portal de Revistas de la UNLP está estudiando el uso de sus sistemas de edición electrónica por parte de 
 los usuarios. Para ello, se dispone de información sobre los 3600 usuarios que utilizan el portal. De cada usuario 
 se conoce su email, su rol (1: Editor; 2. Autor; 3. Revisor; 4. Lector), revista en la que participa y cantidad de 
@@ -1033,7 +1035,7 @@ a. Imprimir el nombre de usuario y la cantidad de días desde el último acceso 
 Económica. El listado debe ordenarse a partir de la cantidad de días desde el último acceso (orden ascendente).
 b. Informar la cantidad de usuarios por cada rol para todas las revistas del portal.
 c. Informar los emails de los dos usuarios que hace más tiempo que no ingresan al portal
-
+}
 program Hello;
 const dimF=3600;
 type  rangoRol=1..4;
