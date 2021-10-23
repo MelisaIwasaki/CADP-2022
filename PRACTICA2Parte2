@@ -1,5 +1,6 @@
+{
 1. Dado el siguiente programa:
-
+}
 program Ejercicio3;
  procedure suma(num1: integer; var num2:integer); //num1=1;num2->x=10
  begin
@@ -14,6 +15,7 @@ begin
  suma(i,x);                     
  write(x); { imprimo las variable x } //imprime 25
 end.
+{
 a. ¿Qué imprime si se lee el valor 10 en la variable x ?
 //imprime 25
 b. ¿Qué imprime si se lee el valor 10 en la variable x y se cambia el encabezado del procedure por: 
@@ -22,9 +24,10 @@ procedure suma(num1: integer; num2:integer);
 c. ¿Qué sucede si se cambia el encabezado del procedure por: 
 procedure suma(var num1: integer; var num2:integer);
 //da ERROR,no puedo modificar el valor del indice for
-
+}
+{
 2. Dado el siguiente programa:
-
+}
 Program ejercicio4;
 procedure digParesImpares(num : integer; var par, impar : integer);
 var
@@ -50,12 +53,14 @@ begin
  until (dato = 100);
  writeln(‘Pares: ’,par, ‘Ímpares:’, impar);
 end.
+{
 a. ¿Qué imprime si se lee la siguiente secuencia de valores? 250, 35, 100 
 //impime 4 pares y 4 impares
-
+}
+{
 3. Dado el siguiente programa, encontrar los 6 errores. Utilizar los comentarios entre llaves como guía, indicar 
 en qué línea se encuentra cada error y en qué consiste:
-
+}
 1. program ejercicio5;
 2. { suma los números entre a y b, y retorna el resultado en c }
 3. procedure sumar(a, b, c : integer)//falta asignar c como parametro por referencia
@@ -79,13 +84,13 @@ en qué línea se encuentra cada error y en qué consiste:
 21. if (not ok) then
 22. write (‘La suma no quedó entre 10 y 30’);
 23. end.
-
+{
 4. El siguiente programa intenta resolver un enunciado. Sin embargo, el código posee 5 errores. Indicar en qué 
 línea se encuentra cada error y en qué consiste el error.
 Enunciado: Realice un programa que lea datos de 130 programadores Java de una empresa. De cada 
 programador se lee el número de legajo y el salario actual. El programa debe imprimir el total del dinero 
 destinado por mes al pago de salarios, y el salario del empleado mayor legajo.
-
+}
 1. program programadores;
 2. procedure leerDatos(var legajo: integer; salario : real);  //los parametros estan al reves de la invocacion
 3. begin
@@ -115,7 +120,7 @@ destinado por mes al pago de salarios, y el salario del empleado mayor legajo.
 27. writeln(‘En todo el mes se gastan ‘, sumaSalarios, ‘ pesos’);
 28. writeln(‘El salario del empleado más nuevo es ‘,maxSalario);
 29. end.
-
+{
 5. a. Realizar un módulo que reciba un par de números (numA,numB) y retorne si numB es el doble de numA. 
 
 b. Utilizando el módulo realizado en el inciso a., realizar un programa que lea secuencias de pares de números 
@@ -123,7 +128,7 @@ hasta encontrar el par (0,0), e informe la cantidad total de pares de números l
 las que numB es el doble de numA. 
 Ejemplo: si se lee la siguiente secuencia: (1,2) (3,4) (9,3) (7,14) (0,0) el programa debe informar los valores 
 4 (cantidad de pares leídos) y 2 (cantidad de pares en los que numB es el doble de numA).
-
+}
 program Hello;
 fuction Doble(numA,numB:integer):boolean;  //inciso a)
 begin
@@ -149,13 +154,13 @@ begin
   writeln('Cantidad de pares leidos:',cantParesLeidos);
   writeln('Cantidad de pares en los que numB es el doble de numA:',elDoble);
 end.
-
+{
 8. Realizar un programa modularizado que lea datos de 100 productos de una tienda de ropa. Para cada producto 
 debe leer el precio, código y tipo (pantalón, remera, camisa, medias, campera, etc.). Informar:
 ● Código de los dos productos más baratos.
 ● Código del producto de tipo “pantalón” más caro.
 ● Precio promedio
-  
+}  
 program Hello;
 const  MAX_PROD=5; //100 productos
 type   cadena20=string[20];
@@ -209,14 +214,14 @@ begin
   writeln('El pantalon mas caro:',codmax);
   writeln('El precio promedio:',prom:2:2);
 end.
-
+{
 9. a. Realizar un módulo que reciba como parámetro un número entero y retorne la cantidad de dígitos que 
 posee y la suma de los mismos.
 
 b. Utilizando el módulo anterior, realizar un programa que lea una secuencia de números e imprima la 
 cantidad total de dígitos leídos. La lectura finaliza al leer un número cuyos dígitos suman exactamente 10, el 
 cual debe procesarse.
-
+}
 program Hello;
 procedure descomponer(num:integer;var cant,suma:integer); //inciso a)
 var  dig:integer;
@@ -241,11 +246,11 @@ begin
     writeln('La suma de los digitos es:',suma);
   until(suma=10);
 end.
-
+{
 10. Realizar un programa modularizado que lea secuencia de números enteros. La lectura finaliza cuando llega 
 el número 123456, el cual no debe procesarse. Informar en pantalla para cada número la suma de sus dígitos 
 pares y la cantidad de dígitos impares que posee. 
-
+}
 program Hello;
 procedure descomponer(num:integer;var sumaPares:integer;var cantImp:integer); //inciso a)
 var  dig:integer;
@@ -273,14 +278,14 @@ begin
     readln(num);
   end;
 end;
-
+{
 11. Realizar un programa modularizado que lea información de alumnos de una facultad. Para cada alumno se 
 lee: nro de inscripción, apellido y nombre. La lectura finaliza cuando se ingresa el alumno con nro de inscripción 
 1200, que debe procesarse. Se pide calcular e informar:
 ● Apellido de los dos alumnos con nro de inscripción más chico.
 ● Nombre de los dos alumnos con nro de inscripción más grande.
 ● Porcentaje de alumnos con nro de inscripción par.
-
+}
 program Hello;
 type cadena20=string[20];
 procedure leerAlumnos(var nroInscrip:integer;var apellido,nombre:cadena20);
@@ -339,14 +344,14 @@ begin
   writeln('Nombre de los dos alumnos con nro de inscripción más grande:',maxnom1,' y ',maxnom2);
   writeln('Porcentaje de alumnos con nro de inscripción par:',porcentajeAlu:2:2,'%');
 end.
-
+{
 12. Realizar un programa modularizado que lea una secuencia de caracteres y verifique si cumple con el patrón 
 A$B#, donde:
 - A es una secuencia de sólo letras vocales
 - B es una secuencia de sólo caracteres alfabéticos sin letras vocales
 - los caracteres $ y # seguro existen
 Nota: en caso de no cumplir, informar que parte del patrón no se cumplió
-
+}
 program Hello;
 function esVocal(c:char):boolean;
 begin
@@ -393,7 +398,7 @@ begin
     end
   else writeln('No cumple con A.');
 end.
-
+{
 13. Realizar un programa modularizado que lea una secuencia de caracteres y verifique si cumple con el patrón 
 A%B*, donde:
 - A es una secuencia de caracteres en la que no existe el carácter ‘$’.
@@ -401,7 +406,7 @@ A%B*, donde:
 3 veces el carácter ‘@’.
 - Los caracteres % y * seguro existen
 Nota: en caso de no cumplir, informar que parte del patrón no se cumplió.
-
+}
 program Hello;
 procedure cumpleA(var ok:boolean;var longA:integer);
 var c:char;
@@ -451,7 +456,7 @@ begin
     end
   else writeln('No se cumplio la secuencia A.');
 end.
-
+{
 14. a. Realizar un módulo que calcule el rendimiento económico de una plantación de soja. El módulo debe 
 recibir la cantidad de hectáreas (ha) sembradas, el tipo de zona de siembra (1: zona muy fértil, 2: zona estándar, 
 3: zona árida) y el precio en U$S de la tonelada de soja; y devolver el rendimiento económico esperado de dicha 
@@ -469,7 +474,7 @@ de la soja es de U$S320 por tn. Informar:
 ● La localidad del campo con mayor rendimiento económico esperado.
 ● La localidad del campo con menor rendimiento económico esperado.
 ● El rendimiento económico promedio.
-
+}
 program Hello;
 type cadena30=string[30];
 procedure leerDatos(var localidad:cadena30;var hectareas,zona:integer);
