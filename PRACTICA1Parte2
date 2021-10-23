@@ -1,6 +1,7 @@
+{
 1. Realizar un programa que lea 10 números enteros e informe la suma total de los números leídos.
 a. Modifique el ejercicio 1 para que además informe la cantidad de números mayores a 5
-
+}
 program Hello;
 var i,numero,suma,esMayor:integer;
 begin
@@ -16,7 +17,7 @@ begin
   writeln('Suma total de los numeros leidos:',suma);
   writeln('Cantidad de numeros mayores a 5:',esMayor);
 end.
-
+{
 2. Realice un programa que lea 10 números e informe cuál fue el mayor número leído. Por ejemplo, si
 se lee la secuencia:
 3 5 6 2 3 10 98 8 -12 9
@@ -26,7 +27,7 @@ informe el número de orden, dentro de la secuencia, en el que fue leído. Por e
 misma secuencia:
 3 5 6 2 3 10 98 8 -12 9
 deberá informar: “El mayor número leído fue el 98, en la posición 7”
-
+}
 program Hello;
 var  i,numero,max,posicion:integer;  //inciso a)
 begin
@@ -40,14 +41,14 @@ begin
   end;
   writeln('El mayor numero fue:',max,' en la posicion ',posicion);
 end.
-
+{
 3. Realizar un programa que lea desde teclado la información de alumnos ingresantes a la carrera
 Analista en TIC. De cada alumno se lee nombre y nota obtenida en el módulo EPA (la nota es un
 número entre 1 y 10). La lectura finaliza cuando se lee el nombre “Zidane Zinedine“, que debe
 procesarse. Al finalizar la lectura informar:
 - La cantidad de alumnos aprobados (nota 8 o mayor) y
 - la cantidad de alumnos que obtuvieron un 7 como nota
-
+}
 program Hello;
 type cadena30=string[30];
      notaEPA=1..10;
@@ -70,10 +71,10 @@ begin
   writeln('La cantidad de alumnos aprobados:',cantApb);
   writeln('La cantidad de alumnos que obtuvieron un 7:',cantSiete);
 end.
-
+{
 4. Realizar un programa que lea 1000 números enteros desde teclado. Informar en pantalla cuáles son
 los dos números mínimos leídos.
-
+}
 program Hello;
 var i,numero,min1,min2:integer;
 begin
@@ -90,10 +91,10 @@ begin
   end;
   writeln('Los dos numeros minimos son:',min1,' y ',min2);
 end.
-
+{
 a. Modifique el ejercicio anterior para que, en vez de leer 1000 números, la lectura finalice al leer
 el número 0, el cual debe procesarse.
-    
+}    
 program Hello;
 var i,numero,min1,min2:integer;
 begin
@@ -110,10 +111,10 @@ begin
   until(numero=0);
   writeln('Los dos numeros minimos son:',min1,' y ',min2);
 end.
-
+{
 b. Modifique el ejercicio anterior para que, en vez de leer 1000 números, la lectura finalice al leer
 el número 0, el cual no debe procesarse
-    
+}    
 program Hello;
 var i,numero,min1,min2:integer;
 begin
@@ -132,13 +133,13 @@ begin
   end;
   writeln('Los dos numeros minimos son:',min1,' y ',min2);
 end. 
- 
+{ 
 5. Realizar un programa que lea números enteros desde teclado. La lectura debe finalizar cuando se
 ingrese el número 100, el cual debe procesarse. Informar en pantalla:
 ◦ El número máximo leído.
 ◦ El número mínimo leído.
 ◦ La suma total de los números leídos.
- 
+} 
 program Hello;
 var numero,max,min,sumaTotal:integer;
 begin
@@ -158,12 +159,12 @@ begin
   writeln('El número mínimo leído:',min);
   writeln('La suma total de los números leídos:',sumaTotal);
 end.
-
+{
 6. Realizar un programa que lea información de 200 productos de un supermercado. De cada producto
 se lee código y precio (cada código es un número entre 1 y 200). Informar en pantalla:
 - Los códigos de los dos productos más baratos.
 - La cantidad de productos de más de 16 pesos con código par.
-
+}
 program Hello;
 type  rango=1..200;
 var   codigo,cod1,cod2:rango;
@@ -193,13 +194,13 @@ begin
   writeln('Los códigos de los dos productos más baratos:',cod1,' y ',cod2);
   writeln('La cantidad de productos de más de 16 pesos con código par:',cantidad);
 end.    
-
+{
 7. Realizar un programa que lea desde teclado información de autos de carrera. Para cada uno de los
 autos se lee el nombre del piloto y el tiempo total que le tomó finalizar la carrera. En la carrera
 participaron 100 autos. Informar en pantalla:
 - Los nombres de los dos pilotos que finalizaron en los dos primeros puestos.
 - Los nombres de los dos pilotos que finalizaron en los dos últimos puestos.
-
+}
 program Hello;
 type cadena30=string[30];
 var  nombre,nomMin1,nomMin2,nomMax1,nomMax2:cadena30;
@@ -238,12 +239,12 @@ begin
   writeln('Los nombres de los dos pilotos que finalizaron en los dos primeros puestos:',nomMin1,' y ',nomMin2);
   writeln('Los nombres de los dos pilotos que finalizaron en los dos últimos puestos:',nomMax1,' y ',nomMax2);
 end.
-
+{
 8. Un local de ropa desea analizar las ventas realizadas en el último mes. Para ello se lee por cada día
 del mes, los montos de las ventas realizadas. La lectura de montos para cada día finaliza cuando se
 lee el monto 0. Se asume un mes de 31 días. Informar la cantidad de ventas por cada día, y el monto
 total acumulado en ventas de todo el mes.
-
+}
 program Hello;
 const ultDia=3; //son 31 dias
 var   i,cantVentasXDia:integer;
@@ -264,10 +265,10 @@ begin
   end;
   writeln('Monto total acumulado en ventas de todo el mes:',montoTotalXmes:2:2);
 end.
-
+{
 a) Modifique el ejercicio anterior para que además informe el día en el que se realizó la
 mayor cantidad de ventas.
-    
+}    
 program Hello;
 const ultDia=3; //son 31 dias
 var   i,cantVentasXDia,max,pos:integer;
