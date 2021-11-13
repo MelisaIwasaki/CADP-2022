@@ -283,37 +283,36 @@ begin
     readln(a.precio);
   end;    
 end;
-procedure masCaro(precio:real;marca,modelo:cadena20;var max:real;var maxMarca,maxModelo:cadena20);
+procedure masCaro(a:auto;var aMax:auto);
 begin
-  if(precio>max)then begin
-    max:=precio;
-    maxMarca:=marca;
-    maxModelo:=modelo;
-  end;
+  if(a.precio>aMax.precio)then begin
+    aMax:=a;
 end;
 var  
-   a:auto;
+   a:auto;aMax:auto;
    cantAutos:integer;
-   max,sumaPrecios,precioPromedio:real;
-   maxMar,MaxMod,marcaActual:cadena20;
+   sumaPrecios,precioPromedio:real;
+   marcaActual:cadena20;
 begin
-  max:=-1;
+  aMax.precio:=0;
+  aMax.marca:='';
+  aMax.modelo:='';
   leerAuto(a);
   while(a.marca<>'ZZZ')do begin
     marcaActual:=a.marca;
     cantAutos:=0;
     sumaPrecios:=0;
     precioPromedio:=0;
-    while(a.marca<>'ZZZ')and(marcaActual=a.marca)do begin
+    while(marcaActual=a.marca)do begin
       cantAutos:=cantAutos+1;
       sumaPrecios:=sumaPrecios+a.precio;
-      masCaro(a.precio,a.marca,a.modelo,max,maxMar,MaxMod);
+      masCaro(a, aMax);
       leerAuto(a);
     end;
     precioPromedio:=sumaPrecios/cantAutos;
     writeln('Marca',marcaActual,'precio promedio',precioPromedio:4:2);
   end;
-  writeln('Marca y modelo del auto mas caro:',maxMar,' ',MaxMod);
+  writeln('Marca y modelo del auto mas caro:',aMax.marca,' ',aMax.modelo);
 end.
 {
 6. Una empresa importadora de microprocesadores desea implementar un sistema de software para analizar la
