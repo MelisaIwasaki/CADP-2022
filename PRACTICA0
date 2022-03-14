@@ -38,9 +38,9 @@ Recuerde que para imprimir en pantalla números reales puede utilizar la notaci�
 writeln(X:Y:Z) donde X es el número a imprimir, Y es el ancho (en cantidad de caracteres) que
 debe ocupar la impresión, y Z es la cantidad de decimales. Por ejemplo, sea el número
 pi=3.141592654 :
-3.14 => writeln(pi,1,2);
-3.14 => writeln(pi,8,2); (hay 4 espacios delante del 3, para completar 8 caracteres de ancho)
-3,1415 => writeln(pi,1,4);
+3.14 => writeln(pi:1:2);
+3.14 => writeln(pi:8:2); (hay 4 espacios delante del 3, para completar 8 caracteres de ancho)
+3,1415 => writeln(pi:1:4);
 }
 program Hello;
 var num1,num2,resultado:real;
