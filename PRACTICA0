@@ -109,14 +109,18 @@ La transacción será de 213,61 pesos argentinos
 (resultado de multiplicar 10*20,54 y adicionarle el 4%).
 }
 program Hello;
-var  total,monto,dolar,porcentaje:real;
+var 
+    dolar,valor,comision,pesos,transaccion:real;
+    
 begin
-  write('Ingrase el monto total en dolares:');
-  readln(monto);
-  write('Ingrase el valor del dolar al dia de la fecha:');
-  readln(dolar);
-  write('Ingrase el porcentaje de la comisión:');
-  readln(porcentaje);
-  total:=(monto*dolar)*porcentaje;
-  writeln('La transacción sera de:',total:2:2,' pesos argentinos.');
+    writeln('Ingrese el monto total en dolares de la transaccion:');
+    readln(dolar);
+    writeln('Ingrese el valor del dólar al día de la fecha :');
+    readln(valor);
+    writeln('Ingrese la comision en pesos:');
+    readln(comision);
+    pesos:=dolar*valor;
+    transaccion:=pesos+(pesos*comision/100);
+    writeln('Valor de la transaccion:',transaccion:2:2);
+   
 end.
