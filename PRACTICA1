@@ -41,26 +41,36 @@ Por ejemplo, si se ingresan los valores 4, -10 y 12, deberá imprimir:
 12 4 -10
 }
 program Hello;
-var A,B,C:integer;
+var 
+    num1,num2,num3:integer;
 begin
-  write('Ingrese un numero:');
-  readln(A);
-  write('Ingrese un numero:');
-  readln(B);
-  write('Ingrese un numero:');
-  readln(C);
-  if(A>B)then
-    if(A>C)then
-      write(A);
-      if(B>C)then write(B,C);
-             else write(C,B);
-    else write(C,A,B);
-  else if(B>C)then write(B);
-         if(A>C)then write(A,C);
-                else write(C,A);
-         else write(C,B,A);
-  end;
-end;
+    writeln('Ingrese un numero');
+    readln(num1);
+    writeln('Ingrese un numero');
+    readln(num2);
+    writeln('Ingrese un numero');
+    readln(num3);
+    if(num1>num2)and(num1>num3)then begin
+      if(num2>num3)then
+        writeln(num1,num2,num3)
+      else
+        writeln(num1,num3,num2);
+    end
+    else
+        if(num2>num1)and(num2>num3)then begin
+          if(num1>num3)then
+            writeln(num2,num1,num3)
+          else
+            writeln(num2,num3,num1);
+        end
+        else
+            if(num3>num1)and(num3>num2)then begin
+              if(num1>num2)then
+                writeln(num3,num1,num2)
+              else
+                writeln(num3,num2,num1);
+            end;
+end.
 {
 4. Realizar un programa que lea un número real X. Luego, deberá leer números reales hasta que se
 ingrese uno cuyo valor sea exactamente el doble de X (el primer número leído)
