@@ -132,29 +132,32 @@ Al finalizar la lectura, informar:
 menor al valor 2500 (en el ejemplo anterior se debería informar 0%).
 }  
 program Hello;
-var legajo,cantAlu,cantSup,aluDest:integer;
+var 
+    legajo,cantAlu,cantSeis,aluDest:integer;
     promedio,porcentaje:real;
 begin
-  cantAlu:=0;
-  cantSup:=0;
-  aluDest:=0;
-  write('Ingrese numero de legajo:');
-  readln(legajo);
-  while(legajo<>-1)do begin
-    cantAlu:=cantAlu+1;
-    write('Ingrese el promedio:');
-    readln(promedio);
-    if(promedio>6.5)then
-      cantSup:=cantSup+1;
-    if(promedio>8.5)and(legajo<2500)then
-      aluDest:=aluDest+1;
-    write('Ingrese numero de legajo:');
+    cantAlu:=0;
+    cantSeis:=0;
+    aluDest:=0;
+    writeln('Ingrese el legajo');
     readln(legajo);
-  end;
-  porcentaje:=aluDest*100/cantAlu;
-  writeln('La cantidad de alumnos:',cantAlu);
-  writeln('La cantidad de alumnos cuyo promedio supera 6.5:',cantSup);
-  writeln('El porcentaje de alumnos destacados:',porcentaje:2:2);
+    writeln('Ingrese el promedio');
+    readln(promedio);
+    while(legajo<>-1)do begin
+      writeln('Ingrese el legajo');
+      readln(legajo);
+      writeln('Ingrese el promedio');
+      readln(promedio);
+      cantAlu:=cantAlu+1;
+      if(promedio>6.5)then
+        cantSeis:=cantSeis+1;
+      if(promedio>8.5)and(legajo<2500)then
+        aluDest:=aluDest+1;
+    end;
+    porcentaje:=aluDest*100/cantAlu;
+    writeln ('La cantidad de alumnos leída',cantAlu);
+    writeln('La cantidad de alumnos cuyo promedio supera 6.5: ',cantSeis);
+    writeln('El porcentaje de alumnos destacados ',porcentaje:2:2,'%');
 end.
 {
 7. Realizar un programa que lea el código, el precio actual y el nuevo precio de los productos de un
