@@ -94,28 +94,24 @@ end.
 reales. La lectura deberá finalizar al ingresar un valor que sea el doble de X, o al leer el décimo
 número, en cuyo caso deberá informarse “No se ha ingresado el doble de X”.
 }
-program Hello;                 //encontrar el error
-var numero,otroNumero:real;  
-    cantNum:integer;
+program Hello;
+var 
+  numx,numy:real;
+  contador:integer;
 begin
-  cantNum:=1;
-  write('Ingrese un numero:');
-  readln(numero);
-  write('Ingrese un numero:');
-  readln(otroNumero);
-  while(otroNumero<>(numero*2))or(cantNum<10)do begin
-    writeln('El numero ',numero:2:2,' no es el doble de ',otroNumero:2:2);
-    write('Ingrese un numero:');
-    readln(numero);
-    write('Ingrese un numero:');
-    readln(otroNumero);
-    cantNum:=cantNum+1;
+  contador:=0;
+  writeln ('Ingrese un numero real x');
+  readln(numx);
+  writeln('Ingrese un numero real');
+  readln(numy);
+  contador:=contador+1;
+  while(numy<>numx*2)and(contador<10)do begin
+    writeln('Ingrese un numero real');
+    readln(numy);
+    contador:=contador+1;
   end;
-  if(cantNum>=10)then
-    writeln('Luego de 10 intentos no se encontro el doble del numero.')
-  else
-    writeln('Se ingreso el numero esperado.');
-end.
+  writeln('No se ha ingresado el doble de X');
+end.  
 {
 6. Realizar un programa que lea el número de legajo y el promedio de cada alumno de la facultad. La
 lectura finaliza cuando se ingresa el legajo -1, que no debe procesarse.
