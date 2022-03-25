@@ -110,6 +110,7 @@ begin
     readln(numy);
     contador:=contador+1;
   end;
+  if(numy<>num*2)then
   writeln('No se ha ingresado el doble de X');
 end.  
 {
@@ -126,8 +127,7 @@ En el ejemplo anterior, se leyó el legajo 33422, cuyo promedio fue 8.40, luego 
 promedio).
 Al finalizar la lectura, informar:
 ○ La cantidad de alumnos leída (en el ejemplo anterior, se debería informar 2)
-○ La cantidad de alumnos cuyo promedio supera 6.5 (en el ejemplo anterior, se debería informar
-1)
+○ La cantidad de alumnos cuyo promedio supera 6.5 (en el ejemplo anterior, se debería informar 1)
 ○ El porcentaje de alumnos destacados (alumnos con promedio mayor a 8.5) cuyo legajo sean
 menor al valor 2500 (en el ejemplo anterior se debería informar 0%).
 }  
@@ -141,11 +141,8 @@ begin
     aluDest:=0;
     writeln('Ingrese el legajo');
     readln(legajo);
-    writeln('Ingrese el promedio');
-    readln(promedio);
-    while(legajo<>-1)do begin
-      writeln('Ingrese el legajo');
-      readln(legajo);
+    while(legajo<>-1)do 
+    begin
       writeln('Ingrese el promedio');
       readln(promedio);
       cantAlu:=cantAlu+1;
@@ -153,6 +150,8 @@ begin
         cantSeis:=cantSeis+1;
       if(promedio>8.5)and(legajo<2500)then
         aluDest:=aluDest+1;
+      writeln('Ingrese el legajo');
+      readln(legajo);
     end;
     porcentaje:=aluDest*100/cantAlu;
     writeln ('La cantidad de alumnos leída',cantAlu);
@@ -188,6 +187,25 @@ begin
         writeln('El aumento de precio del producto ',codigo,' no supera el 10%');
     until(codigo=32767);
 end.
+
+program ejer;
+var
+codigo: integer;
+precioActual, precioNuevo, porcentajeDiez:real;
+
+BEGIN
+	repeat
+	   read(codigo);
+	   read(precioActual);
+	   read(precioNuevo);
+	   porcentajeDiez := (10*precioActual)/100;
+	   if (precioNuevo > precioActual+porcentajeDiez) then 
+		  write('El precio del producto aumentó más de un 10 por ciento')
+		  else
+			write ('El precio del producto no aumentó más de un 10 por ciento');
+	until(codigo=32767);
+	 
+END.
 {
 8. Realizar un programa que lea tres caracteres, e informe si los tres eran letras vocales o si al menos
 uno de ellos no lo era. Por ejemplo, si se leen los caracteres “a e o” deberá informar “Los tres son
@@ -224,8 +242,10 @@ Por ejemplo:
 program Hello;
 var car:char;
     num,total:integer;
+    primeraVez:boolean;
 begin
   total:=0;
+  primeraVez:=true;
   write('Ingrese un caracer de suma o resta:');
   readln(car);
   if((car='+')or(car='-'))then begin
@@ -234,8 +254,13 @@ begin
     while(num<>0)do begin
       if(car='+')then
         total:=total+num
-      else if(car='-')then
-        total:=total-num;
+      else 
+        if(primeraVez)then begin
+           total:=num;
+           primevaVez:=false;
+        end
+        else
+           total:=total-num;
       write('Ingresar un numero:');
       readln(num);
     end;
