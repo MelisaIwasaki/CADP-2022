@@ -27,8 +27,7 @@ begin
   readln(num2);
   suma:=num1+num2;
   writeln('La suma de ambos numeros:',suma);       //a
-  num1:=num1+num2;
-  writeln('La suma de ambos numeros:',num1);       //b
+  writeln('La suma de ambos numeros:',num1+num2);       //b
 end.
 {
 3. Implemente un programa que lea dos números reales e imprima el resultado de la división de
@@ -97,7 +96,7 @@ begin
   precio:=operacion*caramelo;
   writeln('Cantidad de caramelos para cada cliente:',operacion:2:2);
   writeln('Cantidad de caramelos que se quedara para si mismo:',resto:2:2);
-  writeln('El kiosquero debera cobrar:',precio:2:2);
+  writeln('El kiosquero debera cobrar:',precio:2:2,' a cada cliente. Que son ',cantidad*caramelo,' en total.');
 end.
 {
 6. Realice un programa que informe el valor total en pesos de una transacción en dólares.
