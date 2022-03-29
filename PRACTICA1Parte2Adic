@@ -93,80 +93,86 @@ entrega en tiempo y forma y con al menos el 40% de respuestas correctas.
 }
 
 program Hello;
-var nota,notaT,nota0,nota10,notamin10,notamin102,notamin0,notamin02:real;
-    legajo,legajo1,legajo2,legajo01,legajo02,cantIngresantes,cantRecursantes,cantAlumnos65,cantAlumnos,cantApro,parcial,alumnosIpar,alumnosRpar,i:integer;
-    condicion:char;
+type
+  cadena1=string[1];
+var
+  legajo,i,aluI,aluR,presente,cantIparcial,cantRparcial,todas,cantProm65,cantCero,totalAlu:integer;
+  nota0,notaDiez,notaCero,codDies1,codDies2,codCero1,codCero2,maxD1,maxD2,maxC1,maxC2:integer;
+  condicion:cadena1;
+  nota,notaTotal,promedio:real;
 begin
-  cantAlumnos:=0;cantAlumnos65:=0;
-  alumnosIpar:=0;alumnosRpar:=0;
-  cantIngresantes:=0;cantRecursantes:=0;
-  cantApro:=0;
-  notamin10:=-1;notamin102:=-1;notamin0:=-1;notamin02:=-1;
-  legajo1:=0;legajo2:=0;legajo01:=0;legajo02:=0;
-  write('Ingrese legajo:');
+  aluI:=0;aluR:=0;cantIparcial:=0;cantRparcial:=0;todas:=0;cantProm65:=0;cantCero:=0;totalAlu:=0;
+  
+  writeln('Ingrese el legajo');
   readln(legajo);
   while(legajo<>-1)do begin
-    notaT:=0;nota10:=0;nota:=0;parcial:=0;
-    writeln('Ingrese condicion(I para INGRESANTE, R para RECURSANTE):');
+    presente:=0;notaTotal:=0;promedio:=0;notaDiez:=0;notaCero:=0;
+    totalAlu:=totalAlu+1;
+    writeln('Ingrese I para INGRESANTE, R para RECURSANTE');
     readln(condicion);
-    if(condicion='I')then begin
-      cantIngresantes:=cantIngresantes+1;
-      write('Ingrese notas:');
-      for i:=1 to 5 do begin
-        readln(nota);
-        notaT:=notaT+nota;
-        if(nota=0)then
-          nota0:=nota0+1;
-        if(nota=10)then
-          nota10:=nota10+1;
-        if(nota>=4)then
-          parcial:=parcial+1;
-      end;
-      if(parcial>=4)then
-        alumnosIpar:=alumnosIpar+1;
-      if(parcial=5)then
-        cantApro:=cantApro+1;
-      if(nota0>=1)then
-        cantAlumnos:=cantAlumnos+1;
-      if((notaT/5)>=6.5)then
-        cantAlumnos65:=cantAlumnos65+1;
-      if(nota10>notamin10)then begin
-        notamin102:=notamin10;
-        notamin10:=nota10;
-        legajo2:=legajo1;
-        legajo1:=legajo;
-      end
-      else if(nota10>notamin102)then begin
-             notamin102:=nota10;
-             legajo2:=legajo;
-      end;
-      if(nota0>notamin0)then begin
-        notamin02:=notamin0;
-        notamin0:=nota0;
-        legajo02:=legajo01;
-        legajo01:=legajo;
-      end
-      else if(nota0>notamin02)then begin
-             notamin02:=nota0;
-             legajo02:=legajo;
-      end;
+    if(condicion='I')then
+      aluI:=aluI+1
+    else
+      aluR:=aluR+1;
+    for i:=1 to 5 do begin
+      writeln('Ingrese la nota de autoevaluacion ',i);
+      readln(nota);
+      notaTotal:=notaTotal+nota;
+      if(nota<>-1)and(nota>=4)then
+        presente:=presente+1;
+      if(nota=10)then
+        notaDiez:=notaDiez+1;
+      if(nota=0)then
+        notaCero:=notaCero+1;
     end;
-    write('Ingrese legajo:');
-    readln(legajo);
+    promedio:=notaTotal/5;
+    if(presente>3.75)then begin  //75%-x  100%-5 -->75*5/100=3.75
+      if(condicion='I')then    
+        cantIparcial:=cantIparcial+1
+      else
+        cantRparcial:=cantRparcial+1;
+    end;
+    if(presente=5)then
+      todas:=todas+1;
+    if(promedio>6.5)then   //promedio>6.5
+      cantProm65:=cantProm65+1;
+    if(notaCero>=1)then
+      cantCero:=cantCero+1;
+    if(notaDiez>maxD1)then begin
+      maxD2:=maxD1;
+      maxD1:=notaDiez;
+      codDies2:=codDies1;
+      codDies1:=legajo;
+    end
+    else
+    if(notaDiez>maxD2)then begin
+      maxD2:=notaDiez;
+      codDies2:=legajo;
+    end;
+    if(notaCero>maxC1)then begin
+      maxC2:=maxC1;
+      maxC1:=notaCero;
+      codCero2:=codCero1;
+      codCero1:=legajo;
+    end
+    else
+    if(notaCero>maxC2)then begin
+      maxC2:=notaCero;
+      codCero2:=legajo;
+    end;
+    writeln('Ingrese el legajo');
+    readln(legajo);    
   end;
-  if(cantIngresantes>=1)then begin
-    writeln('La cantidad de alumnos ingresantes en condiciones de rendir el parcial:',alumnosIpar);
-    writeln('El porcentaje sobre el total de alumnos ingresantes:',alumnosIpar*100/cantIngresantes:2:2);  
-  end;
-  if(cantRecursantes>=1)then begin
-    writeln('La cantidad de alumnos recursantes en condiciones de rendir el parcial:',alumnosRpar);
-    writeln('El porcentaje sobre el total de alumnos recursantes:',alumnosRpar*100/cantRecursantes:2:2);
-  end;
-  writeln('La cantidad de alumnos que aprobaron todas las autoevaluaciones:',cantApro);
-  writeln('La cantidad de alumnos cuya nota promedio fue mayor a 6.5:',cantAlumnos65);
-  writeln('La cantidad de alumnos que tuvieron 0 puntos en al menos una autoevaluacion:',cantAlumnos);
-  writeln('Los dos alumnos con mayor cantidad de autoevaluaciones con nota 10 son:',legajo1,' y ',legajo2);
-  writeln('Los dos alumnos con mayor cantidad de autoevaluaciones con nota 0 son:',legajo01,' y ',legajo02);
+  
+  writeln('Cantidad de alumnos que aprobaron todas las autoevaluaciones ',todas);
+  writeln('Cantidad de alumnos cuya nota promedio fue mayor a 6.5 puntos ',cantProm65);
+  writeln('Cantidad de alumnos que obtuvieron cero puntos en al menos una autoevaluación ',cantCero);
+  writeln('Código de los dos alumnos con mayor cantidad de autoevaluaciones con nota 10 ',codDies1,codDies2);
+  writeln('Código de los dos alumnos con mayor cantidad de autoevaluaciones con nota 0 ',codCero1,codCero2);
+  writeln('Cantidad de alumnos INGRESANTES en condiciones de rendir el parcial ',cantIparcial);
+  writeln('Cantidad de alumnos RECURSANTES en condiciones de rendir el parcial ',cantRparcial);
+  writeln('Porcentaje sobre el total de alumnos INGRESANTES',aluI*100/totalAlu:2:2,'%');
+  writeln('Porcentaje sobre el total de alumnos RECURSANTES',aluR*100/totalAlu:2:2,'%');
 end.
 
 {
@@ -185,68 +191,65 @@ lectura, el programa debe informar:
 - Cantidad de tanques cuyo alto sea menor a 1.40 metros
 - Cantidad de tanques cuyo volumen sea menor a 800 metros cúbicos
 }  
-  
-program Hello;
-const PI=3.14159;
-var   tanque:char;
-      radio,max1,max2,vCilindrico,vRectangular,ancho,largo,alto,totalC,totalR,promC,promR,menor:real;
-      tanquesC,tanquesR,menorVol:integer;
+ program Hello;
+const
+  pi=3.14;
+var
+  ancho,largo,alto,radio,volumenR,volumenC,max1,max2,totalR,totalC:real;
+  tanque:char;
+  tanqueR,tanqueS,cantAlto,cantVol:integer;
 begin
-  vCilindrico:=-1;vRectangular:=-1;max1:=-1;max2:=-1;
-  totalC:=0;tanquesR:=0;tanquesC:=0;tanquesR:=0;
-  promC:=0;promR:=0;menor:=0;menorVol:=0;
-  write('Ingrese el tipo de tanque R o C, para finalizar Z');
+  tanqueR:=0;tanqueS:=0;cantAlto:=0;cantVol:=0;totalR:=0;totalC:=0;max1:=-1;max2:=-1;
+  writeln('Ingrese R para tanques rectangulares, C para cilíndricos y Z para finalizar');
   readln(tanque);
   while(tanque<>'Z')do begin
     if(tanque='R')then begin
-      tanquesR:=tanquesR+1;
-      write('ANCHO:');
+      writeln('Ingrese ancho');
       readln(ancho);
-      write('LARGO:');
+      writeln('Ingrese largo');
       readln(largo);
-      write('ALTO:');
+      writeln('Ingrese alto');
       readln(alto);
-      vRectangular:=ancho*largo*alto;
-      totalR:=totalR+vRectangular;
-      if(vRectangular>max1)then begin
-        max2:=max1;
-        max1:=vRectangular;
-      end
-      else if(vRectangular>max2)then 
-             max2:=vRectangular;
-      end;
-      if(vRectangular<800)then
-        menorVol:=menorVol+1;
-      end;
+      tanqueR:=tanqueR+1;
+    end
+    else
     if(tanque='C')then begin
-      tanquesC:=tanquesC+1;
-      write('Ingrese RADIO');
+      writeln('Ingrese radio');
       readln(radio);
-      write('ALTO:');
+      writeln('Ingrese alto');
       readln(alto);
-      vCilindrico:=PI*(radio*2)*alto;
-      totalC:=totalC+vCilindrico;
-      if(vCilindrico>max1)then begin
-        max2:=max1;
-        max1:=vCilindrico;
-      end
-      else if(vCilindrico>max2)then 
-             max2:=vCilindrico;
-      end;
-      if(vCilindrico<800)then
-        menorVol:=menorVol+1;
-      end;
-      if(alto<1.4)then
-        menor:=menor+1;
-      write('Ingrese el tipo de tanque R o C, para finalizar Z');
-      readln(tanque); 
+      tanqueS:=tanqueS+1;
     end;
+    volumenR:=ancho*largo*alto;
+    volumenC:=pi*radio*radio*alto;
+    totalR:=totalR+volumenR;
+    totalC:=totalC+volumenC;
+    if(volumenR>max1)then begin
+      max2:=max1;
+      max1:=volumenR;
+    end
+    else
+    if(volumenR>max2)then
+      max2:=volumenR;
+    
+    if(volumenC>max1)then begin
+      max2:=max1;
+      max1:=volumenC;
+    end
+    else
+    if(volumenC>max2)then
+      max2:=volumenC;
+    if(alto<1.4)then
+      cantAlto:=cantAlto+1;
+    if(volumenC<800)or(volumenR<800)then
+      cantVol:=cantVol+1;
+    
+    writeln('Ingrese R para tanques rectangulares, C para cilíndricos y Z para finalizar');
+    readln(tanque);
   end;
-  promC:=totalC/tanquesC;
-  promR:=totalR/tanquesR;
-  writeln('El volumen de los dos mayores tanques vendidos es de:'max1:2:2,' y 'max2:2:2); 
-  writeln('El volumen promedio de los tanques cilindricos es de:',promC:2:2);
-  writeln('El volumen promedio de los tanques rectangulares es de:',promR:2:2);
-  writeln('Son ',menor,' los tanques cuyo alto es menor a 1.40m.');
-  writeln('Son ',menorVol,' los tanques cuyo volumen es menor a 800m cubicos.');
-end.
+  writeln('Volumen de los dos mayores tanques vendidos ',max1:2:2,max2:2:2);
+  writeln('Volumen promedio de todos los tanques cilíndricos vendidos ',totalR/tanqueR:2:2);
+  writeln('Volumen promedio de todos los tanques rectangulares vendidos ',totalC/tanqueS:2:2);
+  writeln('Cantidad de tanques cuyo alto sea menor a 1.40 metros ',cantAlto);
+  writeln('Cantidad de tanques cuyo volumen sea menor a 800 metros cúbicos ',cantVol);
+end. 
