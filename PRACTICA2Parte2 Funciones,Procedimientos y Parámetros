@@ -129,30 +129,29 @@ las que numB es el doble de numA.
 Ejemplo: si se lee la siguiente secuencia: (1,2) (3,4) (9,3) (7,14) (0,0) el programa debe informar los valores 
 4 (cantidad de pares leídos) y 2 (cantidad de pares en los que numB es el doble de numA).
 }
-program Hello;
-fuction Doble(numA,numB:integer):boolean;  //inciso a)
+program modulos;
+function doble(numA,numB:integer):boolean;
 begin
-  Doble:=(numB=numA*2);
+  doble:=( numB = numA*2 );
 end;
-var numA,numB,cantParesLeidos,elDoble:integer;  //inciso b)
+var 
+  num1,num2,cant,cantDoble:integer;
 begin
-  cantParesLeidos:=0;
-  elDoble:=0;
-  write('Ingrese un numero:');
-  readln(numA);
-  write('Ingrese un numero:');
-  readln(numB);
-  while(numA<>0)and(numB<>0)do begin
-    cantParesLeidos:=cantParesLeidos+1;
-    if(Doble(numA,numB))then
-      elDoble:=elDoble+1;
-    write('Ingrese un numero:');
-    readln(numA);
-    write('Ingrese un numero:');
-    readln(numB);
+  cant:=0;
+  cantDoble:=0;
+  writeln('Ingrese pares de numeros');
+  readln(num1);
+  readln(num2);
+  while(num1<>0)and(num2<>0)do begin
+    cant:=cant+1;
+    if(doble(num1,num2))then
+      cantDoble:=cantDoble+1;
+    writeln('Ingrese pares de numeros');
+    readln(num1);
+    readln(num2);
   end;
-  writeln('Cantidad de pares leidos:',cantParesLeidos);
-  writeln('Cantidad de pares en los que numB es el doble de numA:',elDoble);
+  writeln('cantidad total de pares de números leídos ',cant);
+  writeln('cantidad de pares en las que numB es el doble de numA. ',cantDoble);
 end.
 {
 8. Realizar un programa modularizado que lea datos de 100 productos de una tienda de ropa. Para cada producto 
