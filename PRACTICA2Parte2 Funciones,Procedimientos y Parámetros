@@ -351,7 +351,7 @@ A$B#, donde:
 - los caracteres $ y # seguro existen
 Nota: en caso de no cumplir, informar que parte del patrón no se cumplió
 }
-program Hello;
+program Profe;
 function esVocal(c:char):boolean;
 begin
   esVocal:=((c='a')or(c='e')or(c='i')or(c='o')or(c='u')or(c='A')or(c='E')or(c='I')or(c='O')or(c='U'));
@@ -396,6 +396,56 @@ begin
       writeln('No cumple con B.');
     end
   else writeln('No cumple con A.');
+end.
+
+program YoMisma;
+function letrasVocales(c:char):boolean;
+begin
+  letrasVocales:=(c='a')or(c='e')or(c='i')or(c='o')or(c='u')or(c='A')or(c='E')or(c='I')or(c='O')or(c='U');
+end;
+procedure secuenciaA(var ok:boolean);
+var car:char;
+begin
+  ok:=true;
+  writeln('Ingrese la secuencia A');
+  readln(car);
+  while(car<>'$')and(ok)do begin
+    if(letrasVocales(car))then begin
+      writeln('Ingrese la secuencia A');
+      readln(car);
+    end
+    else
+      ok:=false;
+  end;
+end;
+procedure secuenciaB(var ok:boolean);
+var  car:char;
+begin
+  ok:=true;
+  writeln('Ingrese la secuencia B');
+  readln(car);
+  while(car<>'#')and(ok)do begin
+    if(not letrasVocales(car))then begin
+      writeln('Ingrese la secuencia B');
+      readln(car);
+    end
+    else
+      ok:=false;
+  end;
+end;
+
+var ok:boolean;
+begin
+  secuenciaA(ok);
+  if(ok)then begin
+   secuenciaB(ok);
+   if(ok)then
+     writeln('Se cumplio la secuencia')
+   else
+     writeln('No se cumple con B');
+  end
+  else
+    writeln('No se cumple con A');
 end.
 {
 13. Realizar un programa modularizado que lea una secuencia de caracteres y verifique si cumple con el patrón 
