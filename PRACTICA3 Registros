@@ -203,59 +203,57 @@ Nota: para realizar los cálculos tener en cuenta que cada minuto cuesta $3,40 y
 }
 program Hello;
 const
-    CLIMAX=3;//9300
-    PMIN=3.40;
-    PMB=1.35;
+  CLI=3;
+  MIN=3.40;
+  MB=1.35;
 type
-    cliente=record
-       codigo:integer;
-       cantLineas:integer;
-    end;
-    linea=record
-       numTel:integer;
-       cantMinCons:real;
-       cantMBCons:real;
-    end;
-    
+  cliente=record
+    codigo:integer;
+    cantLineas:integer;
+  end;
+  linea=record
+    numero:integer;
+    cantMin:real;
+    cantMB:real;
+  end;
 procedure leerCliente(var c:cliente);
 begin
-  write('Codigo de cliente:');
+  writeln('Ingrese codigo de cliente');
   readln(c.codigo);
-  write('Cantidad de lineas:');
+  writeln('Ingrese la cantidad de lineas');
   readln(c.cantLineas);
 end;
 procedure leerLinea(var l:linea);
 begin
-  write('Numero de telefono:');
-  readln(l.numTel);
-  write('Minutos consuidos:');
-  readln(l.cantMinCons);
-  write('MB consumidos:');
-  readln(l.cantMBCons);
+  writeln('Ingrese el numero de telefono');
+  readln(l.numero);
+  writeln('Ingrese la cantidad de minuto consumido');
+  readln(l.cantMin);
+  writeln('Ingrese la cantidad de MB consumido');
+  readln(l.cantMB);
 end;
-procedure procesar(c:cliente;var total,totalMB:real);
-var l:linea;i:integer;
+procedure facturar(c:cliente;l:linea;var cantTotalMin,cantTotalMB:real);
+var i:integer;
 begin
-  total:=0;
-  totalMB:=0;
   leerCliente(c);
   for i:=1 to c.cantLineas do begin
     leerLinea(l);
-    total:=total+l.cantMinCons;
-    totalMB:=totalMB+l.cantMBCons;
+    cantTotalMin:=cantTotalMin+l.cantMin;
+    cantTotalMB:=cantTotalMB+l.cantMB;
   end;
 end;
-var cli:cliente;
-    i:integer;
-    total,totalMB,montoTotal,precioTotalMin,precioTotalMB:real;
+var 
+  c:cliente;
+  lin:linea;
+  cantTotalMin,cantTotalMB:real;
+  i:integer;
 begin
-  for i:=1 to CLIMAX do begin
-    procesar(cli,total,totalMB);
-    precioTotalMin:=total*PMIN;
-    precioTotalMB:=totalMB*PMB;
-    montoTotal:=precioTotalMin+precioTotalMB;
-    writeln ('Cliente',i,'el monto total a facturar es',montoTotal:4:2);
-  end;
+  for i:=1 to CLI do begin
+    facturar(c,lin,cantTotalMin,cantTotalMB);
+    writeln('Cantidad total de min $ ',cantTotalMin*MIN:2:2);
+    writeln('Cantidad total de MB $',cantTotalMB*MB:2:2);
+    writeln('Monto total a facturar $',cantTotalMin*MIN+cantTotalMB*MB:2:2);
+  end; 
 end.
 {
 5. Realizar un programa que lea información de autos que están a la venta en una concesionaria. De cada auto se lee:
