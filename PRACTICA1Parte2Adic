@@ -91,7 +91,6 @@ Nota: recuerde que, para poder rendir el EXAMEN PARCIAL, el alumno deberá obten
 menos el 75% del total de las autoevaluaciones propuestas. Se considera “Presente” la autoevaluación que se
 entrega en tiempo y forma y con al menos el 40% de respuestas correctas.
 }
-
 program Hello;
 type
   cadena1=string[1];
@@ -110,28 +109,28 @@ begin
     totalAlu:=totalAlu+1;
     writeln('Ingrese I para INGRESANTE, R para RECURSANTE');
     readln(condicion);
-    if(condicion='I')then
-      aluI:=aluI+1
-    else
-      aluR:=aluR+1;
     for i:=1 to 5 do begin
       writeln('Ingrese la nota de autoevaluacion ',i);
       readln(nota);
       notaTotal:=notaTotal+nota;
-      if(nota<>-1)and(nota>=4)then
-        presente:=presente+1;
-      if(nota=10)then
-        notaDiez:=notaDiez+1;
-      if(nota=0)then
+      if(nota<>-1)and(nota>=4)then          //condiciones de rendir el parcial:
+        presente:=presente+1;               //“Presente” en almenos el 75% del total de las ae
+      if(nota=10)then                       //presente>4
+        notaDiez:=notaDiez+1;               //presente:en tiempo y forma y con al menos el 40% de respuestas correctas
+      if(nota=0)then                        //presente<>-1 nota>4
         notaCero:=notaCero+1;
     end;
-    promedio:=notaTotal/5;
-    if(presente>3.75)then begin  //75%-x  100%-5 -->75*5/100=3.75
-      if(condicion='I')then    
-        cantIparcial:=cantIparcial+1
-      else
+    if(condicion='I')then begin
+      aluI:=aluI+1;
+      if(presente>3.75)then                  //75%-x  100%-5 -->75*5/100=3.75 -->4
+        cantIparcial:=cantIparcial+1;
+    end
+    else begin
+      aluR:=aluR+1;
+      if(presente>3.75)then
         cantRparcial:=cantRparcial+1;
     end;
+    promedio:=notaTotal/5;
     if(presente=5)then
       todas:=todas+1;
     if(promedio>6.5)then   //promedio>6.5
