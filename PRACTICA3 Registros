@@ -406,70 +406,68 @@ la lectura finaliza al leer un centro con 0 investigadores, que no debe procesar
 ● Universidad con mayor cantidad de investigadores en sus centros.
 ● Los dos centros con menor cantidad de becarios.
 }
-program Hello;
+program CIUN;
 type 
-    cadena30=string[30];
-    centro=record
-        nombre:cadena30;
-        universidad:cadena30;
-        cantInvest:integer;
-        cantBecarios:integer;
-    end;
-procedure leerCentro(var c:centro);
+  cadena=string[30];
+  centro=record
+    nombre:cadena;
+    universidad:cadena;
+    cantInv:integer;
+    cantBec:integer;
+  end;
+procedure leer(var c:centro);
 begin
-  write('Ingrese la cantidad de investigadores:');
-  readln(c.cantInvest);
-  if(c.cantInvest<>0)then begin
-    write('Ingrese el centro:');
+  writeln('Ingrese la cantidad de investigadores');
+  readln(c.cantInv);
+  if(c.cantInv<>0)then begin
+    writeln('Ingrese el nombre del centro');
     readln(c.nombre);
-    write('Ingrese la universidad:');
+    writeln('Ingrese la universidad a la que pertenece');
     readln(c.universidad);
-    write('Ingrese la cantidad de becarios:');
-    readln(c.cantBecarios);
+    writeln('Ingrese la cantidad de becarios que poseen');
+    readln(c.cantBec);
   end;
 end;
-procedure mayorCantInvest(cantInvest:integer;universidad:cadena30;var max:integer;var univMax:cadena30);
+procedure maximo(cant:integer;max:integer;uni:cadena;var uniMax:cadena);
 begin
-  if(cantInvest>max)then begin
-    max:=cantInvest;
-    univMax:=universidad;
+  if(cant>max)then begin
+    max:=cant;
+    uniMax:=uni;
   end;
 end;
-procedure menorCantBecarios(cantBecarios:integer;nom:cadena30;var min1,min2:integer;var minNon1,minNom2:cadena30);
+procedure dosMinimos(var min1,min2:integer;cantBecarios:integer;var nom1,nom2:cadena;nom:cadena);
 begin
   if(cantBecarios<min1)then begin
     min2:=min1;
-    minNom2:=minNon1;
     min1:=cantBecarios;
-    minNon1:=nom;
+    nom2:=nom1;
+    nom1:=nom;
   end
-  else if(cantBecarios<min2)then begin
-    min2:=cantBecarios;
-    minNom2:=nom;
+  else if(cantBecarios<min1)then begin
+         min2:=cantBecarios;
+         nom2:=nom;
   end;
 end;
-var c:centro;
-    min1,min2,cantTotal,max:integer;
-    minNon1,minNom2,univMax,univActual:cadena30;
+var
+  c:centro;
+  uniActual,nom1,nom2,uniMax:cadena;
+  cantUni,max,min1,min2:integer;
 begin
-  min1:=999;
-  max:=-1;
-  univMax:='';
-  minNon1:='';
-  leerCentro(c);
-  while(c.cantInvest<>0)do begin
-    univActual:=c.universidad;
-    cantTotal:=0;
-    while(c.cantInvest<>0)and(univActual=c.universidad)do begin
-      cantTotal:=cantTotal+1;
-      menorCantBecarios(c.cantBecarios,c.nombre,min1,min2,minNon1,minNom2);
-      leerCentro(c);
+  max:=-1;min1:=999;nom1:='';
+  leer(c);
+  while(c.cantInv<>0)do begin
+    uniActual:=c.universidad;
+    cantUni:=0;
+    while(c.cantInv<>0)and(uniActual=c.universidad)do begin
+      cantUni:=cantUni+1;
+      dosMinimos(min1,min2,c.cantBec,nom1,nom2,c.nombre);
+      leer(c);
     end;
-    mayorCantInvest(c.cantInvest,c.universidad,max,univMax);
-    writeln('Cantidad total de centro para la universidad ',univActual,' es ',cantTotal);
+    maximo(c.cantInv,max,uniActual,uniMax);
+    writeln('Cantidad total de centros para cada universidad',cantUni);
   end;
-  writeln('Universidad con mayor cantidad de investigadores en su centro',univMax);
-  writeln('Los dos centros con menor cantidad de becarios:', minNon1,' y ',minNom2);
+  writeln('Universidad con mayor cantidad de investigadores en sus centros',uniMax);
+  writeln('Los dos centros con menor cantidad de becarios',nom1,' y ',nom2);
 end.
 {
 8. La Comisión Provincial por la Memoria desea analizar la información de los proyectos presentados en el programa
