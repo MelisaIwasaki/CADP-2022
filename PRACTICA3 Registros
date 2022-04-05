@@ -326,80 +326,76 @@ importadora e informe:
 ● Cantidad de procesadores multicore (de más de un core) de Intel o AMD, cuyos relojes alcancen velocidades de
 al menos 2 Ghz.
 }
-program Hello;
+program microprocesadores;
 type
-  cadena20=string[20];
-  microprocesador=record
-        marca:cadena20;
-        linea:cadena20;
-        nucleos:integer;
-        velocidad:real;
-        tamanio:integer;
+  cadena=string[30];
+  microp=record
+    marca:cadena;
+    linea:cadena;
+    cores:integer;
+    velocidad:real;
+    nano:integer;
   end;
-procedure leerMicroprocesador(var m:microprocesador);
+procedure leer (var m:microp);
 begin
-  with m do begin
-    write('Ingrese cantidad de cores:');
-    readln(nucleos);
-    if(nucleos<>0)then begin
-      write('Ingrese la marca:');
-      readln(marca);
-      write('Ingrese la linea:');
-      readln(linea);
-      write('Ingrese la velocidad de reloj:');
-      readln(velocidad);
-      write('Ingrese el tamanio de transitores:');
-      readln(tamanio);
-    end;
+  writeln('Ingrese la cant de cores ');
+  readln(m.cores);
+  if(m.cores<>0)then begin
+   writeln('Ingrese la marca');
+   readln(m.marca);
+   writeln('Ingrese la linea');
+   readln(m.linea);
+   writeln('Ingrese la velocidad del reloj ');
+   readln(m.velocidad);
+   writeln('Ingrese el tamanio en manometros de los transitores');
+   readln(m.nano);
   end;
 end;
-function masDe2CoresTrans22(m:microprocesador):boolean;
+procedure masDeDosCores(m:microp);
 begin
-  masDe2CoresTrans22:=(m.nucleos>2)and(m.tamanio<=22);
+  if(m.cores>2)and(m.nano<=22)then begin
+    writeln('Procesadores de más de 2 cores con transistores de a lo sumo 22 nm',m.marca,' y ',m.linea);
+  end;
 end;
-procedure dosMaximos(cant:integer;marca:cadena20;var max1,max2:integer;var maxMarca1,maxMarca2:cadena20);
+procedure dosMaximos(nano14:integer;var marca1,marca2:cadena;var max1,max2:integer;marca:cadena);
 begin
-  if(cant>max1)then begin
+  if(nano14>max1)then begin
     max2:=max1;
-    maxMarca2:=maxMarca1;
-    max1:=cant;
-    maxMarca1:=marca;
+    max1:=nano14;
+    marca2:=marca1;
+    marca1:=marca;
   end
-  else if(cant>max2)then begin
-    max2:=cant;
-    maxMarca2:=marca;
+  else if(nano14>max2)then begin
+         max2:=nano14;
+         marca2:=marca;
   end;
 end;
-function multicore(m:microprocesador):boolean;
+function multicore(m:microp):boolean;
 begin
-  multicore:=(m.nucleos>1)and(m.marca='AMD')or(m.marca='Intel')and(m.velocidad>=2);
+  multicore:=(m.cores>1)and((m.marca='Intel')or(m.marca='AMD'))and(m.velocidad>=2);
 end;
-var m:microprocesador;
-    marcaActual,maxMarca1,maxMarca2:cadena20;
-    cant14mn,cantMulticore,max1,max2:integer;
+var
+  m:microp;
+  marcaActual,marca1,marca2:cadena;
+  max1,max2,nano14,cantMulti:integer;
 begin
-  max1:=-1;
-  maxMarca1:='';
-  maxMarca2:='';
-  cantMulticore:=0;
-  leerMicroprocesador(m);
-  while(m.nucleos<>0)do begin
+  max1:=-1;marca1:='';cantMulti:=0;
+  leer(m);
+  while(m.cores<>0)do begin
     marcaActual:=m.marca;
-    cant14mn:=0;
-    while(m.nucleos<>0)and(marcaActual=m.marca)do begin
-      if(masDe2CoresTrans22(m))then
-        writeln('El procesador ',m.marca,' linea ',m.linea,' tiene mas de 2 cores con transitores de a lo sumo 22nm');
-      if(m.tamanio=14)then
-        cant14mn:=cant14mn+1;
-      if(multicore(m))then begin
-        cantMulticore:=cantMulticore+1;
-      leerMicroprocesador(m);
-      end;
-      dosMaximos(cant14mn,m.marca,max1,max2,maxMarca1,maxMarca2);
+    nano14:=0;
+    while(m.cores<>0)and(marcaActual=m.marca)do begin
+      masDeDosCores(m);
+      if(m.nano=14)then
+        nano14:=nano14+1;
+      if (multicore(m))then
+        cantMulti:=cantMulti+1;
+      leer(m);
     end;
+    dosMaximos(nano14,marca1,marca2,max1,max2,marcaActual);
   end;
-  writeln('Las dos marcas con mayor cantidad de procesadores con transistores de 14 nm:',maxMarca1,' y ',maxMarca2);
-  writeln('Cantidad de procesadores multicore de Intel o AMD, cuyos relojes alcancen velocidades de al menos 2 Ghz es:',cantMulticore);
+  writeln('Las dos marcas con mayor cantidad de procesadores con transistores de 14 nm ',marca1,' y ',marca2);
+  writeln('Cantidad de procesadores multicore de Intel o AMD,con velocidades de al menos 2 Ghz',cantMulti);
 end.
 {
 7. Realizar un programa que lea información de centros de investigación de Universidades Nacionales. De cada
