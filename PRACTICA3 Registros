@@ -477,108 +477,109 @@ escuela y la localidad a la que pertenecen. Cada escuela puede presentar más de
 ingresa ordenada consecutivamente por localidad y, para cada localidad, por escuela. Realizar un programa que
 lea la información de los proyectos hasta que se ingrese el proyecto con código -1 (que no debe procesarse), e
 informe:
-● Cantidad total de escuelas que participan en la convocatoria 2018 y cantidad de escuelas por cada localidad.
+● Cantidad total de escuelas que participan en la convocatoria 2020 y cantidad de escuelas por cada localidad.
 ● Nombres de las dos escuelas con mayor cantidad de alumnos participantes.
 ● Título de los proyectos de la localidad de Daireaux cuyo código posee igual cantidad de dígitos pares e impares.
 }
-program Hello;
-type 
-    cadena20=string[20];
-    coordinador=record
-        dni:integer;
-        nomyape:cadena20;
-        email:cadena20;
-    end;
-    proyecto=record
-        codigo:integer;
-        titulo:cadena20;
-        docente:coordinador;
-        cantAlu:integer;
-        escuela:cadena20;
-        localidad:cadena20;
-    end;
-    
+program CPM;
+type
+  cadena=string[30];
+  coordinador=record    
+    dni:integer;
+    nomYape:cadena;
+    email:cadena;
+  end;
+  proyecto=record
+    codUnico:integer;
+    titulo:cadena;
+    docente:coordinador;
+    cantAlu:integer;
+    escuela:cadena;     
+    localidad:cadena;    
+  end;                                  
 procedure leerCoordinador(var c:coordinador);
 begin
-  write('Ingrese DNI:');
+  writeln('Ingrese DNI');
   readln(c.dni);
-  write('Ingrese el nombre y apellido:');
-  readln(c.nomyape);
-  write('Ingrese email:');
+  writeln('Ingrese el nombre y apellido');
+  readln(c.nomYape);
+  writeln('Ingrese el email');
   readln(c.email);
-end;
+end; 
 procedure leerProyecto(var p:proyecto);
-var  c:coordinador;
+var c:coordinador;
 begin
-  write('Ingrese el codigo:');
-  readln(p.codigo);
-  if(p.codigo<>-1)then begin
-    write('Ingrese el titulo:');
-    readln(p.titulo);
-    leerCoordinador(c);
-    write('Ingrese la cantidad de alumno:');
-    readln(p.cantAlu);
-    write('Ingrese la escuela:');
-    readln(p.escuela);
-    write('Ingrese la localidad');
-    readln(p.localidad);
+  writeln('Ingrese el codigo unico');
+  readln(p.codUnico);
+  if(p.codUnico<>-1)then begin
+   writeln('Ingrese el titulo');
+   readln(p.titulo);
+   writeln('Ingrese docente');
+   leerCoordinador(c);
+   writeln('Ingrese la cantidad de alumno');
+   readln(p.cantAlu);
+   writeln('Ingrese la escuela');
+   readln(p.escuela);
+   writeln('Ingrese la localidad');
+   readln(p.localidad);
   end;
 end;
-function iguales(codigo:integer):boolean;
+procedure dosMaximos(var nom1,nom2:cadena;var max1,max2:integer;nomEsc:cadena;cant:integer);
+begin
+  if(cant>max1)then begin
+    max2:=max1;
+    max1:=cant;
+    nom2:=nom1;
+    nom1:=nomEsc;
+  end
+  else if(cant>max2)then begin
+         max2:=cant;
+         nom2:=nomEsc;
+  end;
+end;
+function codigoIgual(codigo:integer):boolean;
 var dig,par,impar:integer;
 begin
-  par:=0;
-  impar:=0;
+  par:=0;impar:=0;
   while(codigo<>0)do begin
     dig:=codigo mod 10;
-    if(dig mod 2=0)then
+    if(dig mod 2 = 0)then
       par:=par+1
-    else
+    else 
       impar:=impar+1;
     codigo:=codigo div 10;
   end;
-  iguales:=(par=impar);
+  codigoIgual:=(par=impar);
 end;
-procedure maximoAlumnos(alumnos:integer;escuela:cadena20;var max1,max2:integer;var esc1,esc2:cadena20);
+var 
+  p:proyecto;
+  locActual,escActual,nom1,nom2:cadena;       
+  cantEsc2020,cantEscLoc,max1,max2,cantAluTotal:integer;              
 begin
-  if(alumnos>max1)then begin
-    max2:=max1;
-    esc2:=esc1;
-    max1:=alumnos;
-    esc1:=escuela;
-  end
-  else if(alumnos>max2)then begin
-    max2:=alumnos;
-    esc2:=escuela;
-  end;
-end;
-var p:proyecto;
-    locActual,escActual,esc1,esc2:cadena20;
-    cantEsc,cantLoc,cant,max1,max2:integer;
-begin
-  cantEsc:=0;
-  max1:=-1;
+  max1:=-1;nom1:='';
+  cantEsc2020:=0;
   leerProyecto(p);
-  while(p.codigo<>-1)do begin
+  while(p.codUnico<>-1)do begin
     locActual:=p.localidad;
-    cantEsc:=cantEsc+1;
-    cantLoc:=0;
-    while(p.codigo<>-1)and(locActual=p.localidad)do begin
-      escActual:=p.escuela;
-      cantLoc:=cantLoc+1;
-      cant:=0;
-      if(p.localidad='Daireaux')then begin
-        if(iguales(p.codigo))then
-          writeln('El tilo de proyecto co codigo igual cantidad de digitos pares e impares:',p.titulo);
-      while (p.codigo<>-1)and(locActual=p.localidad)and(escActual=p.escuela)do begin
-        cant:=cant+p.cantAlu;
+    cantEscLoc:=0;
+    while(p.codUnico<>-1)and(locActual=p.localidad)do begin
+      escActual:=p.escuela;     
+      cantEsc2020:=cantEsc2020+1;
+      cantEscLoc:=cantEscLoc+1;
+      if(locActual='Daireaux')and(codigoIgual(p.codUnico))then
+            writeln('Título loc de Daireaux con código igual cantidad de dígitos pares e impares',p.titulo);
+      cantAluTotal:=0;
+      
+      while(p.codUnico<>-1)and(locActual=p.localidad)and(escActual=p.escuela)do begin 
+        cantAluTotal:=cantAluTotal+p.cantAlu;
         leerProyecto(p);
       end;
-      maximoAlumnos(cant,p.escuela,max1,max2,esc1,esc2);
+      dosMaximos(nom1,nom2,max1,max2,escActual,cantAluTotal);
     end;
-    writeln('Para la localidad ',locActual,' la cantidad de escuela es de:', cantLoc);
+    writeln('cantidad de escuelas ',cantEscLoc,' localidad ',locActual);
   end;
-  writeln('Las dos escuelas con mas cantidad de alumnos son:',esc1,' con ',max1,' y ',esc2,' con ',max2);
+  writeln('Cantidad total de escuelas que participan en la convocatoria 2020',cantEsc2020);
+  writeln('Nombres de las dos escuelas con mayor cantidad de alumnos participantes',nom1,' Y ',nom2);
 end.
 {
 9. Realizar un programa que lea información de los candidatos ganadores de las últimas elecciones a intendente de
