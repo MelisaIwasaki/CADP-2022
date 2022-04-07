@@ -24,7 +24,7 @@ begin
  //d:for i:=1 to 9 do begin
    numeros[i] := numeros[i] + numeros [i-1]; 
    //c:numeros[i+1] := numeros[i+1] + numeros [i];
-   //numeros[i+1] := numeros[i];  //todos unos
+   //d:numeros[i+1] := numeros[i];  //todos unos
    writeln(numeros[i]);         //3 6 10 15 21 28 36 45 55
  end;
 end.
