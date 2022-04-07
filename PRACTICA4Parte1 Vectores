@@ -94,51 +94,51 @@ program Hello;
 const
   dimF=5;
 type
-  vector=array[1..dimF]of real;
+  vector=array[1..dimF]of integer;
 
 procedure cargarVector(var v:vector;var dimL:integer);
-var numReal:real;
+var num:integer;
 begin
-  write('Ingrese un numero real:');
-  readln(numReal);
-  while(numReal<>0)and(dimL<dimF)do begin
+  write('Ingrese un numero:');
+  readln(num);
+  while(num<>0)and(dimL<dimF)do begin
     dimL:=dimL+1;
-    v[dimL]:=numReal;
-    write('Ingrese un numero real:');
-    readln(numReal);
+    v[dimL]:=num;
+    write('Ingrese un numero:');
+    readln(num);
   end;
 end;
 procedure moduloA(v:vector;dimL:integer);
 var i:integer;
 begin
   for i:=1 to dimL do
-    writeln('En la posicion ',i,' contiene:',v[i]:2:2);
+    writeln('En la posicion ',i,' contiene:',v[i]);
 end;
 procedure moduloB(v:vector;dimL:integer);
 var i:integer;
 begin
   for i:=dimL downto 1 do
-  writeln ('En la posicion ',i,' contiene:',v[i]:2:2);
+  writeln ('En la posicion ',i,' contiene:',v[i]);
 end;
 procedure moduloC(v:vector;dimL:integer);
 var i:integer;
 begin
   for i:=(dimL div 2)downto 1 do
-    writeln('Desde la mitad hacia la primer posicion:',i,'contiene',v[i]:2:2);
+    writeln('Desde la mitad hacia la primer posicion:',i,'contiene',v[i]);
   for i:=((dimL div 2)+1)to dimL do
-    writeln('Desde la mitad mas uno hacia la ultima posicion:',i,'contiene',v[i]:2:2);
+    writeln('Desde la mitad mas uno hacia la ultima posicion:',i,'contiene',v[i]);
 end;
 procedure moduloD(v:vector;x,y,dimL:integer);
 var i:integer;
 begin
   if(x<=dimL)and(y<=dimL)then begin
-    if(x>y)then begin
-      for i:=x to y do
-        writeln('El contenido es ',v[i]:2:2);
+    if(x<y)then begin
+      for i:= x to y do
+        writeln('El contenido es ',v[i]);
     end
-    else if(y>x)then begin
-      for i:=x downto y do
-        writeln('El contenido es ',v[i]:2:2);
+    else 
+      for i:= y to x do
+        writeln('El contenido es ',v[i]);
     end;
   end;
 end;
