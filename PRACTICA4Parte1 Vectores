@@ -42,35 +42,43 @@ const
 cant_datos = 150;
 type
 vdatos = array[1..cant_datos] of real;
-procedure cargarVector(var v:vdatos;
-var dimL : integer);
+procedure cargarVector(var v:vdatos;var dimL : integer);
 var
-. . . { completar }
+  numero:real;{ completar }
 begin
-. . . { completar }
+  writeln('Ingrese un numero real');  { completar }
+  readln(numero);
+  while(numero<>0)and(dimL<cant_datos)do begin 
+    dimL:=dimL+1;
+    v[dimL]:=numero;
+    writeln('Ingrese un numero real');
+    readln(numero);
+  end;
 end;
-procedure modificarVectorySumar(var v:vdatos;
-dimL : integer; n: real; var suma: real);
+procedure modificarVectorySumar(var v:vdatos;dimL : integer; n: real; var suma: real);
 var
-. . . { completar }
+  i:integer;   { completar }
+begin
+  for i:=1 to dimL do begin { completar }
+    v[i]:=v[i]+n;
+    suma:=suma+v[i];
+  end;
+end;
 { programa principal }
 var
-datos : vdatos;
-i, dim : integer;
-num, suma : real;
+  datos : vdatos;
+  dim : integer;
+  num, suma : real;
 begin
-dim := 0;
-sumaTotal := 0;
-cargarVector(...); { completar }
-writeln(‘Ingrese un valor a sumar’);
-readln(num);
-modificarVectorySumar(...);{completar}
-writeln(‘La suma de los valores es: ’, suma);
-writeln(‘Se procesaron: ’,dim, ‘ números’)
+  dim := 0;
+  suma := 0;
+  cargarVector(datos,dim); { completar }
+  writeln('Ingrese un valor a sumar');
+  readln(num);
+  modificarVectorySumar(datos,dim,num,suma);{completar}
+  writeln('La suma de los valores es: ', suma:2:2);
+  writeln('Se procesaron: ',dim, ' números');
 end.
-begin
-. . . { completar }
-end;
 {
 3. Se dispone de un vector con números enteros, de dimensión física dimF y dimensión lógica dimL.
 a) Realizar un módulo que imprima el vector desde la primera posición hasta la última.
