@@ -169,60 +169,93 @@ d) promedio: devuelve el valor promedio de los elementos del vector.
 e) elementoMaximo: retorna la posición del mayor elemento del vector
 f) elementoMinimo: retorna la posicion del menor elemento del vector
 }
-function posicion(x,dimL:integer;v:vector):integer;
+program Hello;
+const dimF=5;//100
+type
+  rangoValor=1..100;
+  vector=array[1..dimF]of integer;
+procedure cargarVector(var v:vector);
+var num,i:integer;
 begin
-  if(x<=dimL)and(x>1)then
-    posicion:=v[x];
-  else
-    posicion:=-1;
+  for i:=1 to dimF do begin
+    writeln('Ingrese un numero');
+    readln(num);
+    v[i]:=num;
+  end;
+end;
+function posicion(v:vector;numx:integer):integer;
+var i:integer;
+begin
+  for i:=1 to dimF do begin
+    if(v[i]=numx)then
+      posicion:=i
+    else
+      posicion:=-1;
+  end;
 end;
 procedure intercambio(x,y:integer;var v:vector);
-var aux:=integer;
+var aux:integer;
 begin
   aux:=v[x];
   v[x]:=v[y];
   v[y]:=aux;
 end;
-procedure sumaVector(v:vector;dimL,suma:integer);
-var i:integer;
+procedure sumaVector(v:vector; var suma:integer);
+var i:rangoValor;
 begin
-  for i:=1 to dimL do
+  for i:=1 to dimF do
     suma:=suma+v[i];
 end;
-procedure promedio(v:vector):integer;
-var i,suma:integer;
+function promedio(v:vector;suma:integer):real;
 begin
-  suma:=0;
-  for i:=1 to 100 do
-    suma:=suma+v[i];
-  promedio:=suma/100;
+  promedio:=suma/dimF;   
 end;
 function elementoMaximo(v:vector):integer;
-var i,pos,max:integer;
+var i,max,pos:integer;
 begin
   max:=-1;
-  pos:=-1;
-  for i:=1 to 100 do begin
+  for i:=1 to dimF do begin
     if(v[i]>max)then begin
       max:=v[i];
       pos:=i;
     end;
-  end;
+  end; 
   elementoMaximo:=pos;
 end;
 function elementoMinimo(v:vector):integer;
-var i,pos,min:integer;
+var i,min,pos:integer;
 begin
-  min:=-1;
-  pos:=-1;
-  for i:=1 to 100 do begin
+  min:=999;
+  for i:=1 to dimF do begin
     if(v[i]<min)then begin
       min:=v[i];
       pos:=i;
     end;
-  end;
+  end; 
   elementoMinimo:=pos;
 end;
+var
+  v:vector;
+  numx,pos,suma:integer;
+  x,y:rangoValor;
+begin
+  suma:=0;
+  cargarVector(v);
+  writeln('Ingrese un numero x');
+  readln(numx);
+  writeln('El numero x se encontro en la posicion ',posicion(v,numx));
+  writeln('Ingrese la posicion que quiera intercambiar');
+  readln(x);
+  writeln('por cual?');
+  readln(y);
+  intercambio(x,y,v);
+  sumaVector(v,suma);
+  writeln('La suma de todos los elementos del vector',suma);
+  writeln('Promedio',promedio(v,suma):2:2);
+  writeln('La posición del mayor elemento del vector',elementoMaximo(v));
+  writeln('La posicion del menor elemento del vector',elementoMinimo(v));
+end.
+
 {
 5. Utilizando los módulos implementados en el ejercicio 3, realizar un programa que lea números enteros
 desde teclado (a lo sumo 100) y los almacene en un vector. La carga finaliza al leer el número 0. Al finalizar
