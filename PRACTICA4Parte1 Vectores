@@ -170,7 +170,7 @@ e) elementoMaximo: retorna la posición del mayor elemento del vector
 f) elementoMinimo: retorna la posicion del menor elemento del vector
 }
 program Hello;
-const dimF=5;//100
+const dimF=100;
 type
   rangoValor=1..100;
   vector=array[1..dimF]of integer;
@@ -264,25 +264,13 @@ operación realizada de la siguiente manera: “El elemento máximo ... que se e
 fue intercambiado con el elemento mínimo ... que se encontraba en la posición ...”.
 }
 program Hello;
-const dimF=100;
+const dimF=100;  
 type  vector=array[1..dimF]of integer;
-procedure cargarVector(var v:vector;var dimL:integer);
-var num:integer;
-begin
-  write('Ingrese un numero entero:');
-  readln(num);
-  while(num<>0)and(dimL<dimF)do begin
-    dimL:=dimL+1;
-    v[dimL]:=num;
-    write('Ingrese un numero entero:');
-    readln(num);
-  end;
-end;
+
 function elementoMaximo(v:vector;dimL:integer):integer;
 var i,pos,max:integer;
 begin
   max:=-1;
-  pos:=-1;
   for i:=1 to dimL do begin
     if(v[i]>max)then begin
       max:=v[i];
@@ -295,7 +283,6 @@ function elementoMinimo(v:vector;dimL:integer):integer;
 var i,pos,min:integer;
 begin
   min:=999;
-  pos:=-1;
   for i:=1 to dimL do begin
     if(v[i]<min)then begin
       min:=v[i];
@@ -312,9 +299,17 @@ begin
   v[y]:=aux;
 end;
 var v:vector;
-    posMax,posMin,dimL:integer;
+    posMax,posMin,dimL,num:integer;
 begin
-  cargarVector(v,dimL);
+  dimL:=0;
+  write('Ingrese un numero entero:');
+  readln(num);
+  while(num<>0)and(dimL<dimF)do begin
+    dimL:=dimL+1;
+    v[dimL]:=num;
+    write('Ingrese un numero entero:');
+    readln(num);
+  end;
   posMax:=elementoMaximo(v,dimL);
   posMin:=elementoMinimo(v,dimL);
   intercambio(posMax,posMin,v);
