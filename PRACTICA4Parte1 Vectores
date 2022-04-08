@@ -345,6 +345,7 @@ begin
     if(v[i]<min)then begin
       min:=v[i];
       posMin:=i;
+    end;
     if(v[i]>max)then begin
       max:=v[i];
       posMax:=i;
