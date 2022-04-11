@@ -429,7 +429,7 @@ begin
   write('Ingrese un numero:');
   readln(num);
   while (num<>-1)do begin
-    descomponer(v,num);
+    descomponer(v,num);   
     write('Ingrese un numero:');
     readln(num);
   end;
@@ -442,93 +442,85 @@ año de nacimiento. Una vez leída y almacenada toda la información, calcular e
 a) El porcentaje de alumnos con DNI compuesto sólo por dígitos pares.
 b) Apellido y nombre de los dos alumnos de mayor edad.
 }
-program Hello;
-const dimF=2; //400 No compila,error en porcentaje y recorrerVector
-type  cadena20=string[20];
-      alumno=record
-        nroinscrip:integer;
-        apellido:cadena20;
-        nombre:cadena20;
-        dni:integer;
-        anioNac:integer;
-      end;
-      vector=array[1..dimF]of alumno;
-procedure leerAlumno(var a:alumno);
+program FI;
+const 
+  ING=3;//400
+type
+  cadena=string[30];
+  alumno=record
+    num:integer;
+    dni:integer;
+    ape:cadena;
+    nom:cadena;
+    anio:integer;
+  end;
+  vector=array[1..ING]of alumno;
+  
+procedure leerAlu(var a:alumno);
 begin
-  write('Ingrese el numero de inscripcion:');
-  readln(a.nroinscrip);
-  write('Ingrese el apellido:');
-  readln(a.apellido);
-  write('Ingrese el nombre:');
-  readln(a.nombre);
-  write('Ingrese el DNI:');
+  writeln('Ingrese el numero de inscripcion');
+  readln(a.num);
+  writeln('Ingrese el dni');
   readln(a.dni);
-  write('Ingrese el anio de nacimiento:');
-  readln(a.anioNac);
+  writeln('Ingrese el apellido');
+  readln(a.ape);
+  writeln('Ingrese el nombre');
+  readln(a.nom);
+  writeln('Ingrese el ano de nacimiento');
+  readln(a.anio);
 end;
-procedure cargarAlumno(var v:vector;i:integer);
-var alu:alumno;
+procedure cargarVector(var v:vector;i:integer);
+var a:alumno;
 begin
-    leerAlumno(alu);
-    v[i]:=alu;
+    leerAlu(a);
+    v[i]:=a;
 end;
-function digitosPares(num:integer):boolean;
-var dig,pares,cantDig:integer;
+function soloDigitosPares(dni:integer):boolean;
+var dig,pares,cant:integer;
 begin
-  pares:=0;
-  cantDig:=0;
-  while(num<>0)do begin
-    dig:=num mod 10;
-    cantDig:=cantDig+1;
+  cant:=0;pares:=0;
+  while(dni<>0)do begin
+    dig:=dni mod 10;
+    cant:=cant+1;
     if((dig mod 2)=0)then
       pares:=pares+1;
-    num:=num div 10;
+    dni:=dni div 10;
   end;
-  if(cantDig=pares)then
-    digitosPares:=true
-  else
-    digitosPares:=false;
+  soloDigitosPares:=(cant=pares);
 end;
-procedure maximos(edad:integer;nom,ape:cadena20;var max1,max2:integer;var nom1,nom2,ape1,ape2:cadena20);
+procedure dosMayorEdad(var ape1,ape2,nom1,nom2:cadena;var min1,min2:integer;ape:cadena;nom:cadena;anio:integer);
 begin
-  if(edad>max1)then begin
-    max2:=max1;
-    nom2:=nom1;
+  if(anio<min1)then begin
+    min2:=min1;
+    min1:=anio;
     ape2:=ape1;
-    max1:=edad;
-    nom1:=nom;
     ape1:=ape;
+    nom2:=nom1;
+    nom1:=nom;
   end
-  else if(edad>max2)then begin 
-          max2:=edad;
-          nom2:=nom;
-          ape2:=ape;
+  else if(anio<min2)then begin
+         min2:=anio;
+         ape2:=ape;
+         nom2:=nom;
   end;
 end;
-function porcentajeAlu(alumnosPares:integer):real;
+var
+  v:vector;
+  contador,i,min1,min2:integer;
+  porcentaje:real;
+  ape1,ape2,nom1,nom2:cadena;
 begin
-  porcentajeAlu:=(alumnosPares*100)/dimF;
-end;
-var v:vector; 
-    i,max1,max2,alumnosPares,edad:integer;
-    nom1,nom2,ape1,ape2:cadena20;
-    porcentaje:real;
-begin
-  max1:=-1;
-  nom1:='';
-  ape1:='';
-  alumnosPares:=0;
-  for i:=1 to dimF do begin
-    cargarAlumno(v,i);
-    edad:=2021-v[i].anioNac;
-    maximos(edad,v[i].nombre,v[i].apellido,max1,max2,nom1,nom2,ape1,ape2);
-    if(digitosPares(v[i].dni))then
-      alumnosPares:=alumnosPares+1;
-    
+  contador:=0;
+  min1:=9999;ape1:='';nom1:='';
+  for i:=1 to ING do begin
+    cargarVector(v,i);
+    dosMayorEdad(ape1,ape2,nom1,nom2,min1,min2,v[i].ape,v[i].nom,v[i].anio);
+    if(soloDigitosPares(v[i].dni))then
+      contador:=contador+1;
   end;
-  porcentaje:=porcentajeAlu(alumnosPares);
-  writeln('El porcentaje de alumnos con DNI compuesto sólo por dígitos pares:',porcentaje:2:2,' % ');
-  writeln('Apellido y nombre de los dos alumnos de mayor edad:',ape1,' ',nom1,' y ',ape2,' ',nom2);
+  porcentaje:=contador*100/ING;
+  writeln('El porcentaje de alumnos con DNI compuesto sólo por dígitos pares',porcentaje:2:2);
+  writeln('Apellido y nombre de los dos alumnos de mayor edad ',ape1,nom1,' y ',ape2,nom2);
 end.
 {
 9. Modificar la solución del punto anterior considerando que el programa lea y almacene la información de a
