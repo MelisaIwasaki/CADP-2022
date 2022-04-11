@@ -673,70 +673,65 @@ a) Título de la foto más vista (la que posee mayor cantidad de clics).
 b) Cantidad total de Me gusta recibidas a las fotos cuyo autor es el fotógrafo “Art Vandelay”.
 c) Cantidad de comentarios recibidos para cada una de las fotos publicadas en esa página.
 }
-program Hello;
-const dimF=2;//200 fotos
-type  cadena20=string[20];
-      rango=1..dimF;
-      facebook=record
-         titulo:cadena20;
-         autor:cadena20;
-         cantMeGusta:integer;
-         cantClics:integer;
-         cantComent:integer;
-      end;
-      vector=array[rango]of facebook;
-procedure leerFacebook(var f:facebook);
+program ArgenPics;
+const
+  FOTO=5;  //200
+type
+  cadena=string[30];
+  facebook=record
+    titulo:cadena;
+    autor:cadena;
+    cantMeGusta:integer;
+    cantClic:integer;
+    cantComent:integer;
+  end;
+  vector=array[1..FOTO]of facebook;
+  
+procedure leer(var f:facebook);
 begin
-  write('Ingrese el titulo:');
+  writeln('Titulo de la foto');
   readln(f.titulo);
-  write('Ingrese el autor:');
+  writeln('Autor de la foto');
   readln(f.autor);
-  write('Ingrese la cantidad de Me gusta:');
+  writeln('Cantidad de me gusta');
   readln(f.cantMeGusta);
-  write('Ingrese la cantidad de clics:');
-  readln(f.cantClics);
-  write('Ingrese la cantidad de comentarios:');
+  writeln('Cantidad de clics');
+  readln(f.cantClic);
+  writeln('Cantidad de comentarios');
   readln(f.cantComent);
 end;
-procedure cargarFacebook(var v:vector);
-var i:integer;f:facebook;
+procedure cargar(var v:vector;i:integer);
+var f:facebook;
 begin
-  for i:=1 to dimF do begin
-    leerFacebook(f);
+    leer(f);
     v[i]:=f;
-  end;
 end;
-procedure maximo(cantClics:integer;titulo:cadena20;var max:integer;var maxTitulo:cadena20);
+procedure incisoA(var maxTitulo:cadena;titulo:cadena;var max:integer;cantClic:integer);
 begin
-  if(cantClics>max)then begin
-    max:=cantClics;
+  if(cantClic>max)then begin
+    max:=cantClic;
     maxTitulo:=titulo;
   end;
 end;
-procedure meGustaArtVandeay(autor:cadena20;cantMeGusta:integer;var cantTotal:integer);
+procedure incisoB(autor:cadena;cantMeGusta:integer;var cantTotal:integer);
 begin
   if(autor='Art Vandelay')then
     cantTotal:=cantTotal+cantMeGusta;
 end;
-procedure recorrer(v:vector; var maxTitulo:cadena20;var max,cantTotal:integer);
-var i:rango;
+var
+  v:vector;
+  max,i,cantTotal:integer;
+  maxTitulo:cadena;
 begin
   max:=-1;
-  cantTotal:=0;
-  for i:=1 to dimF do begin
-    maximo(v[i].cantClics,v[i].titulo,max,maxTitulo);
-    meGustaArtVandeay(v[i].autor,v[i].cantMeGusta,cantTotal);
-    writeln('La cantidad de comentarios de la foto ',v[i].titulo,' es ',v[i].cantComent);
+  for i:=1 to FOTO do begin
+    cargar(v,i);
+    incisoA(maxTitulo,v[i].titulo,max,v[i].cantClic);
+    incisoB(v[i].autor,v[i].cantMeGusta,cantTotal);
+    writeln('Foto:',v[i].titulo,'Cantidad de comentarios:',v[i].cantComent);
   end;
-end;
-var v:vector;
-    max,cantTotal:integer;
-    maxTitulo:cadena20;
-begin
-  cargarFacebook(v);
-  recorrer(v,maxTitulo,max,cantTotal);
-  writeln('Titulo de la foto mas vista:',maxTitulo);
-  writeln('Cantidad total de Me gusta recibidas a la foto cuyo autor es el fotografo Art Vandelay:',cantTotal);
+  writeln('Título de la foto más vista (la que posee mayor cantidad de clics)',maxTitulo);
+  writeln('Cantidad total de Me gusta recibidas a las fotos cuyo autor es el fotógrafo “Art Vandelay”',cantTotal);
 end.
 {
 12. En astrofísica, una galaxia se identifica por su nombre, su tipo (1. elíptica; 2. espiral; 3. lenticular; 4.
