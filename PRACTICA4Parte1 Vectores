@@ -744,112 +744,115 @@ porcentaje que esto representa respecto a la masa de todas las galaxias.
 c) la cantidad de galaxias no irregulares que se encuentran a menos de 1000 pc.
 d) el nombre de las dos galaxias con mayor masa y el de las dos galaxias con menor masa.
 }
-program Hello;
-const dimF=2;//53 galaxias
-type  cadena20=string[20];
-      rango:1..4;
-      galaxia:record
-        nombre:cadena20;
-        tipo:rango;
-        masa:real;
-        distancia:real;
-      end;
-      vtipoGalax=array[rango]of integer;
-      vgalaxias=array[1..dimF]of galaxia;
-procedure leerGalaxia(var g:galaxia);
+program astrofisica;
+const
+  GA=4;//53
+type
+  rango=1..4;
+  cadena=string[30];
+  galaxia=record
+    nombre:cadena;
+    tipo:rango;
+    masa:real;
+    distancia:real;
+  end;
+  vector=array[1..GA]of galaxia;
+  vContador=array[rango]of integer;
+  
+procedure leer(var g:galaxia);
 begin
-  write('Ingrese el nombre de Galaxia:');
+  writeln('Ingrese el nombre de la galaxia');
   readln(g.nombre);
-  write('Ingrese el tipo de Galaxia:');
+  writeln('Ingrese el tipo');
   readln(g.tipo);
-  write('Ingrese la masa de Galaxia:');
+  writeln('Ingrese la masa');
   readln(g.masa);
-  write('Ingrese la distancia de Galaxia:');
+  writeln('Ingrese la distancia');
   readln(g.distancia);
 end;
-procedure cargarVectorGalaxias(var vg:vgalaxias);
-var i:integer;
-    g:galaxia;
+procedure cargar(var v:vector;i:integer);
+var g:galaxia;
 begin
-  for i:=1 to dimF do begin
-    leerGalaxia(g);
-    v[i]:=g;
-  end;
+  leer(g);
+  v[i]:=g;
 end;
-procedure inicializarVector(var v:vtipoGalax);
-var i:integer;
+procedure inicializar(var vc:vContador);
+var i:rango;
 begin
   for i:=1 to 4 do
-    v[i]:=0;
+    vc[i]:=0;
 end;
-procedure cargarVectorTipo(tipo:rango;var v:vtipoGalax);
+procedure cargarTipo(var vc:vContador;tipo:rango);
 begin
-  v[tipo]:=v[tipo]+1;
+  vc[tipo]:=vc[tipo]+1;
 end;
-procedure imprimir(v:vtipoGalax);
+procedure informarTipo(vc:vContador);
 var i:rango;
 begin
   for i:=1 to 4 do 
-    writeln('Para la galaxia del tipo ',i,' hay ',v[i],' galaxias.');
+    writeln('Tipo: ',i,' cantidad de galaxias:',vc[i]);
 end;
-procedure maxYmin(masa:real;nom:cadena20;var max1,max2,min1,min2:real,var nomMax1,nomMax2,nomMin1,nomMin2:cadena20);
+function tresGalaxias(nombre:cadena):boolean;
+begin
+  tresGalaxias:=(nombre='Via Lactea')or(nombre='Andromeda')or(nombre='Triangulo');
+end;
+function noIrregular(tipo:rango;distancia:real):boolean;
+begin
+  noIrregular:=(tipo=4)and(distancia<1000);
+end;
+procedure maximos(var max1,max2:real;var maxNom1,maxNom2:cadena;masa:real;nombre:cadena);
 begin
   if(masa>max1)then begin
     max2:=max1;
     max1:=masa;
-    nomMax2:=nomMax1;
-    nomMax1:=nom;
+    maxNom2:=maxNom1;
+    maxNom1:=nombre;
   end
   else if(masa>max2)then begin
          max2:=masa;
-         nomMax2:=nom;
+         maxNom2:=nombre;
   end;
+end;
+procedure minimos(var min1,min2:real;var minNom1,minNom2:cadena;masa:real;nombre:cadena);
+begin
   if(masa<min1)then begin
     min2:=min1;
     min1:=masa;
-    nomMin2:=nomMin1;
-    nomMin1:=nom;
+    minNom2:=minNom1;
+    minNom1:=nombre;
   end
   else if(masa<min2)then begin
          min2:=masa;
-         nomMin2:=nom;
+         minNom2:=nombre;
   end;
 end;
-procedure recorrerGalaxias(vg:vgalaxias;var v:vtipoGalax;var kg3Galaxias,irregMenos1k:integer;var porcentaje3:real,var max1,max2,min1,min2:real;var nomMax1,nomMax2,nomMin1,nomMin2);
-var i,masaTotal:integer;
+var
+  v:vector;vc:vContador;
+  i,cantNoIrreg:integer;
+  masa3,masaTotal,porcentaje,max1,max2,min1,min2:real;
+  maxNom1,maxNom2,minNom1,minNom2:cadena;
 begin
-  masaTotal:=0;
-  max1:=-1;
-  min1:=999;
-  nomMax1:='';
-  nomMin1:='';
-  kg3Galaxias:=0;
-  irregMenos1k:=0;
-  for i:=1 to dimF do begin
-    cargarVectorTipo(v);
-    masaTotal:=masaTotal+vg[i].masa;
-    if((vg[i].nombre='Via Lactea')or(vg[i].nombre='Andromeda')or(vg[i].nombre='Triangulo'))then
-      kg3Galaxias:=kg3Galaxias+vg[i].masa;
-    if((vg[i].tipo<>4)and(vg[i].distancia<1000))then
-      irregMenos1k:=irregMenos1k+1;
-    maxYmin(vg[i].masa,vg[i].nombre,max1,max2,min1,min2,nomMax1,nomMax2,nomMin1,nomMin2);
+  max1:=-1;min1:=9999;maxNom1:='';minNom1:='';
+  cantNoIrreg:=0;masaTotal:=0;
+  inicializar(vc);
+  for i:=1 to GA do begin
+    cargar(v,i);
+    cargarTipo(vc,v[i].tipo);
+    masaTotal:=masaTotal+v[i].masa;
+    if(tresGalaxias(v[i].nombre))then
+      masa3:=masa3+v[i].masa;
+    if(noIrregular(v[i].tipo,v[i].distancia))then
+      cantNoIrreg:=cantNoIrreg+1;
+    maximos(max1,max2,maxNom1,maxNom2,v[i].masa,v[i].nombre);
+    minimos(min1,min2,minNom1,minNom2,v[i].masa,v[i].nombre);
   end;
-  porcentaje3:=(kg3Galaxias*100)/masaTotal;
-end;
-var vg:vgalaxias;
-    v:vtipoGalax;
-    kg3Galaxias,irregMenos1k:integer;
-    porcentaje3,max1,max2,min1,min2:real;
-    nomMax1,nomMax2,nomMin1,nomMin2:cadena20;
-begin
-  inicializarVector(v);
-  cargarVectorGalaxias(vg);
-  recorrerGalaxias(vg,v,kg3Galaxias,irregMenos1k,porcentaje3,max1,max2,min1,min2,nomMax1,nomMax2,nomMin1,nomMin2);
-  imprimir(v);
-  writeln('La masa total acumulada de las 3 galaxias:',kg3Galaxias);
-  writeln('Las galaxias no irregulares que se encuentran a menos de 1000pc:',irregMenos1k);
-  writeln('Nombre de las dos galaxias con mayor masa:',nomMax1,' y ',nomMax2);
-  writeln('Nombre de las dos galaxias con menor masa:',nomMin1,' y ',nomMin2');
+  porcentaje:=masa3*100/masaTotal;
+  informarTipo(vc);
+  writeln('La masa total acumulada de las 3 galaxias principales',masa3:2:2);
+  writeln('Porcentaje de las 3 galaxias respecto a la masa de todas las galaxias',porcentaje:2:2);
+  writeln('La cantidad de galaxias no irregulares que se encuentran a menos de 1000 pc',cantNoIrreg);
+  writeln('Nombre de las dos galaxias con mayor masa',maxNom1,' y ',maxNom2);
+  writeln('Las dos galaxias con menor masa',minNom1,' y ',minNom2);
 end.
 {
 13. El Grupo Intergubernamental de Expertos sobre el Cambio Climático de la ONU (IPCC) realiza todos los
