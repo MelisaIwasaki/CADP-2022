@@ -937,99 +937,119 @@ b) La cantidad total de horas trabajadas por Administradores de bases de datos.
 c) El código del proyecto con menor monto invertido.
 d) La cantidad de Arquitectos de software de cada proyecto.
 }
-program Hello;//tiene miles de errores!
-const dimF=3; //1000 proyectos
-type  rango=1..dimF;
-      rangoRol=1..5;
-      cadena20=string[20];
-      participante=record
-        pais:cadena20;
-        cod:rango;
-        nom:cadena20;
-        rol:rangoRol;
-        horas:real;
-      end;
-      programador=record
-        cod:rango;
-        rol:cadena20;
-        valorHora:real;
-      end;
-      vpart=array[rangoRol]of participante;
-      vprog=array[rangoRol]of programador;
-      
-procedure leerParticipnte(var p:participante);
+program GitHub;
+const
+  PRO=3; //1000 proyectos
+type
+  rangoRol=1..5;
+  cadena=string[60];
+  tabla=record         //se dispone
+    codigo:integer;
+    rol:cadena;
+    valor:real;
+  end;
+  vtabla=array[rangoRol]of tabla; //se dispone
+  participante=record
+    pais:cadena;
+    codProy:integer;
+    nomProy:cadena;
+    rol:rangoRol;
+    cantHoras:real;
+  end;
+  vcont=array[1..PRO]of integer;
+  
+procedure tablaCargarDatos(var v:vtabla); //se dispone,pero para probar
 begin
-  write('Ingrese el codigo de proyecto:');
-  readln(p.cod);
-  if(p.cod<>-1)then begin
-    write('Ingrese el pais de residencia:');
+  v[1].codigo:=1;
+  v[1].rol:='Analista Funcional';
+  v[1].valor:=35.20;
+  v[2].codigo:=2;
+  v[2].rol:='Programador';
+  v[2].valor:=27.45;
+  v[3].codigo:=3;
+  v[3].rol:='Administrador de bases de datos';
+  v[3].valor:=31.03;
+  v[4].codigo:=4;
+  v[4].rol:='Arquitecto de software';
+  v[4].valor:=44.28;
+  v[5].codigo:=5;
+  v[5].rol:='Administrador de redes y seguridad';
+  v[5].valor:=39.87;
+end;
+procedure imprimirTabla(v:vtabla);  //para probar
+var i:rangoRol;
+begin
+  for i:=1 to 5 do
+    writeln(v[i].codigo,' : ',v[i].rol,' ',v[i].valor:2:2);
+end;
+procedure leer(var p:participante);
+begin
+  writeln('Ingrese el codigo de proyecto');
+  readln(p.codProy);
+  if(p.codProy<>-1)then begin
+    writeln('Ingrese el pais de residencia');
     readln(p.pais);
-    write('Ingrese el nombre del proyecto:');
-    readln(p.nom);
-    write('Ingrese el rol que cumplio en dicho proyecto:');
-    readln(p.rol);
-    write('Ingrese la cantidad de horas trabajadas:');
-    readln(p.horas);
+    writeln('Ingrese el nombre del proyecto');
+    readln(p.nomProy);
+    writeln('Ingrese el rol del desarrollador');
+    readln(p.rol); 
+    writeln('Ingrese la cantidad de horas trabajadas');
+    readln(p.cantHoras);
   end;
 end;
-procedure cargarParticipantes(var v:vpart;var dimL:integer);
-var part:participante;
+function procesar(cantHoras:real;rol:rangoRol;v:vtabla):real;
 begin
-  leerParticipnte(part);
-  while(part.cod<>-1)and(dimL<dimF)do begin
-    dimL:=dimL+1;
-    v[dimL]:=part;
-    leerParticipnte(part);
+  procesar:=cantHoras*v[rol].valor;
+end;
+procedure minimo(monto:real;var min:real;var codMin:integer;codP:integer);
+begin
+  if(monto<min)then begin
+    min:=monto;
+    codMin:=codP;
   end;
 end;
-function invertidoArg(pais:cadena20;horas:integer):integer;
+procedure inicializar(var vc:vcont);
+var i:integer;
 begin
-  if(pais='Argentina')then
-    invertidoArg:=horas
-  else
-    invertidoArg:=0;
+  for i:=1 to PRO do
+    vc[i]:=0;
 end;
-function adminBDHoras(rol:rangoRol;horas:integer):integer;
+procedure arquiSoft(var vc:vcont;codigo:integer);
 begin
-  if(rol=3)then
-    adminBDHoras:=horas
-  else
-    adminBDHoras:=0;
+  vc[codigo]:=vc[codigo]+1;
 end;
-procedure menorMontoInvertido(valorHora:real;cod:rango;var min:real;var minCod:rango);
+procedure informar(vc:vcont);
+var i:integer;
 begin
-  if(valorHora<min)then begin
-    min:=valorHora;
-    minCod:=cod;
+  for i:=1 to PRO do
+    writeln('Proyecto:',i,' Cantidad de Arquitectos de software:',vc[i]);
+end;
+var  
+  v:vtabla;vc:vcont;
+  p:participante;
+  montoTotal,cantTotalHoras,min,monto:real;
+  codMin:integer;
+begin
+  min:=9999;codMin:=0;
+  montoTotal:=0;cantTotalHoras:=0;
+  inicializar(vc);
+  tablaCargarDatos(v); //se dispone
+  imprimirTabla(v);    //prueba
+  leer(p);
+  while(p.codProy<>-1)do begin
+    monto:=procesar(p.cantHoras,p.rol,v);
+    if(p.pais='Argentina')then 
+      montoTotal:=montoTotal+monto;
+    if(p.rol=3)then                    //3:Administradores de bases de datos
+      cantTotalHoras:=cantTotalHoras+p.cantHoras;
+    minimo(monto,min,codMin,p.codProy);
+    if(p.rol=4)then                    //4:Arquitectos de software
+      arquiSoft(vc,p.codProy);
+    leer(p);
   end;
-end;
-function arqSoftware(rol:rangoRol):integer;
-begin
-  if(rol=4)then
-    arqSoftware:=1
-  else
-    arqSoftware:=0;
-end;
-var v:vpart;vp:vprog;
-    i,dimL,totalAdminBD,min,cantArq:integer;
-    montoTotalArg:real;
-    minCod:rango;
-begin
-  dimL:=0;
-  montoTotalArg:=0;
-  totalAdminBD:=0;
-  cantArq:=0;
-  min:=999;
-  cargarVectorProgramador(vp); //se dispone
-  cargarParticipantes(v,dimL);
-  for i:=1 to dimL do begin
-    montoTotalArg:=montoTotalArg+invertidoArg(v[i].pais,v[i].horas);
-    totalAdminBD:=totalAdminBD+adminBDHoras(v[i].rol,v[i].horas);
-    menorMontoInvertido(v[i].cod,v[i].horas,min,minCod);
-    cantArq:=cantArq+arqSoftware(v[i].rol);
-  end;
-  writeln('El monto total invertido en desarrollo con residencia en Argentina es:',montoTotalArg:2:2);
-  writeln('Total de horas trabajadas por administracion de base de datos es: ',totalAdminBD);
-  writeln('El codigo de proyecto con menor monto invertido es:',minCod);
-  writeln('La cantidad de arquitectura de Software de cada proyecto es:',cantArq);
+  writeln('El monto total invertido en desarrolladores con residencia en Argentina',montoTotal:2:2);
+  writeln('La cantidad total de horas trabajadas por Administradores de bases de datos',cantTotalHoras:2:2);
+  writeln('El código del proyecto con menor monto invertido',codMin);
+  informar(vc);
 end.
+
