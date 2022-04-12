@@ -864,57 +864,64 @@ información se ingresa ordenada por año). Una vez finalizada la carga de la in
 a) el año con mayor temperatura promedio a nivel mundial.
 b) el año con la mayor temperatura detectada en algún punto del planeta en los últimos 50 años.
 }
-program Hello;
-const dimF=2;  //100
-type  cadana30=string[30];
-      punto=record
-        lugar:cadana30;
-        promedio:real;
-      end;
-      vector=array[1..dimF]of real;
+program GIE;
+const
+  LUGAR=100;
+  anioI=1972;
+  anioF=2022;
+type
+  mediciones=record
+    lugar:string[30];
+    temperatura:real;
+  end;
+  vector=array[1..100]of mediciones;
 
-procedimiento leerPunto(var p:punto);
+procedure leer(var m:mediciones);
 begin
-  write('Ingrese el lugar de medicion:');
-  readln(p.lugar);
-  write('Ingrese la temperatura promedio anual:');
-  readln(p.promedio);
+  writeln('Ingrese el lugar');
+  readln(m.lugar);
+  writeln('Ingrese la temperatura promedio anual');
+  readln(m.temperatura);
 end;
-procedure maximo(promedio:real;anio:integer;var max:real;var anioMax:integer);
+procedure cargar(var v:vector;j:integer);
+var m:mediciones;
+begin
+    leer(m);
+    v[j]:=m;
+end;
+procedure maximo(promedio:real;var max:real;var anioMax:integer;anio:integer);
 begin
   if(promedio>max)then begin
     max:=promedio;
     anioMax:=anio;
   end;
 end;
-function mayorTempPromedio(v:vector):integer;
-var i:integer;max:=real;posMax:integr;
+procedure mayor(temp:real;var maxTemp:real;anio:integer;var anioMayor:integer);
 begin
-  max:=-1;
-  for i:=1 to 3 do begin  //1 to 50
-    if(v[i]>max)then begin
-      max:=v[i];
-      posMax:=i;
-    end;
+  if(temp>maxTemp)then begin
+    maxTemp:=temp;
+    anioMayor:=anio;
   end;
-  mayorTempPromedio:=posMax;
 end;
-var i,j,anioMax:integer;
-    p:punto;
-    v:vector;
-    max,total:real;
+var
+  v:vector;
+  i,j,anioMayor,anioMax:integer;
+  temp,max,promedio,maxTemp:real;
 begin
-  for i:=1 to 3 do begin //1 to 50,leo por cada anio
-    total:=0;            //acumulo las temperaturas del anio i
-    for j:=1 to dimF do begin
-      leerPunto(p);
-      maximo(p.promedio,i,max,anioMax);
-      total:=total+p.promedio;
+  maxTemp:=-1;max:=-1;
+  for i:= anioI to anioF do begin
+    temp:=0;
+    for j:= 1 to LUGAR do begin
+      cargar(v,j);
+      temp:=temp+v[j].temperatura;
+      mayor(v[j].temperatura,maxTemp,i,anioMayor);
     end;
-    v[i]:=total/5;
+    promedio:=temp/LUGAR;
+    maximo(promedio,max,anioMax,i);
   end;
-  writeln('El año con mayor temperatura promedio a nivel mundial:',mayorTempPromedio(v));
-  writeln('El año con la mayor temperatura detectada en algún punto del planeta en los últimos 50 años:',anioMax);
+  
+  writeln('El año con mayor temperatura promedio a nivel mundial',anioMax);
+  writeln('El año con la mayor temperatura detectada en algún punto del planeta en los últimos 50 años',anioMayor);
 end.
 {
 14. El repositorio de código fuente más grande en la actualidad, GitHub, desea estimar el monto invertido en
