@@ -275,30 +275,58 @@ e. Un módulo que elimine del vector todos los alumnos con cantidad de asistenci
 Nota: Realizar el programa principal que invoque los módulos desarrollados en los incisos previos con 
 datos leídos de teclado.
 }
-program Hello;    //no funciona,tira mucho error
-const dimF=1000;
-type  cadena20=string[20];
-      alumno=record
-        numero:integer;
-        apellido:cadena20;
-        nombre:cadena20;
-        cantidad:integer;
-      end;
-      vector=array[1..dimF]of alumno;
-function buscarPosElem(x:integer;v:vector;dimL:integer):integer;
-var pos:integer;exito:boolean;
+program catedra;
+const
+  dimF=1000;
+type
+  cadena=string[60];
+  alumno=record
+    num:integer;
+    apeYnom:cadena;
+    asistencia:integer;
+  end;
+  vector=array[1..dimF]of alumno;
+procedure leer(var a:alumno);
+begin
+  writeln('Ingrese numero');
+  readln(a.num);
+  if(a.num<>0)then begin
+   writeln('Ingrese apellido y nombre');
+   readln(a.apeYnom);
+   writeln('Ingrese la cantidad de asistencia');
+   readln(a.asistencia);
+  end;
+end;
+procedure cargar(var v:vector;var dimL:integer);
+var a:alumno;
+begin
+  dimL:=0;
+  leer(a);
+  while(dimL<dimF)and(a.num<>0)do begin
+    dimL:=dimL+1;
+    v[dimL]:=a;
+    leer(a);
+  end;
+end;
+procedure mostrar(v:vector;dimL:integer);
+var i:integer;
+begin
+  for i:=1 to dimL do 
+    writeln('Numero:',v[i].num,'Ape y nom:',v[i].apeYnom,'asistencia:',v[i].asistencia);
+end;
+function buscar(numero:integer;v:vector;dimL:integer):integer;
+var pos:integer;
 begin
   pos:=1;
-  exito:=false;
-  while(pos<=dimL)and(not exito)do 
-    if(x=v[pos])then
-      exito:=true
+  while(pos<=dimL)and(v[pos].num<numero)do begin
+    pos:=pos+1;
+    if(pos<=dimL)and(v[pos].num=numero)then
+      buscar:=pos
     else
-      pos:=pos+1;
-  if(exito=false)then pos:=0;
-  buscarPosElem:=pos;
+      buscar:=-1;
+  end;
 end;
-procedure insertarPos(var v:vector;var dimL:integer;pos:integer;var exito:boolean);
+procedure insertar(var v:vector;var dimL:integer;alu:alumno;pos:integer;var exito:boolean);
 var i:integer;
 begin
   exito:=false;
@@ -310,7 +338,7 @@ begin
     dimL:=dimL+1;
   end;
 end;
-procedure borrarPos(var v:vector;var dimL:integer;pos:integer;var exito:boolean);
+procedure borrar(var v:vector;var dimL:integer;pos:integer;var exito:boolean);
 var i:integer;
 begin
   exito:=false;
@@ -318,48 +346,56 @@ begin
     exito:=true;
     for i:=pos+1 to dimL do
       v[i-1]:=v[i];
-    v[pos]:=alu;
     dimL:=dimL-1;
   end;
 end;
-procedure borrarPosModifPos(var v:vector;var dimL:integer;pos:integer);
-var i:integer;
-begin
-    for i:=pos+1 to dimL do
-      v[i-1]:=v[i];
-    dimL:=dimL-1;
-end;
-procedure borrarAlumno(var v:vector;var dimL:integer;numero:integer;var exito:boolean);
+procedure borrarAlu(var v:vector;var dimL:integer;num:integer;var exito:boolean);
 var pos:integer;
 begin
   exito:=false;
-  pos:=buscarPosElem(numero,v,dimL);
-  if(pos<>0)then begin
-    borrarPosModif(v,dimL,pos);
-    exito:=true;
+  pos:=buscar(num,v,dimL);
+  if(pos<>0)then
+    borrar(v,dimL,pos,exito);
+end;
+procedure borrarAsist0(var v:vector;var dimL:integer;var exito:boolean);
+var i:integer;
+begin
+  for i:=1 to dimL do begin
+    if(v[i].asistencia=0)then begin
+      borrarAlu(v,dimL,v[i].num,exito);
+      if(exito)then
+      writeln('Se borro el alumno:',v[i].num,' con asistencia 0');
+    end;
   end;
 end;
-var v:vector;
-    dimL,num,cantidad,pos,i:integer;
-    alu:alumno;
-    ok:boolean;
+var
+  v:vector;
+  a:alumno;
+  numero,dimL,pos,posBorrar,numAlu:integer;
+  exito:boolean;
 begin
-  dimL:=0;
-  write('Ingrese el numero de alumno:');
-  readln(num);
-  writeln('El alumno esta en la posicion:',buscarPosElem(num,v,dimL));
-  write('Ingrese el numero de alumno a insertar:');
-  readln(num); 
-  insertarPos(v,dimL,alu,pos,ok);
-  write('Ingrese la posicion del alumno a eliminar:');
-  readln(pos);
-  borrarPos(v,dimL,pos,ok);
-  write('Ingrese el numero del alumno a eliminar:');
-  readln(num);
-  borrarAlumno(v,dimL,num,ok);
-  for i:=1 to dimF do
-    if(v[i].cantidad=0)then
-      borrarAlumno(v,dimL,v[i],ok);
+  cargar(v,dimL);
+  mostrar(v,dimL);
+  writeln('Ingrese el numero a buscar');
+  readln(numero);
+  pos:=buscar(numero,v,dimL);
+  writeln('El numero buscado esta en la posicion:',pos);
+  writeln('Ingrese el alumno a insertar');
+  leer(a);
+  insertar(v,dimL,a,pos,exito);
+  if(exito)then
+    writeln('Se inserto con exito');
+  writeln('Ingrese la posicion del alumno a eliminar');
+  readln(posBorrar);
+  borrar(v,dimL,posBorrar,exito);
+  if(exito)then
+    writeln('Se borro con exito');
+  writeln('Ingrese un numero de alumno a eliminar');
+  readln(numAlu);
+  borrarAlu(v,dimL,numAlu,exito);
+  if(exito)then
+    writeln('Se borro el alumno:',numAlu);
+  borrarAsist0(v,dimL,exito);
 end.
 {
 5) La empresa Amazon Web Services (AWS) dispone de la información de sus 500 clientes monotributistas más 
