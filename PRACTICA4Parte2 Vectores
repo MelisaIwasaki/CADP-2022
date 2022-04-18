@@ -165,93 +165,103 @@ c) Realizar un módulo que reciba el vector generado en a) y elimine todos los v
 sea igual a 100 km.
 Nota: para realizar el inciso b, el vector debe recorrerse una única vez.
 }
-program Hello;  //da error no funciona
-const dimF=200;
-type  rango=1..31;
-      viaje=record
-        dia:rango;
-        monto:real;
-        km:real;
-      end;
-      viajes=array[1..dimF]of viaje;
-      vmes=array[rango]of integer;
-procedure leerViaje(var v:viaje);
+program caudales;
+const
+  dimF=200;
+type
+  rango=1..31;
+  viaje=record
+    dia:rango;
+    monto:real;
+    distancia:real;
+  end;
+  vector=array[1..dimF]of viaje;
+  vcont=array[rango]of integer;
+procedure inicializar(var vc:vcont);
+var i:rango;
 begin
-  write('Ingrese la distancia recorrida por el camion:');
-  readln(v.km);
-  if(v.km<>0)then begin
-    write('Ingrese el dia del mes:');
-    readln(v.km);
-    write('Ingrese el monto de dinero transportado:');
-    readln(v.km);
+  for i:=1 to 31 do 
+    vc[i]:=0;
+end;
+procedure leer(var v:viaje);
+begin
+  writeln('Ingrese la distancia en km');
+  readln(v.distancia);
+  if(v.distancia<>0)then begin
+   writeln('Ingrese el dia del viaje');
+   readln(v.dia);
+   writeln('Ingrese el monto');
+   readln(v.monto);
   end;
 end;
-procedure cargarViajes(var v:viajes;var dimL:integer);
+procedure cargar(var v:vector;var dimL:integer);
 var via:viaje;
 begin
-  dimL:=0;
-  leerViaje(via);
-  while ((dimL<dimF)and(via.km<>0))do begin
+  leer(via);
+  while(via.distancia<>0)and(dimL<dimF)do begin
     dimL:=dimL+1;
     v[dimL]:=via;
-    leerViaje(via);
+    leer(via);
   end;
 end;
-procedure minViaje(km:real;dia:rango;monto:real;var min,minkm:real;var minDia:rango);
+procedure mostrarVector(v:vector;dimL:integer);
+var i:integer;
+begin
+  for i:= 1 to dimL do
+    writeln('Dia:',v[i].dia,' monto:',v[i].monto:2:2,' distancia:',v[i].distancia:2:2);
+end;
+procedure minimo(monto:real;distancia:real;dia:rango;var min:real;var minDia:rango;var minDist:real);
 begin
   if(monto<min)then begin
     min:=monto;
-    minkm:=km;
     minDia:=dia;
+    minDist:=distancia;
   end;
 end;
-procedure inicializar(var vm:vmes);
-var i:rango;
-begin
-  for i:=1 to 31 do
-    vm[i]:=0;
-end;
-procedure imprimirDias(vm:vmes);
-var i:rango;
-begin
-  for i:=1 to 31 do
-    writeln('Cantidad del viaje del dia:',i,' es ',vm[i]);
-end;
-procedure recorrerViajes(var v:viajes;dimL:integer;var min,minkm:real;var minDia:rango;vm:vmes);
-var montoTotal:real;i:integer;
+procedure recorrer(v:vector;dimL:integer;var vc:vcont);
+var i:integer;montoTotal:real;promedio:real;min,minDist:real;minDia:rango;
 begin
   montoTotal:=0;
-  min:=999;
-  inicializar(vm);
+  min:=9999;
   for i:=1 to dimL do begin
     montoTotal:=montoTotal+v[i].monto;
-    minViaje(v[i].monto,v[i].km,v[i].dia,min,minkm,minDia);//main.pas(78,32) Error: Incompatible type for arg no. 2: Got "Real", expected "rango"
-    vm[v[i].dia]:= vm[v[i].dia]+1;
+    minimo(v[i].monto,v[i].distancia,v[i].dia,min,minDia,minDist);
+    vc[v[i].dia]:=vc[v[i].dia]+1;
+    borrar(v,dimL);
   end;
-  writeln('El monto promedio es:',(montoTotal/dimL):2:2);
-  writeln('La distancia recorrida y el día del mes en que se realizó el viaje que transportó menos dinero es:',minkm,minDia);
-  imprimirDias(vm);
+  promedio:=montoTotal/dimL;
+  writeln('El monto promedio transportado de los viajes realizados',promedio:2:2);
+  writeln('La distancia y el día en que se realizó el viaje que transportó menos dinero',minDist:2:2,' ',minDia);
 end;
-procedure borrar(var v:viajes;var dimL:integer);
+procedure informar(vc:vcont);
 var i:integer;
 begin
-  for i:=1 to (dimL-1)do begin
-    if(v[i].km=100)then begin
+  for i:=1 to 31 do 
+    writeln('La cantidad de viajes realizados el dia:',i,' : ',vc[i]);
+end;
+procedure borrar(var v:vector;var dimL:integer);
+var i:integer;
+begin
+  for i:=1 to dimL-1 do begin
+    if(v[i].distancia=100)then begin
       v[i]:=v[i+1];
       dimL:=dimL-1;
     end;
   end;
 end;
-var v:viajes;
-    dimL:integer;
-    min,minkm:real;
-    minDia:rango;
-    vm:vmes;
+var
+  v:vector;
+  vc:vcont;
+  dimL:integer;
 begin
-  cargarViajes(v,dimL);
-  recorrerViajes(v,dimL,min,minkm,minDia,vm);
-  borrar(v,dimL);
-end.
+  dimL:=0;
+  inicializar(vc);
+  cargar(v,dimL);
+  mostrarVector(v,dimL);  //para ver si se cargo en el vector
+  recorrer(v,dimL,vc);
+  informar(vc);
+  mostrarVector(v,dimL);  //para verificar si se borro km=100
+END. 
 {
 4. Una cátedra dispone de información de sus alumnos (a lo sumo 1000). De cada alumno se conoce nro de 
 alumno, apellido y nombre y cantidad de asistencias a clase. Dicha información se encuentra ordenada por 
