@@ -410,7 +410,7 @@ vez almacenados los datos, procesar dicha estructura para obtener:
 3) Código de las 10 ciudades con mayor cantidad de clientes
 4) Cantidad de clientes que superan mensualmente el monto promedio entre todos los clientes.
 }  
-program amazon;
+program amazon;  //volver a hacer, no anda
 const
   dimF=3;  //500;
 type
@@ -590,90 +590,115 @@ b) Informar el promedio de cuentas de usuario por computadora.
 c) Informar la versión de Ubuntu de la computadora con mayor cantidad de paquetes instalados.
 d) Eliminar la información de las computadoras con código entre 0 y 500.
 }
-program Hello;
-const  dimF=10000;
-type   compu=record
-         codigo:integer;
-         version:real;
-         cantPaqInst:integer;
-         cantUsuario:integer;
-       end;
-       indice=1..dimF;
-       vector=array[indice]of compu;
-procedure leerCompu(var c:compu);
+program ubuntuLinux;
+const
+  dimF=10000;
+type
+  compu=record
+    cod:integer;
+    version:real;
+    cantPaq:integer;
+    cantCuenta:integer;
+  end;
+  vector=array[1..dimF]of compu;
+procedure leer(var c:compu);
 begin
-  write('Ingrese el codigo:');
-  readln(c.codigo);
-  if(c.codigo<>-1)then begin
-    write('Ingrese la version:');
-    readln(c.version);
-    write('Ingrese la cantidad de paquetes instalados:');
-    readln(c.cantPaqInst);
-    write('Ingrese la cantidad de usuario:');
-    readln(c.cantUsuario);
+  writeln('Ingrese el codigo');
+  readln(c.cod);
+  if(c.cod<>-1)then begin
+   writeln('Ingrese la version de ubuntu');
+   readln(c.version);
+   writeln('Ingrese cantidad de paquetes instalados');
+   readln(c.cantPaq);
+   writeln('Ingrese la cantidad de cuenta de usuario');
+   readln(c.cantCuenta);
   end;
 end;
-function DeterminarPosicion(c:compu;v:vector;dimL:indice):indice;
-var pos:indice;
+procedure cargar(var v:vector;var dimL:integer);
+var c:compu;
 begin
-  pos:=1;
-  while(pos<=dimL)and(c.codigo>v[pos].codigo)do 
-    pos:=pos+1;
-  DeterminarPosicion:=pos;
+  leer(c);
+  while(dimL<dimF)and(c.cod<>-1)do begin
+    dimL:=dimL+1;
+    v[dimL]:=c;
+    leer(c);
+  end;
 end;
-procedure insertar(var v:vector;var dimL:indice;pos:indice;elem:integer);
-var j:indice;
+procedure ordenarAscendente(var v:vector;dimL:integer);
+var 
+  i,j,p:integer;
+  item:compu;
 begin
-  for j:=dimL downto pos do 
-    v[j+1]:=v[j];
-  v[pos]:=elem;
-  dimL:=diml+1;
+  for i:=1 to dimL-1 do begin
+    p:=i;
+    for j:=i+1 to dimL do  
+      if(v[j].cod<v[p].cod)then
+        p:=j;
+    item:=v[p];
+    v[p]:=v[i];
+    v[i]:=item;
+  end;
 end;
-procedure BorrarPos(var v:vector;var dimL:indice;pos:indice;var exito:boolean);
+procedure mostrar(v:vector;dimL:integer);
 var i:integer;
 begin
-  exito:=false;
-  if(pos>=1)and(pos<=dimL)then begin
-    exito:=true;
-    for i:=pos+1 to dimL do
-      v[i-1]:=v[i];
-    dimL:=dimL-1;
+  for i:=1 to dimL do
+    writeln(v[i].cod,' ',v[i].version,' ',v[i].cantPaq,' ',v[i].cantCuenta);
+end; 
+function versiones(version:real):boolean;
+begin
+  versiones:=(version=18.04)or(version=16.04);
+end;
+procedure maximo(var max:integer;paquete:integer;var verMax:real;version:real);
+begin
+  if(paquete>max)then begin
+    max:=paquete;
+    verMax:=version;
   end;
 end;
-procedure cargarOrdenado(var v:vector; var dimL:indice;pos:indice;c:compu);
+procedure borrar(var v:vector;var dimL:integer;var ok:boolean;codigo:integer);
+var pos,i:integer;
 begin
-  leerCompu(c);
+  pos:=1;ok:=false;
+  while(pos<=dimL)and(not ok)do begin  //este codigo falla,borra algunos
+    if(v[pos].cod=codigo)then begin
+      for i:=pos to(dimL-1)do
+        v[i]:=v[i+1];
+      ok:=true;
+      dimL:=dimL-1;
+    end
+    else pos:=pos+1;
+  end;
+end;
+procedure recorrer(var v:vector;dimL:integer);
+var cant,i,max,sumaUsuario:integer;
+    verMax:real;
+    ok:boolean;
+begin
+  max:=-1;verMax:=0;
+  cant:=0;
+  sumaUsuario:=0;
+  for i:=1 to dimL do begin
+    if(versiones(v[i].version))then
+      cant:=cant+1;  //da cero porque no agarra bien los numeros en real,con integer si anda.
+    sumaUsuario:=sumaUsuario+v[i].cantCuenta;
+    maximo(max,v[i].cantPaq,verMax,v[i].version);
+    if(v[i].cod>0)and(v[i].cod<=500)then
+      borrar(v,dimL,ok,v[i].cod);
+  end;
+  writeln('Cantidad de computadoras que utilizan las versiones 18.04 o 16.04:',cant);
+  writeln('Promedio de cuentas de usuario',sumaUsuario/dimL:2:2);
+  writeln('Versión de Ubuntu con mayor cantidad de paquetes instalados',verMax:2:2);
+end;
+var
+  v:vector;
+  dimL:integer;
+begin
   dimL:=0;
-  while(c.codigo<>-1)and(dimL<dimF)do begin
-    pos:=DeterminarPosicion(c,v,dimL);
-    insertar(v,dimL,pos,c);
-    leerCompu(c);
-  end;
-end;
-procedure recorrerVector(var v:vector;dimL:indice;max:integer;version:real);
-var i:indice;cant:integer;suma,prom:real;
-begin
-  i:=1;
-  while(i<=dimL)do begin
-    if(v[i].version=18.04)or(v[i].version=16.04)then
-      cant:=cant+1;
-    suma:=suma+v[i].cantUsuario;
-    if(v[i].cantPaqInst>max)then begin
-      max:=v[i].cantPaqInst;
-      version:=v[i].version;
-    if(v[i].codigo<=500)then
-      BorrarPos(v,dimL,exito);
-    i:=i+1;
-  end;
-  prom:=suma/dimL;
-  writeln('La cantidad de computadoras que utilizan las versiones 18.04 o 16.04:',cant);
-  writeln('El promedio de cuentas de usuario por computadora:',prom:2:2);
-  writeln('la versión de Ubuntu de la computadora con mayor cantidad de paquetes instalados:',version);
-end;
-var  v:vector;
-     i,dimL:indice;
-     exito:boolean;
-begin
-  cargarOrdenado(v,dimL);
-  recorrerVector(v,dimL);
+  cargar(v,dimL);
+  ordenarAscendente(v,dimL);
+  mostrar(v,dimL);  //para ver si se cargo
+  recorrer(v,dimL);
+  mostrar(v,dimL);  //para ver si se borro
+  writeln ('Hello World')
 end.
