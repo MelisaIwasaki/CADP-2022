@@ -1,11 +1,11 @@
 {
 PARTE CONCEPTUAL
 1) ¿Qué se define como memoria estática?
-Espacio de memoria que se reserva con anticipacion y no cambia durante la ejecucion del programa.
+Espacio de memoria que se reserva con anticipación y no cambia durante la ejecución del programa.
 2) ¿Qué se define como memoria dinámica?
-Los espacios de memoria asignados a las variables dinamicas se reservan y se liberan durante la ejecucion del programa.
+Los espacios de memoria asignados a las variables dinámicas se reservan y se liberan durante la ejecución del programa.
 3) ¿Qué es una variable de tipo puntero?
-Un puntero es un tipo de variable usada para almacenar la direccion de memoria dinamica de otra variable ,en lugar de un dato convencional.
+Un puntero es un tipo de variable usada para almacenar la dirección de memoria dinámica de otra variable ,en lugar de un dato convencional.
 4) ¿Qué hace la operación “NEW” aplicada en una variable del tipo puntero?
 Reserva espacio en la pila. 
 5) ¿Qué hace la operación “DISPOSE” aplicada en una variable del tipo puntero?
