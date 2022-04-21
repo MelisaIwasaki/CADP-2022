@@ -38,11 +38,11 @@ puntero_cadena = ^cadena; //4 (puntero)
 var
 pc: puntero_cadena;       //4
 begin
-writeln(sizeof(pc), ' bytes');  //4 bytes
+writeln(sizeof(pc), ' bytes');  //8 bytes
 new(pc);
-writeln(sizeof(pc), ' bytes');  //4 bytes 
+writeln(sizeof(pc), ' bytes');  //8 bytes 
 pc^:= 'un nuevo nombre';
-writeln(sizeof(pc), ' bytes');  //4 bytes
+writeln(sizeof(pc), ' bytes');  //8 bytes
 writeln(sizeof(pc^), ' bytes'); //51 bytes 
 pc^:= 'otro nuevo nombre distinto al anterior';
 writeln(sizeof(pc^), ' bytes'); //51 bytes
@@ -53,29 +53,29 @@ escritorio.
 }
 program punteros;
 type
-cadena = string[9];
-producto = record
+cadena = string[9];   //10
+producto = record     //16
 codigo: integer;      //2
 descripcion: cadena;  //10
 precio: real;         //4
 end;
-puntero_producto = ^producto; 
+puntero_producto = ^producto; //4
 var
 p: puntero_producto;  //4
 prod: producto;       //16
 begin
-writeln(sizeof(p), ' bytes');     //4
-writeln(sizeof(prod), ' bytes');  //16
+writeln(sizeof(p), ' bytes');     //8
+writeln(sizeof(prod), ' bytes');  //24
 new(p);
-writeln(sizeof(p), ' bytes');     //4
+writeln(sizeof(p), ' bytes');     //8
 p^.codigo := 1;
 p^.descripcion := 'nuevo producto';
-writeln(sizeof(p^), ' bytes');    //16
+writeln(sizeof(p^), ' bytes');    //24
 p^.precio := 200;
-writeln(sizeof(p^), ' bytes');    //16
+writeln(sizeof(p^), ' bytes');    //24
 prod.codigo := 2;
 prod.descripcion := 'otro nuevo producto';
-writeln(sizeof(prod), ' bytes');  //16
+writeln(sizeof(prod), ' bytes');  //24
 end.
 {
 3) Indicar los valores que imprime el siguiente programa en Pascal. Justificar mediante prueba de
