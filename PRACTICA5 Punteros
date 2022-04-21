@@ -84,13 +84,13 @@ escritorio.
 program punteros;
 type
 numeros = array[1..10000] of integer;  //10000* 2 bytes(integer)
-puntero_numeros = ^numeros;
+puntero_numeros = ^numeros; //4
 var
 n: puntero_numeros;  //4
 num: numeros;        //20000
-i:integer;
+i:integer;           //2
 begin
-writeln(sizeof(n), ' bytes');   //4
+writeln(sizeof(n), ' bytes');   //8
 writeln(sizeof(num), ' bytes'); //20000
 new(n);
 writeln(sizeof(n^), ' bytes');  //20000
