@@ -33,17 +33,17 @@ escritorio.
 }
 program punteros;
 type
-cadena = string[50];
-puntero_cadena = ^cadena;
+cadena = string[50];      //51 (string+1)
+puntero_cadena = ^cadena; //4 (puntero)
 var
-pc: puntero_cadena;
+pc: puntero_cadena;       //4
 begin
-writeln(sizeof(pc), ' bytes');  //4 bytes (puntero)
+writeln(sizeof(pc), ' bytes');  //8 bytes
 new(pc);
-writeln(sizeof(pc), ' bytes');  //4 bytes 
+writeln(sizeof(pc), ' bytes');  //8 bytes 
 pc^:= 'un nuevo nombre';
-writeln(sizeof(pc), ' bytes');  //4 bytes
-writeln(sizeof(pc^), ' bytes'); //51 bytes (string+1)
+writeln(sizeof(pc), ' bytes');  //8 bytes
+writeln(sizeof(pc^), ' bytes'); //51 bytes 
 pc^:= 'otro nuevo nombre distinto al anterior';
 writeln(sizeof(pc^), ' bytes'); //51 bytes
 end.
