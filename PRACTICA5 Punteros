@@ -163,7 +163,7 @@ new(pc);
 pc^:= 'Un texto';
 writeln(pc^);       //Un texto
 cambiarTexto(pc);   
-writeln(pc^);       //Un texto, no cambia porque hizo new(pun) pero no entiendo muy bien
+writeln(pc^);       //Un texto, no cambia porque hizo new(pun) pienso que es porque creo otra direccion de memoria
 end.
 {
 5) De acuerdo a los valores de la tabla que indica la cantidad de bytes que ocupa la representación
