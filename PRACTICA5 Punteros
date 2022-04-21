@@ -125,7 +125,7 @@ new(pc);
 pc^:= 'un nuevo nombre';
 writeln(sizeof(pc^), ' bytes'); //51
 writeln(pc^);                   //un nuevo nombre
-dispose(pc);                    
+dispose(pc);                    //Se queda en ERROR en un bucle infinito porque se esta guardando en un espacio que se libero
 pc^:= 'otro nuevo nombre';      
 end.
 
@@ -144,8 +144,8 @@ new(pc);
 pc^:= 'Un texto';
 writeln(pc^);        //Un texto
 cambiarTexto(pc);
-writeln(pc^);        //Otro texto
-end.
+writeln(pc^);        //Otro texto,  Yo pensaba que no se iba a cambiar el contenido de pc porque no estaba pasado por referencia,
+end.                 //pero se ve que al ser puntero pun^ puede cambiar el contenido.
 
 d) program punteros;
 type
@@ -163,7 +163,7 @@ new(pc);
 pc^:= 'Un texto';
 writeln(pc^);       //Un texto
 cambiarTexto(pc);   
-writeln(pc^);       //Un texto
+writeln(pc^);       //Un texto, no cambia porque hizo new(pun) pero no entiendo muy bien
 end.
 {
 5) De acuerdo a los valores de la tabla que indica la cantidad de bytes que ocupa la representación
