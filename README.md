@@ -5,17 +5,17 @@
 
 Emulador para instalar :
 
-🧞>Geany+freepascal 
+ > Geany+freepascal 🧞
 
 https://www.geany.org
 
 https://sourceforge.net/projects/freepascal/files/Win32/3.2.0/fpc-3.2.0.i386-win32.exe/download                  
 
-😹>Lazarus  
+ > Lazarus 😹  
 
 https://www.lazarus-ide.org
 
-💻>Dev-pascal
+ > Dev-pascal 💻
 
 https://dev-pascal.programas-gratis.net
 
