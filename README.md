@@ -1,7 +1,7 @@
 # CADP-2021
 :memo:**Trabajos Practicos deCADP(Concepto de Algoritmo, Datos y Programas)**
 
-🚀Lenguaje de Programación :  Pascal.
+🚀Lenguaje de Programación : `` Pascal ``
 
 Emulador para instalar :
 
