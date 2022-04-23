@@ -22,3 +22,8 @@ https://dev-pascal.programas-gratis.net
 🍱Yo utilizo Online GDB porque no se necesita instalar y no surge problemas técnicos.
 
 https://www.onlinegdb.com/online_pascal_compiler
+
+``
+const
+  dimF=200;
+``
