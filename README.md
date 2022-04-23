@@ -24,3 +24,5 @@ https://dev-pascal.programas-gratis.net
 https://www.onlinegdb.com/online_pascal_compiler
 
 [このプロジェクトへのコントリビューションガイドライン](docs/CONTRIBUTING.md)
+
+![wallpaperbetter](https://user-images.githubusercontent.com/92184167/164947811-c8454648-5c1b-478d-a718-37bc76714bc8.jpg)
