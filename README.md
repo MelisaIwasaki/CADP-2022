@@ -22,3 +22,5 @@ https://dev-pascal.programas-gratis.net
  > Online GDB 🍱
 
 https://www.onlinegdb.com/online_pascal_compiler
+
+[このプロジェクトへのコントリビューションガイドライン](docs/CONTRIBUTING.md)
