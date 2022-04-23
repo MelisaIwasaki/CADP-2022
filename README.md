@@ -7,21 +7,21 @@
 
  > Geany+freepascal 🧞
 
-https://www.geany.org
+- https://www.geany.org
 
-https://sourceforge.net/projects/freepascal/files/Win32/3.2.0/fpc-3.2.0.i386-win32.exe/download                  
+- https://sourceforge.net/projects/freepascal/files/Win32/3.2.0/fpc-3.2.0.i386-win32.exe/download                  
 
  > Lazarus 😹  
 
-https://www.lazarus-ide.org
+- https://www.lazarus-ide.org
 
  > Dev-pascal 💻
 
-https://dev-pascal.programas-gratis.net
+- https://dev-pascal.programas-gratis.net
 
  > Online GDB 🍱
 
-https://www.onlinegdb.com/online_pascal_compiler
+- https://www.onlinegdb.com/online_pascal_compiler
 
 [このプロジェクトへのコントリビューションガイドライン](docs/CONTRIBUTING.md)
 
