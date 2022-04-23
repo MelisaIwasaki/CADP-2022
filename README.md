@@ -1,9 +1,9 @@
 # CADP-2022
-##**Trabajos Practicos deCADP(Concepto de Algoritmo, Datos y Programas)**:memo:
+## **Trabajos Practicos deCADP(Concepto de Algoritmo, Datos y Programas)**:memo:
 
-######Lenguaje de Programación : `` Pascal ``🚀
+###### Lenguaje de Programación : `` Pascal ``🚀
 
-######Emulador para instalar :
+###### Emulador para instalar :
 
  > Geany+freepascal 🧞
 
