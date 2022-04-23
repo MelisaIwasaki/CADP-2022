@@ -7,7 +7,7 @@ Emulador para instalar :
 
  > Geany+freepascal 🧞
 
-[Descargar Geany] (https://www.geany.org)
+https://www.geany.org
 
 https://sourceforge.net/projects/freepascal/files/Win32/3.2.0/fpc-3.2.0.i386-win32.exe/download                  
 
@@ -19,11 +19,6 @@ https://www.lazarus-ide.org
 
 https://dev-pascal.programas-gratis.net
 
-🍱Yo utilizo Online GDB porque no se necesita instalar y no surge problemas técnicos.
+ > Yo utilizo Online GDB porque no se necesita instalar y no surge problemas técnicos.🍱
 
 https://www.onlinegdb.com/online_pascal_compiler
-
-``
-const
-  dimF=200;
-``
