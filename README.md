@@ -19,6 +19,6 @@ https://www.lazarus-ide.org
 
 https://dev-pascal.programas-gratis.net
 
- > Yo utilizo Online GDB porque no se necesita instalar y no surge problemas técnicos.🍱
+ > Online GDB 🍱
 
 https://www.onlinegdb.com/online_pascal_compiler
