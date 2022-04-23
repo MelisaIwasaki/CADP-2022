@@ -7,7 +7,7 @@ Emulador para instalar :
 
  > Geany+freepascal 🧞
 
-{Descargar Geany] (https://www.geany.org)
+[Descargar Geany] (https://www.geany.org)
 
 https://sourceforge.net/projects/freepascal/files/Win32/3.2.0/fpc-3.2.0.i386-win32.exe/download                  
 
