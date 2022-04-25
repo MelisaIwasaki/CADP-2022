@@ -659,104 +659,98 @@ lectura, informar:
 ● Los nombres de las plantas nativas de Argentina que se encuentran en regiones con clima subtropical.
 ● El nombre de la planta que se encuentra en más países.
 }
-program Hello;
-const
-    PLANTS=3;//320
+program CIUNLP; //Para mi que el enunciado esta mal hecho y por eso que ningun profesor quiere tomar este tema.  
+const   
+  ESP=3; //320   
 type
-    cadena20=string[20];
-    especie=record
-        nombre:cadena20;
-        tiempo:integer;
-        tipo:cadena20;
-        clima:cadena20;
-        pais:cadena20;
-    end;
-procedure leerPlanta(var e:especie);
+  cadena=string[50];
+  rangoMeses=1..12;
+  especie=record
+    nombre:cadena;
+    tiempo:rangoMeses;
+    tipo:cadena;
+    clima:cadena;
+    pais:cadena;  
+  end;          
+procedure leer(var e:especie );
 begin
-  write('Ingrese el pais donde se las encuentra:');
-  readln(e.pais);
-  if(e.pais<>'zzz')then begin
-    write('Ingrese el nombre cientifico:');
-    readln(e.nombre);
-    write('Ingrese el tiempo promedio de vida');
-    readln(e.tiempo);
-    write('Ingrese el tipo de planta');
-    readln(e.tipo);
-    write('Ingrese el clima');
-    readln(e.clima);
+  
+  writeln('Ingrese el nombre cientifico');
+  readln(e.nombre);
+  writeln('Ingrese el tiempo promedio de vida, en meses');
+  readln(e.tiempo);
+  writeln('Ingrese tipo de planta ');
+  readln(e.tipo);
+  writeln('Ingrese el clima');
+  readln(e.clima);
+end;
+procedure masPaises(cant:integer;var max:integer;var nomMax:cadena;nombre:cadena);
+begin
+  if(cant>max)then begin
+    max:=cant;
+    nomMax:=nombre;
   end;
 end;
-procedure menorCantPlantas(cantPlanta:integer;tipo:cadena20;var min:integer;var minTipo:cadena20);
+procedure menorCantPlanta(cantPlantas:integer;var min:integer;var tipoMin:cadena;tipo:cadena);
 begin
-  if(cantPlanta<min)then begin
-    min:=cantPlanta;
-    minTipo:=tipo;
+  if(cantPlantas<min)then begin
+    min:=cantPlantas;
+    tipoMin:=tipo;
   end;
 end;
-function tiempoPromedio(cantPlanta:integer;cantVida:integer):real;
+procedure dosLongevas(var max1,max2:rangoMeses;tiempo:rangoMeses;var nom1,nom2:cadena;nombre:cadena);
 begin
-  tiempoPromedio:=(cantVida/cantPlanta);
-end;
-procedure masLongevas(nombre:cadena20;cantVida:integer;var max1,max2:integer;var nom1,nom2:cadena20);
-begin
-  if(cantVida>max1)then begin
+  if(tiempo>max1)then begin
     max2:=max1;
+    max1:=tiempo;
     nom2:=nom1;
-    max1:=cantVida;
     nom1:=nombre;
   end
-  else if(cantVida>max2)then begin
-    max2:=cantVida;
-    nom2:=nombre;
+  else if(tiempo>max2)then begin
+         max2:=tiempo;
+         nom2:=nombre;
   end;
 end;
-function nativasArg(pais,clima:cadena20):boolean;
-begin
-  nativasArg:=(pais='Argentina')and(clima='subtropical');
-end;
-procedure masPaises(nombre:cadena20;cantPaises:integer;var maxPaises:integer;var nomPaises:cadena20);
-begin
-  if(cantPaises>maxPaises)then begin
-    maxPaises:=cantPaises;
-    nomPaises:=nombre;
-  end;
-end;
+
 var
-    e:especie;
-    i,max1,max2,min,cantPlanta,cantVida,maxPaises,cantPaises:integer;
-    tipoActual,minTipo,paisActual,nom1,nom2,nomPaises:cadena20;
-    resultado:real;
+  e:especie;
+  i,cant,max,cantPlantas,min,cantVida:integer;
+  nomMax,tipoActual,tipoMin,nom1,nom2:cadena;
+  promedio:real;
+  max1,max2:rangoMeses;
 begin
-  max1:=-1;
-  min:=999;
-  maxPaises:=0;
-  for i:=1 to PLANTS do begin
-    leerPlanta(e);
-    while(e.pais<>'zzz')do begin
-      tipoActual:=e.tipo;
-      cantVida:=0;
-      cantPlanta:=0;
-      cantPaises:=0;
-      while(e.pais<>'zzz')and(tipoActual=e.tipo)do begin
-        paisActual:=e.pais;
-        cantPaises:=cantPaises+1;
-        masLongevas(e.nombre,e.tiempo,max1,max2,nom1,nom2);
-        while(e.pais<>'zzz')and(paisActual=e.pais)do begin
-          cantPlanta:=cantPlanta+1;
-          cantVida:=cantVida+e.tiempo;
-          if(nativasArg(e.pais;e.clima))then begin
-            writeln('Plantas nativas de Arg en regiones subtropical:',e.nombre);
-          end;
-          leerPlanta(e);
-        end;
-        menorCantPlantas(cantPlanta,e.tipo,min,minTipo);
-    end;
-    masPaises(e.nombre,cantPaises,maxPaises,nomPaises);
-    writeln(tiempoPromedio(cantPlanta,cantVida):4:2)
+  i:=1;
+  cant:=0;
+  max:=-1;min:=999;max1:=-1;nom1:='';
+  leer(e);
+  While(i<ESP)do begin
+    tipoActual:=e.tipo;
+    cantPlantas:=0;
+    cantVida:=0;
+    while(i<ESP)and(tipoActual=e.tipo)do begin
+      cantPlantas:=cantPlantas+1;
+      cantVida:=cantVida+e.tiempo;
+      writeln('Ingrese el pais');
+      readln(e.pais);
+      while(e.pais<>'ZZZ')do begin
+        cant:=cant+1;
+        if(e.pais='Argentina')and(e.clima='subtropical')then
+          writeln('Los nombres de las plantas de Argentina con clima subtropical',e.nombre);
+        writeln('Ingrese el pais');
+        readln(e.pais);
+      end;
+      i:=i+1;
+      leer(e);
+    end; 
+    promedio:=cantVida/cantPlantas;
+    masPaises(cant,max,nomMax,e.nombre);
+    dosLongevas(max1,max2,e.tiempo,nom1,nom2,e.nombre);
+    menorCantPlanta(cantPlantas,min,tipoMin,tipoActual);
+    writeln('El tiempo promedio de vida',promedio:2:2);
   end;
-  writeln('El tipo de planta con menor cantidad de plantas:',minTipo);
-  writeln('Nonmbre cientifico de las dos plantas mas longevas:',nom1,' y ',nom2);
-  writeln('Nonmbre de la planta que se encuentra en mas paises',nomPaises);
+  writeln('El nombre de la planta que se encuentra en más países',nomMax);
+  writeln('El tipo de planta con menor cantidad de plantas',tipoMin);
+  writeln('El nombre científico de las dos plantas más longevas',nom1,' y ',nom2);
 end.
 {
 11. Una compañía de vuelos internacionales está analizando la información de todos los vuelos realizados por sus
