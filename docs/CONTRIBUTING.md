@@ -30,8 +30,8 @@ begin
        end;
 end;
 ````
-*La informacion de los clientes finaliza al ingresar al cliente 'Mirtha Legrand'con dni 2320718 
-   (que debe procesarse)o al alcanzarse el maximo de clientes.*
+> Repeat until  ***La informacion de los clientes finaliza al ingresar al cliente 'Mirtha Legrand'con dni 2320718 
+   (que debe procesarse)o al alcanzarse el maximo de clientes.***
 ````
 procedure cargarVector(var vc:vcliente;var dimL:integer);
 var c:cliente;
