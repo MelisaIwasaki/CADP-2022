@@ -31,7 +31,7 @@ begin
     L:=L^.sig;
   end;
 end;
-procedure incrementar(var L:lista;var dato:integer);
+procedure incrementar(var L:lista;dato:integer); //No me anda el incrementar
 begin
   while(L<>nil)do begin
     L^.num:=L^.num+dato;
@@ -39,18 +39,22 @@ begin
   end;
 end;
 var
- pri : lista;      //declaro el puntero a nodo
- valor: integer;   //declaro el valor
+ pri : lista;                   //declaro el puntero a nodo
+ valor,dato: integer;           //declaro el valor
 begin
- pri := nil;       //asignacion nula a una variable puntero
+ pri := nil;                    //asignacion nula a una variable puntero
  writeln('Ingrese un numero:'); 
- read(valor);      //leo el valor
+ read(valor);                   //leo el valor
  while (valor <> 0) do begin    //creo un bucle que lea datos hasta recibir el 0 como valor
    armarNodo(pri, valor);       //llamo al modulo para ir agragando el valor en la lista
    writeln('Ingrese un numero');//se le otro valor
    read(valor);
  end;
  imprimirLista(pri);{ imprimir lista }
+ writeln('Ingrese el valor a incrementar');
+ readln(dato);
+ incrementar(pri,dato);
+ imprimir(pri);
 end.
 {
 2. Dado el siguiente código que lee información de personas hasta que se ingresa la persona con dni 0 y luego 
