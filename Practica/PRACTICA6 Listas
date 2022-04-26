@@ -83,11 +83,11 @@ end;
 {Carga la lista hasta que llega el dni 0}
 procedure generarLista(var l:lista);
 var
- p:nodo;                     //el parametro p no es de tipo persona
+ p:nodo;                     //el parametro p tiene que ser de tipo persona
 begin
  leerPersona(p);
  while (p.dni <> 0) do begin
- agregarAdelante(l,p);      //falta leerPersona despues del while
+ agregarAdelante(l,p);       //falta leerPersona despues del while
  end;
 end;
 procedure imprimirInformacion(var l:lista); //pasar el parametro por valor porque no se modifica
