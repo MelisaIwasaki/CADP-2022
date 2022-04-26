@@ -15,8 +15,10 @@ end;
 ````
 > dimL  ***"a lo sumo 1000 elementos.La lectura finaliza con el codigo 99"(no debe procesarse)***
 ````
-const dimF=1000;
-type  vector=array[1..dimF]of integer;
+const 
+  dimF=1000;
+type  
+  vector=array[1..dimF]of integer;
 
 procedure cargar(var v:vector;var dimL:integer);
 var c:cliente;
@@ -28,6 +30,27 @@ begin
               v[dimL]:=c;
               leerCliente(c);
        end;
+end;
+````
+> dimL  ***otra forma***
+````
+const
+  dimF=5;
+type
+  vNumeros=array[1..dimF]of integer;
+  
+procedure cargarVector(var a:vNumeros;var dimL:integer);
+var
+  i,num:integer;
+begin
+  i:=1;
+  readln(num);
+  while(i<=dimF)and(num<>-1)do begin
+    a[i]:=num;
+    i:=i+1;
+    readln(num);
+  end;
+  dimL:=i-1;
 end;
 ````
 > Repeat until  ***La informacion de los clientes finaliza al ingresar al cliente 'Mirtha Legrand'con dni 2320718 
