@@ -128,10 +128,9 @@ begin
   for i:=((dimL div 2)+1)to dimL do
     writeln('Desde la mitad mas uno hacia la ultima posicion:',i,'contiene',v[i]);
 end;
-procedure moduloD(v:vector;x,y,dimL:integer);
+procedure moduloD(v:vector;x,y:integer);
 var i:integer;
 begin
-  if(x<=dimL)and(y<=dimL)then begin
     if(x<y)then begin
       for i:= x to y do
         writeln('El contenido es ',v[i]);
@@ -140,23 +139,18 @@ begin
       for i:= y to x do
         writeln('El contenido es ',v[i]);
     end;
-  end;
 end;
 
 var v:vector;
     dimL:integer;
-    x,y:integer;
 begin
   dimL:=0;
   cargarVector(v,dimL); //se dispone
-  write('Ingrese el numero x:');
-  readln(x);
-  write('Ingrese el numero y:');
-  readln(y);
   moduloA(v,dimL);
   moduloB(v,dimL);
   moduloC(v,dimL);
-  moduloD(v,x,y,dimL);
+  moduloD(v,1,dimL);
+  moduloD(v,dimL,1);
 end.
 {
 4. Se dispone de un vector con 100 números enteros. Implementar los siguientes módulos:
