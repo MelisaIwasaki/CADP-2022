@@ -2,10 +2,9 @@
 1. Dado el siguiente programa:
 
 a. Indicar qué hace el programa.
-El programa recibe numeros enteros que seran almacenados en una lista hasta que se ingrese el valor 0.
-Imprime el contenido de la lista.
+// Lee numero hasta que se ingrese 0 y lo carga en la lista. Luego imprime el contenido de la lista.
 b. Indicar cómo queda conformada la lista si se lee la siguiente secuencia de números: 10 21 13 48 0.
-Se crea una lista de 4 elementos.
+// Se crea una lista de 4 elementos y va agregando hacia adelante. Quedaria 48 13 21 10.
 c. Implementar un módulo que imprima los números enteros guardados en la lista generada. 
 d. Implementar un módulo que reciba la lista y un valor, e incremente con ese valor cada dato de la lista. 
 }
@@ -24,7 +23,7 @@ begin
  aux^.num := v; //le asigna el valor como parametro al elemento
  aux^.sig := L; //le asigna el valor como parametro al puntero apuntado al primer elemento de la lista
  L := aux;      //cambia la lista al auxiliar
-end; // en general,crea un espacio que luego va ser asignado a la lista que toma como parametro.
+end;            // en general,crea un espacio que luego va ser asignado a la lista que toma como parametro.
 procedure imprimirLista(L:lista);
 begin
   while(L<>nil)do begin
@@ -32,20 +31,20 @@ begin
     L:=L^.sig;
   end;
 end;
-{procedure incrementar(var L:lista;var dato:integer);
+procedure incrementar(var L:lista;var dato:integer);
 begin
   while(L<>nil)do begin
     L^.num:=L^.num+dato;
     L:=L^.sig;
   end;
-end;}
+end;
 var
- pri : lista;   //declaro el puntero a nodo
- valor: integer; //declaro el valor
+ pri : lista;      //declaro el puntero a nodo
+ valor: integer;   //declaro el valor
 begin
- pri := nil;    //asignacion nula a una variable puntero
+ pri := nil;       //asignacion nula a una variable puntero
  writeln('Ingrese un numero:'); 
- read(valor);  //leo el valor
+ read(valor);      //leo el valor
  while (valor <> 0) do begin    //creo un bucle que lea datos hasta recibir el 0 como valor
    armarNodo(pri, valor);       //llamo al modulo para ir agragando el valor en la lista
    writeln('Ingrese un numero');//se le otro valor
