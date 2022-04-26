@@ -31,10 +31,10 @@ begin
     L:=L^.sig;
   end;
 end;
-procedure incrementar(var L:lista;dato:integer); //No me anda el incrementar
+procedure incrementar(var L:lista;dato:integer); 
 begin
-  while(L<>nil)do begin
-    L^.num:=L^.num+dato;
+  while(L<>nil)do begin    
+    writeln(L^.num+valor);                    //L^.num:=L^.num+dato; <--NO SE PUEDE HACER
     L:=L^.sig;
   end;
 end;
