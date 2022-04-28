@@ -5,7 +5,7 @@
 **Cargar vector**
 
 > dimF  ***Carga completa: Guardar un elemento en cada posicion del vector***
-````
+````pascal
 begin
        for i:=1 to dimF do begin
               leerCliente(c);
@@ -14,7 +14,7 @@ begin
 end;
 ````
 > dimL  ***"a lo sumo 1000 elementos.La lectura finaliza con el codigo 99"(no debe procesarse)***
-````
+````pascal
 const 
   dimF=1000;
 type  
@@ -33,7 +33,7 @@ begin
 end;
 ````
 > dimL  ***otra forma***
-````
+````pascal
 const
   dimF=5;
 type
@@ -55,7 +55,7 @@ end;
 ````
 > Repeat until  ***La informacion de los clientes finaliza al ingresar al cliente 'Mirtha Legrand'con dni 2320718 
    (que debe procesarse)o al alcanzarse el maximo de clientes.***
-````
+````pascal
 procedure cargarVector(var vc:vcliente;var dimL:integer);
 var c:cliente;
 begin
@@ -70,7 +70,7 @@ end;
 > Sin ordenar  ***"Esta informacion no se encuentra ordenada por ningun criterio"
                   "Esta informacion se ingresa por teclado y se ingresa sin ningun orden en particular"***
 
-````
+````pascal
 procedure cargarPartido(var v:vector);
 var i:integer;
 begin
@@ -84,7 +84,7 @@ end;
 **Cargar lista**
 
 > No debe procesarse - agragar adelante  ***"La lectura finaliza cuando se ingresa el codigo de cliente -1"***
-````
+````pascal
 procedure leerNotebook(var n:notebook);
 begin
        readln(n.codCliente);
@@ -114,7 +114,7 @@ begin
 end;
 ````
 > debe procesarse - agragar atras  ***"debe almacenarse en el orden en que fue leida"***
-````
+````pascal
 procedure leerNotebook(var n:notebook);
 begin
        readln(n.codCliente);
@@ -144,7 +144,7 @@ end;
 ````
 > insertarOrdenado  ***"La informacion debe quedar almacenada de manera ordenada por dni del cliente
                         finaliza cuando se lee el dni -1(que no debe procesarse)***
-````
+````pascal
 procedure insertarOrdenado(var L:lista;v:venta);
 var act,ant,nue:lista;
 begin
