@@ -317,7 +317,7 @@ a. Porcentaje de productos con stock actual por debajo de su stock mínimo.
 b. Descripción de aquellos productos con código compuesto por al menos tres dígitos pares.
 c. Código de los dos productos más económicos.
 }
-program Hello;                    //compila pero no salen los resultados
+program Hello;                    
 type  cadena50=string[50];
       producto=record
         cod:integer;
@@ -374,12 +374,12 @@ begin
   else
   if(precioActual<min2)then begin
     min2:=precioActual;
-    cod1:=codActual;
+    cod2:=codActual;
   end;
 end;
 function calcularPorcentaje(cantidad,total:integer):real;
 begin
-  calcularPorcentaje:=(cantidad/total)*100;
+  calcularPorcentaje:=cantidad*100/total;
 end;
 procedure informar(pri:lista;Porcentaje:real;cod1,cod2:integer);
 begin
@@ -406,11 +406,11 @@ begin
   else
     cantStockActMenor:=0;
 end;
-procedure recorrerLista(pri:lista;var porcentaje:real;cod1,cod2:integer);
+procedure recorrerLista(pri:lista;var porcentaje:real;var cod1,cod2:integer);
 var min1,min2:real;
     cantStock,totalProductos:integer;
 begin
-  min1:=999;min2:=999;
+  min1:=999;cod1:=0;
   cantStock:=0;
   totalProductos:=0;
   while(pri<>nil)do begin
