@@ -218,20 +218,31 @@ lista que son múltiplos de A.
 }
 program JugamosConListas;
 type
-lista = ^nodo;  //Crea un puntero hacia un nodo
-nodo = record   //crea un nodo
- num : integer; //asigna un valor al elemento
- sig : lista;   //puntero hacia el siguiente nodo
+lista = ^nodo; 
+nodo = record   
+ num : integer; 
+ sig : lista;   
 end; 
-procedure armarNodo(var L: lista; v: integer); //arma el nodo
+procedure armarNodo(var L: lista; v: integer); 
 var
- aux : lista;   //crea un auxiliar para trabajar con el
+ aux : lista;   
 begin
- new(aux);      //le asigna un espacio en memoria
- aux^.num := v; //le asigna el valor como parametro al elemento
- aux^.sig := L; //le asigna el valor como parametro al puntero apuntado al primer elemento de la lista
- L := aux;      //cambia la lista al auxiliar
-end; // en general,crea un espacio que luego va ser asignado a la lista que toma como parametro.
+ new(aux);      
+ aux^.num := v; 
+ aux^.sig := L; 
+ L := aux;      
+end; 
+procedure cargarLista(var L:lista);
+var valor:integer;
+begin
+  writeln('Ingrese un numero:'); 
+  readln(valor); 
+  while (valor <> 0) do begin    
+    armarNodo(L, valor);  
+    writeln('Ingrese un numero');
+    read(valor);
+  end;
+end;
 procedure imprimirLista(L:lista);
 begin
   while(L<>nil)do begin
@@ -239,64 +250,64 @@ begin
     L:=L^.sig;
   end;
 end;
-procedure incrementar(var L:lista;var dato:integer);
-var aux:lista;
+procedure incrementar(var L:lista;dato:integer); 
 begin
-  aux:=L;
-  while(aux<>nil)do begin
-    aux^.num:=aux^.num+dato;
-    aux:=aux^.sig;
+  while(L<>nil)do begin
+    writeln('valor incrementado',L^.num+dato); //L^.num:=L^.num+dato; <--NO SE PUEDE HACER
+    L:=L^.sig;
   end;
 end;
-function maximo(l:lista):integer;
+function maximo(L:lista):integer;
 var max:integer;
 begin
-  max:=0;
-  while(l<>nil)do begin
-    if(l^.num>max)then
-      max:=l^.num;
-    l:=l^.sig;
+  max:=-1;
+  while(L<>nil)do begin
+    if(L^.num>max)then
+      max:=L^.num;
+    L:=L^.sig;
   end;
   maximo:=max;
 end;
-function minimo(l:lista):integer;
+function minimo(L:lista):integer;
 var min:integer;
 begin
- min:=999;
- while(l<>nil)do begin
-   if(l^.num<min)then
-     min:=l^.num;
-   l:=l^.sig;
- end;
- minimo:=min;
-end;
-function multiplosDeA(l:lista;A:integer):integer;
-var contMultiplos:integer;
-begin
-  contMultiplos:=0;
-  while(l<>nil)do begin
-    if(l^.num mod A=0)then
-      contMultiplos:=contMultiplos+1;
-    l:=l^.sig;
+  min:=999;
+  while(L<>nil)do begin
+    if(L^.num<min)then
+      min:=L^.num;
+    L:=L^.sig;
   end;
-  multiplosDeA:=contMultiplos;
+  minimo:=min;
+end;
+function multiplos(L:lista;valorA:integer):integer;
+var cant:integer;
+begin
+  cant:=0;
+  while(L<>nil)do begin
+    if(L^.num mod valorA= 0)then
+      cant:=cant+1;
+    L:=L^.sig;
+  end;
+  multiplos:=cant;
 end;
 var
- pri : lista;   //declaro el puntero a nodo
- valor,dato: integer; //declaro el valor
+ L : lista;
+ dato,valorA,cant,max,min:integer;
 begin
- pri := nil;    //asignacion nula a una variable puntero
- writeln('Ingrese un numero:'); 
- read(valor);  //leo el valor
- while (valor <> 0) do begin    //creo un bucle que lea datos hasta recibir el 0 como valor
-   armarNodo(pri, valor);       //llamo al modulo para ir agragando el valor en la lista
-   writeln('Ingrese un numero');//se le otro valor
-   read(valor);
- end;
- imprimirLista(pri);{ imprimir lista }
- write('Ingrese el valor a incrementar:');
- readln(dato);
- incrementar(pri,dato);
+ L := nil;
+ cargarLista(L);
+ //imprimirLista(L);
+ //writeln('Ingrese el valor a incrementar');
+ //readln(dato);
+ writeln('Ingrese un multiplo');
+ readln(valorA);
+ //incrementar(L,dato);
+ max:=maximo(L);
+ min:=minimo(L);
+ cant:=multiplos(L,valorA);
+ writeln('El maximo ',max);
+ writeln('El minimo ',min);
+ writeln('Cantidad de multiplo de:',valorA,' : ',cant);
 end.
 {
 5. Realizar un programa que lea y almacene la información de productos de un supermercado. De cada 
