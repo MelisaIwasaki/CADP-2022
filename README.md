@@ -25,4 +25,6 @@
 
 [このプロジェクトへのコントリビューションガイドライン](docs/CONTRIBUTING.md)
 
+[Solucion a los problemas](docs/solucion.md)
+
 ![wallpaperbetter](https://user-images.githubusercontent.com/92184167/164947811-c8454648-5c1b-478d-a718-37bc76714bc8.jpg)
