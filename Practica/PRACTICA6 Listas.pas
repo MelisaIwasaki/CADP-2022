@@ -317,8 +317,8 @@ a. Porcentaje de productos con stock actual por debajo de su stock mínimo.
 b. Descripción de aquellos productos con código compuesto por al menos tres dígitos pares.
 c. Código de los dos productos más económicos.
 }
-program Hello;                    
-type  cadena50=string[50];
+program Hello;                    //En este programa nunca se cargo el precio,pero por defecto tenia cargado 4.9406564584124654E-324
+type  cadena50=string[50];        //Para verificar le agregue el proceso mostrar para ver el contenido del L^.dato.precio.
       producto=record
         cod:integer;
         descrip:cadena50;
@@ -361,6 +361,13 @@ begin
   while(prod.cod<>-1)do begin
     agregarAdelante(pri,prod);
     leerProductos(prod);
+  end;
+end;
+procedure mostrar(L:lista);
+begin
+  while(L<>nil)do begin
+    writeln(L^.dato.cod,' ',L^.dato.descrip,' ',L^.dato.stockAct,' ',L^.dato.stockMin,' ',L^.dato.precio);
+    L:=L^.sig;
   end;
 end;
 procedure dosMasEconomicos(precioActual:real;codActual:integer;var min1,min2:real;var cod1,cod2:integer);
@@ -428,9 +435,126 @@ var L:lista;
 begin
   L:=nil;
   generarLista(L);
+  mostrar(L);
   recorrerLista(L,porcentaje,cod1,cod2);
   informar(L,porcentaje,cod1,cod2);
 end.
+
+{ Volvi hacer el programa de nuevo pero sin el informar y, con la lectura del precio agregado. Ahora si anda perfectamente }
+
+program supermercado;
+type
+  cadena=string[50];
+  productos=record
+    codigo:integer;
+    descripcion:cadena;
+    stockActual:integer;
+    stockMinimo:integer;
+    precio:real;
+  end;
+  lista=^nodo;
+  nodo=record
+    dato:productos;
+    sig:lista;
+  end;
+procedure leer(var p:productos);
+begin
+  writeln('Ingrese el codigo');
+  readln(p.codigo);
+  if(p.codigo<>-1)then begin
+    writeln('Ingrese la descripcion');
+    readln(p.descripcion);
+    writeln('Ingrese el stock actual');
+    readln(p.stockActual);
+    writeln('Ingrese el stock minimo');
+    readln(p.stockMinimo);
+    writeln('Ingrese el precio');
+    readln(p.precio);
+  end;
+end;
+procedure agregarAdelante(var L:lista;p:productos);
+var nue:lista;
+begin
+  new(nue);
+  nue^.dato:=p;
+  nue^.sig:=L;
+  L:=nue;
+end;
+procedure cargarLista(var L:lista);
+var p:productos;
+begin
+  leer(p);
+  while(p.codigo<>-1)do begin
+    agregarAdelante(L,p);
+    leer(p);
+  end;
+end;
+procedure mostrarListaCargada(L:lista);
+begin
+  while(L<>nil)do begin
+    writeln(L^.dato.codigo,' ',L^.dato.descripcion,' ',L^.dato.stockActual,' ',L^.dato.stockMinimo,' $',L^.dato.precio:2:2);
+    L:=L^.sig;
+  end;
+end;
+function porDebajo(stockAct,stockMin:integer):integer;
+begin
+  if(stockAct<stockMin)then
+    porDebajo:=1
+  else
+    porDebajo:=0;
+end;
+procedure tresDigitosPares(codigo:integer;descripcion:cadena);
+var dig,pares:integer;
+begin
+  pares:=0;
+  while(codigo<>0)and(pares<3)do begin
+    dig:=codigo mod 10;
+    if(dig mod 2 = 0)then
+      pares:=pares+1;
+    codigo:=codigo div 10;
+  end;
+  if(pares>=3)then
+    writeln('Descripción de productos con código compuesto por al menos tres dígitos pares ',descripcion);
+end;
+procedure masEconomico(codigo:integer;precio:real;var cod1,cod2:integer;var min1,min2:real);
+begin
+  if(precio<min1)then begin
+    min2:=min1;
+    min1:=precio;
+    cod2:=cod1;
+    cod1:=codigo;
+  end
+  else if(precio<min2)then begin
+         min2:=precio;
+         cod2:=codigo;
+  end;
+end;
+procedure recorrer(L:lista);
+var pocasMercaderias,totalProductos,cod1,cod2:integer;
+    porcentaje,min1,min2:real;
+begin
+  cod1:=0;min1:=999;
+  pocasMercaderias:=0;
+  totalProductos:=0;
+  while(L<>nil)do begin
+    totalProductos:=totalProductos+1;
+    pocasMercaderias:=pocasMercaderias+porDebajo(L^.dato.stockActual,L^.dato.stockMinimo);
+    tresDigitosPares(L^.dato.codigo,L^.dato.descripcion);
+    masEconomico(L^.dato.codigo,L^.dato.precio,cod1,cod2,min1,min2);
+    L:=L^.sig;
+  end;
+  porcentaje:=pocasMercaderias*100/totalProductos;
+  writeln('Porcentaje de productos con stock actual por debajo de su stock mínimo ',porcentaje:2:2,'%');
+  writeln('Código de los dos productos más económicos ',cod1,' y ',cod2);
+end;
+var
+  L:lista;
+begin
+  L:=nil;
+  cargarLista(L);
+  mostrarListaCargada(L);
+  recorrer(L);
+END.
 {
 6. La Agencia Espacial Europea (ESA) está realizando un relevamiento de todas las sondas espaciales lanzadas 
 al espacio en la última década. De cada sonda se conoce su nombre, duración estimada de la misión (cantidad 
