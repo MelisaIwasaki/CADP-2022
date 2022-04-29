@@ -1,8 +1,8 @@
-# CARGAR Vectores y listas
+# CARGAR Vectores y listas :card_file_box:
 
-## Ver sus conductas y sus diferencias
+## Ver sus conductas y sus diferencias :speech_balloon:
 
-**Cargar vector**
+**Cargar vector** 
 
 > dimF  ***Carga completa: Guardar un elemento en cada posicion del vector***
 ````pascal
