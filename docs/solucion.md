@@ -2,9 +2,9 @@
 
 - ***Problema 1*** :electron:
 
-**Se dispone de un vector con 100 números enteros.** 
+**Se dispone de un vector con 100 números enteros.** :octocat:
 
-**posicion: dado un número X y el vector de números, retorna la posición del número X en dicho vector, o el valor -1 en caso de no encontrarse.**:octocat:
+**posicion: dado un número X y el vector de números, retorna la posición del número X en dicho vector, o el valor -1 en caso de no encontrarse.**
 
 *Entonces, recorrí todo el vector y por cada uno le pregunté si el contenido era igual al número x. Luego me iba guardando la posición si se encontraba el numero x
 o guardaba -1 si no se encontraba.*
