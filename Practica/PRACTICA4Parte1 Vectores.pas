@@ -177,16 +177,17 @@ begin
     v[i]:=num;
   end;
 end;
-function posicion(v:vector;numx:integer):integer;
+function posicion(v:vector;x:integer):integer;
 var i:integer;
 begin
-  for i:=1 to dimF do begin
-    if(v[i]=numx)then
-      posicion:=i
-    else
-      posicion:=-1;
-  end;
-end;
+  i:=1;
+  while(i<=dimF)and(v[i]<>x)do
+    i:=i+1;
+  if(v[i]=x)then
+    pos:=i
+  else
+    pos:=-1;
+end; 
 procedure intercambio(x,y:integer;var v:vector);
 var aux:integer;
 begin
