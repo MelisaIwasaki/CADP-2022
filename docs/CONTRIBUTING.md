@@ -1,8 +1,39 @@
-# CARGAR Vectores y listas :card_file_box:
+# Vectores y listas :card_file_box:    
 
-## Ver sus conductas y sus diferencias :speech_balloon:
+## ARREGLO :speech_balloon:
 
-**Cargar vector** 
+Un arreglo (ARRAY) es una estructura de datos compuesta que permite acceder a cada componente por una variable índice, que da la posición de la componente dentro de la estructura de datos.
+
+## VECTOR :  ***Arreglo de una sola dimensión***
+
+Es una colección de elementos que se guardan consecutivamente en la memoria y se pueden referenciar a 
+través de un índice.
+
+- HOMOGENEA:Los elementos pueden son del mismo tipo .
+- ESTATICA:El tamaño no cambia durante la ejecución (se calcula en el momento de compilación)
+- INDEXADA:Para acceder a cada elemento de la estructura se debe utilizar una variable ‘índice’ que es de tipo ordinal.
+
+````pascal
+Program uno;
+Type 
+  vector = array [rango]   of   tipo;
+````
+> El rango debe ser de tipo ordinal. 
+- Integer
+- Char
+- Boolean
+- Subrango
+> El tipo debe ser estático
+- Integer
+- Real
+- Char
+- Boolean
+- Subrango
+- Registro
+- Vector
+- Lista
+
+## Cargar vector
 
 > dimF  ***Carga completa: Guardar un elemento en cada posicion del vector***
 ````pascal
@@ -81,6 +112,50 @@ begin
           
 end;
 ````
+## Lectura / Escritura
+
+````pascal
+procedure LeerProducto(var p:producto);
+begin
+  readln(p.codigo);
+  readln(P.nombre);
+  readln(p.precio);
+end;
+procedure MostrarProducto(p:producto);
+begin
+  writeln(p.codigo);
+  writeln(p.nombre);
+  writeln(p.precio);
+end;
+begin
+  for i := 1 to dimF do 
+    LeerProducto(vec[i])
+  for i := 1 to dimF do
+    MostrarProducto(vec[i])
+end;
+````
+**También se puede hacer:**
+````pascal
+procedure mostrarProducto(v:vectorProducto);
+var i:integer;
+begin
+  for i := 1 to dimF do begin
+    writeln(v[i].codigo);
+    writeln(v[i].nombre);
+    writeln(v[i].precio);
+  end;
+end;  
+````
+## Recorridos
+## Agregar elementos al final 
+## Insertar elementos 
+## Borrar elementos 
+## Búsqueda de un elemento
+## Ordenación de los elementos
+
+
+## LISTA
+
 **Cargar lista**
 
 > No debe procesarse - agragar adelante  ***"La lectura finaliza cuando se ingresa el codigo de cliente -1"***
