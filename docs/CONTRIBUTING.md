@@ -112,26 +112,21 @@ begin
           
 end;
 ````
-## Lectura / Escritura
+## Muestra de valores
 
 ````pascal
-procedure LeerProducto(var p:producto);
-begin
-  readln(p.codigo);
-  readln(P.nombre);
-  readln(p.precio);
-end;
 procedure MostrarProducto(p:producto);
 begin
   writeln(p.codigo);
   writeln(p.nombre);
   writeln(p.precio);
 end;
+var
+  i:integer;
+  v:vectorProducto;
 begin
-  for i := 1 to dimF do 
-    LeerProducto(vec[i])
   for i := 1 to dimF do
-    MostrarProducto(vec[i])
+    MostrarProducto(v[i])
 end;
 ````
 **También se puede hacer:**
