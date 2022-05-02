@@ -713,98 +713,109 @@ c. Invoque a un módulo que reciba una lista de proyectos de sondas espaciales e
 total (construcción y mantenimiento) de los proyectos que no serán financiados por H2020. Para ello, utilice 
 el módulo realizado en b.
 }
-program Hello;
-const tam=7;
-type  rango=1..tam;
-      cadena20=string[20];
-      sonda=record
-        nom:cadena20;
-        duracion:integer;
-        costoConst:real;
-        costoMant:real;
-        espectro:rango;
-      end;
-      vector=array[rango]of integer;
-      lista=^nodo;
-      nodo=record
-        dato:sonda;
-        sig:lista;
-      end;
-      
-procedure leerSonda(var s:sonda);
+program progHorizonte;
+const
+  corte='GAIA';
+  CATE=7;
+type
+  cadena=string[30];
+  rango=1..CATE;
+  sonda=record
+    nombre:cadena;
+    duracion:real;
+    costoConst:real;
+    costoMant:real;
+    espectro:rango;
+  end;
+  lista=^nodo;
+  nodo=record
+    dato:sonda;
+    sig:lista;
+  end;
+  vcont=array[rango]of integer;
+  
+procedure leer(var s:sonda);
 begin
-  write('Nombre:');
-  readln(s.nom);
-  write('Duracion:');
+  writeln('Nombre de la sonda:');
+  readln(s.nombre);
+  writeln('Duracion en meses:');
   readln(s.duracion);
-  write('Costo de construccion:');
+  writeln('Costo de construccion:');
   readln(s.costoConst);
-  write('Costo de mantenimiento:');
+  writeln('Costo de mantenimiento mensual:');
   readln(s.costoMant);
-  write('Rango del espectro electromagnético:');
+  writeln('Rango del espectro electromagnetico:');
   readln(s.espectro);
 end;
-procedure agregarAtras(var pri,ult:lista;s:sonda);
+procedure agregarAdelante(var L:lista;s:sonda);
 var nue:lista;
 begin
   new(nue);
   nue^.dato:=s;
-  nue^.sig:=nil;
-  if(pri=nil)then
-    pri:=nue
-  else
-    ult^.sig:=nue;
-  ult:=nue;
+  nue^.sig:=L;
+  L:=nue;
 end;
 procedure cargarLista(var L:lista);
-var s:sonda;ult:lista;
+var s:sonda;
 begin
-  repeat 
-    leerSonda(s);
-    agregarAtras(L,ult,s);
-  until(s.nom='GAIA');
+  repeat
+    leer(s);
+    agregarAdelante(L,s);
+  until(s.nombre=corte);
 end;
 function cumpleRequisitos(s:sonda):boolean;
 begin
-  cumpleRequisitos:=(s.espectro<>1)and(s.costoMant<s.costoConst);
+  cumpleRequisitos:=(s.costoMant<s.costoConst)and(s.espectro<>1);
 end;
 procedure recorrerLista(L:lista;var si,no:lista);
-var ult,ultNo:lista;
 begin
   while(L<>nil)do begin
-    if(cumpleRequisitos(L^.dato))then begin
-      writeln('El proyecto ',L^.dato.nom,' cumple con los nuevos criterios H2020.');
-      agregarAtras(si,ult,L^.dato);
-    end
-    else begin
-      writeln('El proyecto ',L^.dato.nom,' no cumple con los nuevos criterios H2020.');
-      agregarAtras(no,ultNo,L^.dato);
-    end;
+    if(cumpleRequisitos(L^.dato))then
+      agregarAdelante(si,L^.dato)
+    else
+      agregarAdelante(no,L^.dato);
     L:=L^.sig;
   end;
 end;
-procedure noFinanciacion(L:lista);
-var cantTotal:integer;costoSonda,costoTotal:real;
+procedure mostrarFinan(si:lista);
 begin
-  costoTotal:=0;cantTotal:=0;
+  while(si<>nil)do begin
+    writeln('Lista financiacion:');
+    writeln(si^.dato.nombre,' ',si^.dato.duracion,' ',si^.dato.costoConst,' ',si^.dato.costoMant,' ',si^.dato.espectro);
+    si:=si^.sig;
+  end;
+end;
+procedure mostrarNoFinan(no:lista);
+begin
+  while(no<>nil)do begin
+    writeln('Lista NO financiacion:');
+    writeln(no^.dato.nombre,' ',no^.dato.duracion,' ',no^.dato.costoConst,' ',no^.dato.costoMant,' ',no^.dato.espectro);
+    no:=no^.sig;
+  end;
+end;
+procedure proyNoFinan(L:lista);
+var cant:integer;
+    costoTotal:real;
+begin
+  cant:=0;
+  costoTotal:=0;
   while(L<>nil)do begin
-    cantTotal:=cantTotal+1;
-    costoSonda:=L^.dato.costoConst+L^.dato.costoMant;
-    costoTotal:=costoTotal+costoSonda;
-    writeln('Proyecto:',L^.dato.nom,' no financiado tiene un costo total de:',costoSonda:2:2);
+    cant:=cant+1;
+    costoTotal:=costoTotal+(L^.dato.costoMant+L^.dato.costoConst);
     L:=L^.sig;
   end;
-  writeln('Son ',cantTotal,' los proyectos no financiados.');
-  writeln('El costo total de todos los proyectos no financiado es:',costoTotal:2:2);
+  writeln('Cantidad de proyectos que no seran financiados:',cant);
+  writeln('Costo total de proyectos que no seran financiados:',costoTotal:2:2);
 end;
-var L,siCumple,noCumple:lista;
+var 
+  L,financiados,noFinanciados:lista;
 begin
-  L:=nil;
-  siCumple:=nil;
-  noCumple:=nil;
+  L:=nil;financiados:=nil;noFinanciados:=nil;
   cargarLista(L);
-  recorrerLista(L,siCumple,noCumple);
-  noFinanciacion(noCumple);
+  recorrerLista(L,financiados,noFinanciados);
+  mostrarFinan(financiados);
+  mostrarNoFinan(noFinanciados);
+  proyNoFinan(noFinanciados);
 end.
 {
 8. Utilizando el programa del ejercicio 1, modificar el módulo armarNodo para que los elementos de la lista 
