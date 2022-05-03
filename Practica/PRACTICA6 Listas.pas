@@ -34,7 +34,7 @@ end;
 procedure incrementar(var L:lista;dato:integer); 
 begin
   while(L<>nil)do begin    
-    writeln(L^.num+valor);                    //L^.num:=L^.num+dato; <--NO SE PUEDE HACER
+    writeln(L^.num+dato);                    //L^.num:=L^.num+dato; <--NO SE PUEDE HACER
     L:=L^.sig;
   end;
 end;
@@ -121,26 +121,26 @@ ingresados (agregar atrás).
 }
 program JugamosConListas;
 type
-lista = ^nodo;
-nodo = record
- num : integer;
- sig : lista;
-end; 
+  lista = ^nodo;
+  nodo = record
+    num : integer;
+    sig : lista;
+  end; 
 procedure armarNodoAgregarAlfinal(var pri: lista; v: integer);
 var
- act,nue: lista;
+  act,nue: lista;
 begin
- new(nue);
- nue^.num := v;
- nue^.sig := nil;
- if (pri<>nil)then begin
-   act:=pri;
-   while(act^.sig<>nil)do 
-     act:=act^.sig;
-   act^.sig:=nue;
- end
- else
-   pri:=nue;
+  new(nue);
+  nue^.num := v;
+  nue^.sig := nil;
+  if (pri<>nil)then begin
+    act:=pri;
+    while(act^.sig<>nil)do 
+      act:=act^.sig;
+    act^.sig:=nue;
+  end
+  else
+    pri:=nue;
 end;
 procedure imprimirLista(L:lista);
 begin
@@ -158,9 +158,9 @@ begin
  writeln('Ingrese un numero'); 
  read(valor);
  while (valor <> 0) do begin
- armarNodoAgregarAlfinal(pri, valor);
- writeln('Ingrese un numero');
- read(valor);
+   armarNodoAgregarAlfinal(pri, valor);
+   writeln('Ingrese un numero');
+   read(valor);
  end;
  imprimirLista(pri);
 end.
@@ -170,23 +170,23 @@ ingresados, manteniendo un puntero al último ingresado
 }
 program JugamosConListas;
 type
-lista = ^nodo;
-nodo = record
- num : integer;
- sig : lista;
-end; 
+  lista = ^nodo;
+  nodo = record
+    num : integer;
+    sig : lista;
+  end; 
 procedure armarNodoAgregarAlFinal2(var pri,ult: lista; v: integer);
 var
- nue : lista;
+  nue : lista;
 begin
- new(nue);
- nue^.num := v;
- nue^.sig := nil;
- if(pri<>nil)then
-   ult^.sig:=nue
- else
-   pri:=nue;
- ult:=nue;
+  new(nue);
+  nue^.num := v;
+  nue^.sig := nil;
+  if(pri<>nil)then
+    ult^.sig:=nue
+  else
+    pri:=nue;
+  ult:=nue;
 end;
 procedure imprimirLista(L:lista);
 begin
@@ -196,18 +196,18 @@ begin
   end;
 end;
 var
- pri,ult : lista;
- valor : integer;
+  pri,ult : lista;
+  valor : integer;
 begin
- pri := nil;
- writeln('Ingrese un numero'); 
- read(valor);
- while (valor <> 0) do begin
- armarNodoAgregarAlFinal2(pri,ult, valor);
- writeln('Ingrese un numero');
- read(valor);
- end;
- imprimirLista(pri);
+  pri := nil;
+  writeln('Ingrese un numero'); 
+  read(valor);
+  while (valor <> 0) do begin
+    armarNodoAgregarAlFinal2(pri,ult, valor);
+    writeln('Ingrese un numero');
+    read(valor);
+  end;
+  imprimirLista(pri);
 end.
 {
 4. Utilizando el programa del ejercicio 1, realizar los siguientes módulos:
@@ -218,19 +218,19 @@ lista que son múltiplos de A.
 }
 program JugamosConListas;
 type
-lista = ^nodo; 
-nodo = record   
- num : integer; 
- sig : lista;   
-end; 
+  lista = ^nodo; 
+  nodo = record   
+    num : integer; 
+    sig : lista;   
+  end; 
 procedure armarNodo(var L: lista; v: integer); 
 var
- aux : lista;   
+  aux : lista;   
 begin
- new(aux);      
- aux^.num := v; 
- aux^.sig := L; 
- L := aux;      
+  new(aux);      
+  aux^.num := v; 
+  aux^.sig := L; 
+  L := aux;      
 end; 
 procedure cargarLista(var L:lista);
 var valor:integer;
