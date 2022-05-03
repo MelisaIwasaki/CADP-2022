@@ -1,6 +1,6 @@
-## LISTA
+# LISTA
 
-**Cargar lista**
+## Cargar lista
 
 > No debe procesarse - agragar adelante  ***"La lectura finaliza cuando se ingresa el codigo de cliente -1"***
 ````pascal
