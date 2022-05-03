@@ -1,4 +1,4 @@
-# Vectores y listas :card_file_box:    
+# Vectores :card_file_box:    
 
 ## ARREGLO :speech_balloon:
 
