@@ -890,46 +890,44 @@ ascendente.
 e. Modifique el módulo Sublista del inciso anterior, suponiendo que la lista L se encuentra ordenada de manera 
 descendente.
 }
-program OperacionesConListas;
+program JugamosConListas;
 type
-  lista=^nodo;
-  nodo=record
-    codigo:integer;
-    sig:lista;
-  end;
-procedure insertarOrdenado(var L:lista;cod:integer); 
+  lista = ^nodo; 
+  nodo = record   
+    num : integer; 
+    sig : lista;   
+  end; 
+procedure armarNodo(var L: lista; v: integer); 
 var
- nue,act,ant: lista;
+  aux : lista;   
 begin
- new(nue);      
- nue^.codigo := cod; 
- act:=L;
- ant:=L;
- while(act<>nil)and(act^.codigo<cod)do begin
-  ant:=act;
-  act:=act^.sig;
- end;
- if(act=ant)then
-   L:=nue
- else
-   ant^.sig:=nue;
- nue^.sig:=act;
-end;
+  new(aux);      
+  aux^.num := v; 
+  aux^.sig := L; 
+  L := aux;      
+end; 
 procedure cargarLista(var L:lista);
-var cod:integer;ult:lista;
+var valor:integer;
 begin
-  writeln('Ingrese un codigo');
-  readln(cod);
-  while(cod<>0)do begin
-    insertarOrdenado(L,cod);
-    writeln('Ingrese un codigo');
-    readln(cod);
+  writeln('Ingrese un numero:'); 
+  readln(valor); 
+  while (valor <> 0) do begin    
+    armarNodo(L, valor);  
+    writeln('Ingrese un numero');
+    read(valor);
   end;
 end;
-procedure mostrar(L:lista);
+procedure imprimirLista(L:lista);
 begin
   while(L<>nil)do begin
-    writeln(L^.codigo);
+    writeln(L^.num);
+    L:=L^.sig;
+  end;
+end;
+procedure incrementar(var L:lista;dato:integer); 
+begin
+  while(L<>nil)do begin
+    writeln('valor incrementado',L^.num+dato); //L^.num:=L^.num+dato; <--NO SE PUEDE HACER
     L:=L^.sig;
   end;
 end;
@@ -941,26 +939,68 @@ begin
   actual:=-1;
   while(L<>nil)and(ordenada)do begin
     anterior:=actual;
-    actual:=L^.codigo;
+    actual:=L^.num;
     if(anterior>actual)then
       ordenada:=false;
     L:=L^.sig;
   end;
   estaOrdenada:=ordenada;
 end;
-var 
-  L:lista;
-  cod:integer;
+procedure Eliminar(var L:lista;valor:integer);
+var ant,act:lista;
 begin
-  L:=nil;
-  cargarLista(L);
-  mostrar(L);
-  if(estaOrdenada(L))then
+  act:=L;
+  while((act<>nil)and(act^.num<>valor))do begin
+    ant:=act;
+    act:=act^.sig;
+  end;
+  if(act<>nil)then begin
+    if(act=L)then
+      L:=L^.sig
+    else
+      ant^.sig:=act^.sig;
+    dispose(act);
+    writeln('El valor se elimino de la lista.');
+  end
+  else writeln('El valor no se encontraba en la lista.');
+end;
+procedure sublista(L:lista;valorA,valorB:integer;var lista2:lista);
+begin
+  while(L<>nil)do begin
+    if((L^.num > valorA)and(L^.num < valorB))then
+      armarNodo(lista2,L^.num);
+    L:=L^.sig;
+  end;
+end;
+procedure mostrarL2(L2:lista);
+begin
+  while(L2<>nil)do begin
+    writeln('L2:',L2^.num);
+    L2:=L2^.sig;
+  end;
+end;
+var
+ L,L2 : lista;
+ dato,valor:integer;
+begin
+ L := nil; L2:= nil;
+ cargarLista(L);
+ //imprimirLista(L);
+ //writeln('Ingrese el valor a incrementar');
+ //readln(dato);
+ //incrementar(L,dato);
+ if(estaOrdenada(L))then
     writeln('Esta ordenada');
+ writeln('Ingrese un valor a eliminar');
+ readln(valor);
+ Eliminar(L,valor);
+ sublista(L,2,50,L2);
+ mostrarL2(L2);
 end.
 
-b. Eliminar: recibe como parámetros la lista y un valor entero, y elimina dicho valor de la lista (si existe). Nota: 
-la lista podría no estar ordenada.
+{
+b. Eliminar: recibe como parámetros la lista y un valor entero, y elimina dicho valor de la lista (si existe). Nota: la lista podría no estar ordenada.
+}
 
 procedure Eliminar(var L:lista;valor:integer);
 var ant,act:lista;
@@ -985,7 +1025,6 @@ c. Sublista: recibe como parámetros la lista L y dos valores enteros A y B, y r
 los elementos de la lista L mayores que A y menores que B.
 }
 procedure sublista(L:lista;valorA,valorB:integer;var lista2:lista);
-var aux:lista;
 begin
   while(L<>nil)do begin
     if((L^.num > valorA)and(L^.num < valorB))then
@@ -998,7 +1037,6 @@ d. Modifique el módulo Sublista del inciso anterior, suponiendo que la lista L 
 ascendente.
 }
 procedure sublista(L:lista;valorA,valorB:integer;var lista2:lista);
-var aux:lista;
 begin
   while(L<>nil)and(L^.num<valorB)do begin
     if((L^.num > valorA))then
@@ -1011,7 +1049,6 @@ e. Modifique el módulo Sublista del inciso anterior, suponiendo que la lista L 
 descendente.
 }
 procedure sublista(L:lista;valorA,valorB:integer;var lista2:lista);
-var aux:lista;
 begin
   while(L<>nil)and(L^.num>valorA)do begin
     if(L^.num < valorB)then
