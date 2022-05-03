@@ -881,21 +881,83 @@ end.
 9. Utilizando el programa del ejercicio 1, realizar los siguientes módulos:
 a. EstáOrdenada: recibe la lista como parámetro y retorna true si la misma se encuentra ordenada, o false en 
 caso contrario.
+b. Eliminar: recibe como parámetros la lista y un valor entero, y elimina dicho valor de la lista (si existe). Nota: 
+la lista podría no estar ordenada.
+c. Sublista: recibe como parámetros la lista L y dos valores enteros A y B, y retorna una nueva lista con todos 
+los elementos de la lista L mayores que A y menores que B.
+d. Modifique el módulo Sublista del inciso anterior, suponiendo que la lista L se encuentra ordenada de manera 
+ascendente.
+e. Modifique el módulo Sublista del inciso anterior, suponiendo que la lista L se encuentra ordenada de manera 
+descendente.
 }
-function EstaOrdenada(L:lista):boolean;
-var ordenada:boolean; act,ant:integer;
+program OperacionesConListas;
+type
+  lista=^nodo;
+  nodo=record
+    codigo:integer;
+    sig:lista;
+  end;
+procedure insertarOrdenado(var L:lista;cod:integer); 
+var
+ nue,act,ant: lista;
+begin
+ new(nue);      
+ nue^.codigo := cod; 
+ act:=L;
+ ant:=L;
+ while(act<>nil)and(act^.codigo<cod)do begin
+  ant:=act;
+  act:=act^.sig;
+ end;
+ if(act=ant)then
+   L:=nue
+ else
+   ant^.sig:=nue;
+ nue^.sig:=act;
+end;
+procedure cargarLista(var L:lista);
+var cod:integer;ult:lista;
+begin
+  writeln('Ingrese un codigo');
+  readln(cod);
+  while(cod<>0)do begin
+    insertarOrdenado(L,cod);
+    writeln('Ingrese un codigo');
+    readln(cod);
+  end;
+end;
+procedure mostrar(L:lista);
+begin
+  while(L<>nil)do begin
+    writeln(L^.codigo);
+    L:=L^.sig;
+  end;
+end;
+function estaOrdenada(L:lista):boolean;
+var ordenada:boolean;
+    actual,anterior:integer;
 begin
   ordenada:=true;
-  act:=-999;
+  actual:=-1;
   while(L<>nil)and(ordenada)do begin
-    ant:=act;
-    act:=L^.num
-    if(ant>act)then
+    anterior:=actual;
+    actual:=L^.codigo;
+    if(anterior>actual)then
       ordenada:=false;
     L:=L^.sig;
   end;
-  EstaOrdenada:=ordenada;
+  estaOrdenada:=ordenada;
 end;
+var 
+  L:lista;
+  cod:integer;
+begin
+  L:=nil;
+  cargarLista(L);
+  mostrar(L);
+  if(estaOrdenada(L))then
+    writeln('Esta ordenada');
+end.
 
 b. Eliminar: recibe como parámetros la lista y un valor entero, y elimina dicho valor de la lista (si existe). Nota: 
 la lista podría no estar ordenada.
@@ -926,7 +988,7 @@ procedure sublista(L:lista;valorA,valorB:integer;var lista2:lista);
 var aux:lista;
 begin
   while(L<>nil)do begin
-    if((L^.num>valorA)and(L^.num<valorB))then
+    if((L^.num > valorA)and(L^.num < valorB))then
       armarNodo(lista2,L^.num);
     L:=L^.sig;
   end;
@@ -939,7 +1001,7 @@ procedure sublista(L:lista;valorA,valorB:integer;var lista2:lista);
 var aux:lista;
 begin
   while(L<>nil)and(L^.num<valorB)do begin
-    if((L^.num>valorA))then
+    if((L^.num > valorA))then
       armarNodo(lista2,L^.num);
     L:=L^.sig;
   end;
@@ -952,7 +1014,7 @@ procedure sublista(L:lista;valorA,valorB:integer;var lista2:lista);
 var aux:lista;
 begin
   while(L<>nil)and(L^.num>valorA)do begin
-    if(L^.num<valorB)then
+    if(L^.num < valorB)then
       armarNodo(lista2,L^.num);
     L:=L^.sig;
   end;
