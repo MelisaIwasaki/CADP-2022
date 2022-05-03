@@ -1071,69 +1071,75 @@ d. Implementar un programa que simule la atención de los clientes. En dicho pro
 los clientes juntos, se les dará un número de espera a cada uno de ellos, y luego se los atenderá de a uno por 
 vez. El ingreso de clientes se realiza hasta que se lee el DNI 0, que no debe procesarse.
 }
-program Hello;
-type cliente=record
-        DNI:integer;
-        numero:integer;
-     end;
-     lista=^nodo;
-     nodo=record
-        dato:cliente;
-        sig:lista;
-     end;
+program listaDeEspera;
+type
+  cliente=record
+    dni:integer;
+    numero:integer;
+  end;
+  lista=^nodo;
+  nodo=record
+    dato:cliente;
+    sig:lista;
+  end;
 procedure agregarAtras(dni,num:integer;var L,ult:lista);
 var nue:lista;
 begin
   new(nue);
-  nue^.dato.DNI:=dni;
+  nue^.dato.dni:=dni;
   nue^.dato.numero:=num;
   nue^.sig:=nil;
   if(L<>nil)then ult^.sig:=nue
-            else L:=nue;
+            else  L:=nue;
   ult:=nue;
 end;
 procedure RecibirCliente(var L,ult:lista;dni:integer);
 begin
   if(L=nil)then
     agregarAtras(dni,1,L,ult)
-  else  
+  else
     agregarAtras(dni,ult^.dato.numero+1,L,ult);
 end;
-procedure cargarListaClientes(var L,ult:lista);
-var cli:cliente;
+procedure cargarListaClientes(var L:lista);
+var cli:cliente;ult:lista;
 begin
-  write('Ingrese su DNI:');
-  readln(cli.DNI);
-  while(cli.DNI<>0)do begin
-    RecibirCliente(L,ult,cli.DNI);
-    write('Ingrese su DNI:');
-    readln(cli.DNI);
+  writeln('DNI cliente');
+  readln(cli.dni);
+  while(cli.dni<>0)do begin
+    RecibirCliente(L,ult,cli.dni);
+    writeln('DNI cliente');
+    readln(cli.dni);
   end;
 end;
+procedure mostrarLista(L:lista);
+begin
+  while(L<>nil)do begin
+    writeln('DNI:',L^.dato.dni,' numero:',L^.dato.numero);
+    L:=L^.sig;
+  end;
+end;
+{Implementar el módulo AtenderCliente, que recibe como parámetro la lista de clientes en espera,y retorna el número y DNI del cliente a ser atendido y la lista actualizada. El cliente atendido debe eliminarse 
+de la lista de espera.}
 procedure AtenderCliente(var L:lista;var c:cliente);
 var aux:lista;
 begin
-  c.DNI:=L^.dato.DNI;
+  c.dni:=L^.dato.dni;
   c.numero:=L^.dato.numero;
   aux:=L;
   L:=L^.sig;
   dispose(aux);
 end;
-procedure recorrerLista(L:lista);
-var cli:cliente;
-begin
-  while(L<>nil)do begin
-    AtenderCliente(L,cli);
-    writeln('Cliente:',cli.DNI,' con numero asignado ',L^.dato.numero);
-    L:=L^.sig;
-  end;
-end;
-var L,ult:lista;
+var
+  L:lista;
+  cli:cliente;
 begin
   L:=nil;
-  ult:=nil;
-  cargarListaClientes(L,ult);
-  recorrerLista(L);
+  cargarListaClientes(L);
+  mostrarLista(L);
+  AtenderCliente(L,cli);
+  writeln('El cliente a ser atendido:',cli.dni,' numero:',cli.numero);
+  writeln('Lista de espera:');
+  mostrarLista(L);
 end.
 {
 11. La Facultad de Informática debe seleccionar los 10 egresados con mejor promedio a los que la UNLP les 
