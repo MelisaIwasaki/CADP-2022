@@ -4,7 +4,9 @@
 
 ###### Lenguaje de Programación : `` Pascal ``🚀
 
-- [Vectores y listas](docs/CONTRIBUTING.md)
+- [Vectores](docs/CONTRIBUTING.md)
+
+- [Listas](docs/Listas.md)
 
 - [Solucion a los problemas](docs/solucion.md)
 
