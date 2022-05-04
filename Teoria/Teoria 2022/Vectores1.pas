@@ -73,3 +73,14 @@ begin
   autosKmPar(conce,autosP,dimL);
   write(patenteParFiat(autosP,dimL));
 End.
+{
+Forma correcta:
+c[i].marca = 'Fiat'; --> c:vector,i:posicion,marca:campo
+
+Forma incorrecta:
+c.marca[i] = 'Fiat'; --> c:reg,marca:vector,i:pos
+
+c[i.marca] = 'Fiat'; --> c:vector,i:reg,marca:campo
+
+c[i.marca = 'Fiat']; --> c:vector de boolean
+}
