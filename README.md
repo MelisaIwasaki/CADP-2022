@@ -1,20 +1,10 @@
-# CADP-2022 :technologist:
+# CADP-2022 👩‍💻
 
-## **CADP(Concepto de Algoritmo, Datos y Programas)**:memo:
+## (Concepto de Algoritmo, Datos y Programas):memo:
 
 ###### Lenguaje de Programación : `` Pascal ``🚀
 
-- [Vectores](docs/CONTRIBUTING.md)
-
-- [Listas](docs/Listas.md)
-
-- [Solucion a los problemas](docs/solucion.md)
-
-
-![foldercustomgithub_93186](https://user-images.githubusercontent.com/92184167/166070633-6c8d1fa3-21de-46f4-8a63-639808a0d31f.png)
-![github_logo_icon_169115](https://user-images.githubusercontent.com/92184167/166070890-39c0dd8f-4aea-428f-8e2b-94ca9b0edd43.png)
-
-## Emulador para instalar :
+## IDE para instalar :
 
  > Geany+freepascal 🧞
 
