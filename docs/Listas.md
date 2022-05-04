@@ -172,3 +172,4 @@ begin
      nue^.sig:= act;
 end;
 ````
+<!-- hacer 4 caso de insercion y falta Buscar un elemento en la lista -->
