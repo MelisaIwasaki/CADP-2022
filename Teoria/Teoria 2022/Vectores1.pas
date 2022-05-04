@@ -21,6 +21,18 @@ type
   end;
  Autos=array[1..cant]of auto;
  
+function patente(c:autos;pat:string):integer;  //b.Retornar la posición en donde se encuentra el auto con patente'AZ687BA'(puede no existir).
+Var
+  i:integer;
+Begin
+  i:=1;
+  while(i < cant)and(c[i].patente <> pat)do 
+    i:= i + 1;
+  if(i <= cant)then
+    patente:= i
+  else
+    patente:=-1;
+End;
 Procedure autosKmPar(c:autos;var c2:autos;var dL:integer);   //d.Retornar los autos con kms par.
 Var
   i:integer;
@@ -33,7 +45,7 @@ Begin
         c2[dL]:=c[i];
       End;
 End;
-Function patenteParFiat(c:autos;dL:integer):integer;
+Function patenteParFiat(c:autos;dL:integer):integer;  //e.Informar la cantidad de autos con kms par de marca 'Fiat'.
 Var
   i,cantidad:integer;
 Begin
@@ -56,7 +68,7 @@ begin
   write(superan(conce,prom));
   primer(conce,a);
   read(pat);
-  write(patente(conce,pat));
+  write(patente(conce,'AZ687BA'));
   write(cant2000(conce));
   autosKmPar(conce,autosP,dimL);
   write(patenteParFiat(autosP,dimL));
