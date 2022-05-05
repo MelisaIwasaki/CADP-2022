@@ -238,3 +238,16 @@ begin
     writeln(sizeof(pun^)); //127500
     writeln(sizeof(p^));   //51
 end.
+
+//b.3) Escribir un módulo para leer los nombres y almacenarlos en la estructura de la variable Punteros.
+procedure leerYcargar(var v:ArrPunteros);  
+var 
+  nombre:cadena50;
+begin
+  for i:=1 to 2500 do begin
+    readln(nombre);
+    v[i]^:=nombre;
+    
+    readln(v[i]^)-->otra forma
+  end;
+end;
