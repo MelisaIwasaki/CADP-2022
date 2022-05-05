@@ -97,4 +97,129 @@ begin
   Distribuir (lA, v);
   Imprimir (v);
 end;
+{
+Analicé la teoria y le fuí modificando y arreglando el programa. Hice lo que pude pero no me andó porque tuve problemas con la condición de corte.
+Cuando en el enunciado se dispone de una lista, no sabemos con qué condición cortar el ingreso de la información.Para que ande el programa debemos 
+ingresar todo el contenido sin importar que se disponga o no. Hay otra forma de ingresar contenido de lo que se dispone?
+}
+program cadp;
+const dimF = 5;             
+type cadena15 = string [15];
+     subrango = 1..10;
+     alumno = record
+                dni: integer;
+                nom: cadena15;
+                ape: cadena15;
+                nota: subrango;
+              end;
+     lista = ^nodo;
+     nodo = record
+                datos: alumno;
+                sig: lista;
+            end;
+     vector = array [1..dimF] of lista;
+     vectorCant = array [1..dimF] of integer;
+
+procedure leerAlu(var a:alumno);
+begin
+  writeln('Ingrese dni');
+  readln(a.dni);
+  writeln('Ingrese el nombre');
+  readln(a.nom);
+  writeln('Ingrese el apellido');
+  readln(a.ape);
+  writeln('Ingrese la nota');
+  readln(a.nota);
+end;
+procedure AgregarAdelante(var L:lista;a:alumno);
+var nue:lista;
+begin
+  new(nue);
+  nue^.datos:=a;
+  nue^.sig:=L;
+  L:=nue;
+end;
+procedure cargarLista(var L:lista); //se dispone
+var a:alumno;
+begin
+  leerAlu(a);
+  while(a.dni<>0)do begin
+    AgregarAdelante(L,a);
+    leerAlu(a);
+  end;
+end;
+procedure InicializarVector(var vc:vectorCant); 
+var i:integer;
+begin
+  for i:=1 to dimF do
+    vc[i]:=0;
+end;
+procedure InicializarListas (var v: vector);
+var i: integer;
+begin
+    For i:= 1 to dimF do
+      v[i]:= nil
+end;
+Procedure Turnos14 (var v:vector; vC: vectorCant; a: alumno);
+var num: integer;
+begin
+    if (vC[1] < vC [4]) then num:= 1 
+                        else num:= 4; 
+    AgregarAdelante (v[num], a);
+    vc[num]:= vC[num] + 1;
+end;
+function Minimo (n1,n2,n5:integer):integer;
+begin
+      if (n1 < n2) and (n1 < n5  )then  Minimo:= 1  
+      else if  (n2 < n1 )and( n2 < n5  )            
+           then Minimo:= 2
+           else Minimo:= 5;
+end;
+Procedure Turnos235 (var v:vector; vC: vectorCant; a: alumno);
+var num: integer;
+begin
+    num:= Minimo (vC[2], vC [3], vC [5]);  
+    AgregarAdelante (v[num], a);   
+    vc[num]:= vC[num] + 1;         
+end;
+procedure Distribuir (var v: vector;L:lista);
+var vC: vectorCant;
+begin
+  InicializarVector (vC);
+  while l <> nil do begin  
+    case l^.datos.nota of
+      5,6,7: Turnos235 (v,vC, l^.datos);
+      8,9,10: Turnos14 (v,vC, l^.datos);
+    else write ('No se le asigna turno')
+    end;
+  end;
+  l:= l^.sig;
+end;
+procedure ImprimirLista (l: lista);
+begin
+    while (l <> nil) do begin
+      writeln (l^.datos.nom, l^.datos.ape);
+      l:= l^.sig
+    end;
+end;
+procedure Imprimir (v: vector);
+var i: integer;
+begin
+  For i:= 1 to dimF do begin
+    writeln ('Lista del turno: ', i);
+    ImprimirLista (v[i]);
+  end;
+end;
+
+
+var  v: vector;
+     L:lista;
+begin
+  L:=nil;
+  InicializarListas (v);
+  cargarLista(L);  //se dispone
+  Distribuir (v,L);
+  Imprimir (v);
+end.
+
 © 2022 GitHub, Inc.
