@@ -1,6 +1,6 @@
 # Soluciones más eficientes a los problemas :basecampy:
 
-- ***Problema 1*** :electron:
+## Problema 1 :electron:
 
 **Se dispone de un vector con 100 números enteros.** :octocat:
 
@@ -8,15 +8,15 @@
 
 *Entonces, recorrí todo el vector y por cada uno le pregunté si el contenido era igual al número x. Luego me iba guardando la posición si se encontraba el numero x
 o guardaba -1 si no se encontraba.*
-````pascal
-function posicion(v:vector;numx:integer):integer;
+````
+function posicion(v:vector; numx:integer):integer;
 var i:integer;
 begin
-  for i:=1 to dimF do begin
-    if(v[i]=numx)then
-      posicion:=i
+  for i:= 1 to dimF do begin
+    if(v[i] = numx)then
+      posicion:= i
     else
-      posicion:=-1;
+      posicion:= -1;
   end;
 end;
 ````
@@ -26,17 +26,51 @@ end;
 si el contenido es igual al número x. Si es igual, retorno la posición sino retorno -1.*
 
 ````pascal
-function posicion(v:vector;x:integer):integer;
+function posicion(v:vector; numx:integer):integer;
 var i:integer;
 begin
-  i:=1;
-  while(i<=dimF)and(v[i]<>x)do
-    i:=i+1;
-  if(v[i]=x)then
-    posicion:=i
+  i:= 1;
+  while(i <= dimF)and(v[i] <> x)do
+    i:= i + 1;
+  if(v[i] = numx)then
+    posicion:= i
   else
-    posicion:=-1;
+    posicion:= -1;
 end;
 ````
+## Problema 2 🉑
 
-![EURpewaWkAAz5Qc](https://user-images.githubusercontent.com/92184167/166010189-5871a4b2-7a8f-4641-8b66-2786921cfdf8.jpg)
+**Implementar un módulo que reciba la lista y un valor, e incremente con ese valor cada dato de la lista.**
+````
+procedure incrementar(var L:lista; x:integer); 
+begin
+  while(L <> nil)do begin    
+    L^.num:= L^.num + dato;                   
+    L:= L^.sig;
+  end;
+end;
+````
+*El problema es que no anda el módulo. No me modifica el contenido de la lista.*
+
+*Entonces la profesora de la práctica nos dió estos ejemplos :*
+````pascal
+//MODIFICA VALORES DE LA LISTA MANDANDOLA POR REFERENCIA
+procedure incrementar(var L:lista; x:integer);
+var  aux:lista;
+begin
+  aux:= 1; //USO AUXILIAR PARA RECORRER
+  while(aux <> nil)do begin    
+    aux^.num:= aux^.num + x;                   
+    aux:= aux^.sig;
+  end;
+end;
+//MODIFICA LOS VALORES DE LA LISTA MANDANDOLA POR VALOR - SIN AUXILIAR
+procedure incrementar(L:lista; x:integer); 
+begin
+  while(L<>nil)do begin    
+    L^.num:= L^.num + x;                    
+    L:=L^.sig;
+  end;
+end;
+````
+*La solución es mandarlo por valor no por referencia. En vectores si se pasaba por referencia.*
