@@ -410,7 +410,7 @@ vez almacenados los datos, procesar dicha estructura para obtener:
 3) Código de las 10 ciudades con mayor cantidad de clientes
 4) Cantidad de clientes que superan mensualmente el monto promedio entre todos los clientes.
 }  
-program amazon;  //volver a hacer, no anda
+program amazon;   
 const
   dimF=3;  //500;
 type
@@ -430,16 +430,15 @@ type
     codigo:rangoCod;
     monto:real;
   end;
-  maximo=record
-    cod:integer;
-    max:integer;
+  maxDiez=record
+    codigo:rangoCod;
+    maxx:integer;
   end;
   vector=array[1..dimF]of cliente;
-  vmes=array[rangoMes]of integer;
   vcate=array[rangoCate]of integer;
   vciud=array[rangoCod]of integer;
-  vmax=array[1..10]of maximo;
-
+  vdiez=array[1..10]of maxDiez;
+  
 procedure leerFecha(var f:fecha);
 begin
   writeln('Ingrese el dia');
@@ -459,26 +458,19 @@ begin
   writeln('Ingrese el monto');
   readln(c.monto);
 end;
-procedure cargar(var v:vector;i:integer);
-var c:cliente;
+procedure cargar(var v:vector);
+var c:cliente;i:integer;
 begin
-  leerCliente(c);
-  v[i]:=c;
+  for i:=1 to dimF do begin
+    leerCliente(c);
+    v[i]:=c;
+  end;
 end;
-procedure mostrar(v:vector;i:integer);
+procedure inicializarMaxDiez(var v:vdiez);
+var i:integer;
 begin
-  writeln(v[i].fechaFirma.dia);
-  writeln(v[i].fechaFirma.mes);
-  writeln(v[i].fechaFirma.anio);
-  writeln(v[i].categoria);
-  writeln(v[i].codigo);
-  writeln(v[i].monto);
-end;
-procedure inicializarMes(var v:vmes);
-var i:rangoMes;
-begin
-  for i:=1 to 12 do
-    v[i]:=0;
+  for i:=1 to 10 do
+    v[i].maxx:=-1;
 end;
 procedure inicializarCate(var v:vcate);
 var i:rangoCate;
@@ -492,12 +484,6 @@ begin
   for i:=1 to 2400 do
     v[i]:=0;
 end;
-procedure inicializarMax(var v:vmax);
-var i:integer;
-begin
-  for i:=1 to 10 do
-    v[i].cod:=-1;
-end;
 procedure mayorFirma(anio:rangoAnio;cant:integer;var anioMax:rangoAnio;var max:integer);
 begin
   if(cant>max)then begin
@@ -505,49 +491,23 @@ begin
     anioMax:=anio;
   end;
 end;
-procedure recorrer(v:vector;vm:vmes;vcat:vcate;vcid:vciud;vmx:vmax;i:integer);
+procedure maximo(vcid:vciud; var vmax:vdiez); //este es lo mismo que un insertar
 var
-  anioAct,mesAct,cantContratoAnio,cantContratoMes,max1:integer;
-  anioMax:rangoAnio;
+	i,j,pos:integer;
 begin
-  max1:=-1;
-  while(i<dimF)do begin
-    anioAct:=v[i].fechaFirma.anio;
-    cantContratoAnio:=0;
-    while(i<dimF)and(anioAct=v[i].fechaFirma.anio)do begin
-      mesAct:=v[i].fechaFirma.mes;
-      cantContratoMes:=0;
-      while(i<dimF)and(anioAct=v[i].fechaFirma.anio)and(mesAct=v[i].fechaFirma.mes)do begin
-        cantContratoMes:=cantContratoMes+1;
-        vcat[v[i].categoria]:=vcat[v[i].categoria]+1;
-        vcid[v[i].codigo]:=vcid[v[i].codigo]+1;
-      end;
-      vm[mesAct]:=vm[mesAct]+cantContratoMes;
-      cantContratoAnio:=cantContratoAnio+cantContratoMes;
-    end;
-    writeln('Anio:',anioAct,'cantidad de contrato:',cantContratoAnio);
-    mayorFirma(anioAct,cantContratoAnio,anioMax,max1);
+  for i:=1 to 2400 do begin
+  pos:=1;
+  while (pos<=10) and (vcid[i] < vmax[pos].maxx) do
+	pos:=pos+1;
+	if (pos<=10) then begin
+		for j:=10 downto pos do begin
+		  vmax[j].maxx:=vmax[j-1].maxx;
+		  vmax[j].codigo:=vmax[j-1].codigo;
+		end;
+		vmax[pos].maxx:=vcid[i];
+		vmax[pos].codigo:=i;
+	end;
   end;
-  writeln('Año en que se firmó la mayor cantidad de contratos',anioMax);
-end;
-procedure mostrarCate(var v:vcate);
-var i:rangoCate;
-begin
-  for i:='A' to 'F' do
-    writeln('Categoria:',i,' cantidad de clientes:',v[i]);
-end;
-procedure mostrarMes(var v:vmes);
-var i:rangoMes;
-begin
-  for i:=1 to 12 do
-    writeln('Mes:',i,'cantidad de contrato:',v[i]);
-end;
-procedure mostrarDiez(v:vmax);
-var i:integer;
-begin
-  writeln('Código de las 10 ciudades con mayor cantidad de clientes');
-  for i:=1 to 10 do
-    writeln('',i,' : ',v[i].cod);
 end;
 function superanMonto(v:vector;promedio:real):integer;
 var cant,i:integer;
@@ -559,24 +519,65 @@ begin
   end;
   superanMonto:=cant;
 end;
-var 
-  v:vector;vm:vmes;vcat:vcate;vcid:vciud;vmx:vmax; 
-  i:integer;
+procedure recorrer(v:vector;var vcat:vcate;var vcid:vciud;var vmax:vdiez);
+var
+  anioAct,mesAct,cantContratoAnio,cantContratoMes,max1,i:integer;
+  anioMax:rangoAnio;
   montoTotal,promedio:real;
 begin
+  i:=1;
+  max1:=-1;
   montoTotal:=0;
-  for i:=1 to dimF do begin
-    cargar(v,i);
-    mostrar(v,i);
-    recorrer(v,vm,vcat,vcid,vmx,i);
-    montoTotal:=montoTotal+v[i].monto;
+  inicializarCate(vcat);
+  inicializarCiud(vcid);
+  inicializarMaxDiez(vmax);
+  while(i<dimF)do begin
+    anioAct:=v[i].fechaFirma.anio;
+    cantContratoAnio:=0;
+    while(i<dimF)and(anioAct=v[i].fechaFirma.anio)do begin
+      mesAct:=v[i].fechaFirma.mes;
+      cantContratoMes:=0;
+      while(i<dimF)and(anioAct=v[i].fechaFirma.anio)and(mesAct=v[i].fechaFirma.mes)do begin
+        cantContratoMes:=cantContratoMes+1;
+        vcat[v[i].categoria]:=vcat[v[i].categoria]+1;
+        vcid[v[i].codigo]:=vcid[v[i].codigo]+1;
+        montoTotal:=montoTotal+v[i].monto;
+        i:=i+1;
+      end;
+      writeln('Mes: ',mesAct,' cantidad de contrato: ',cantContratoMes);
+      cantContratoAnio:=cantContratoAnio+cantContratoMes;
+    end;
+    writeln('Anio: ',anioAct,' cantidad de contrato: ',cantContratoAnio);
+    mayorFirma(anioAct,cantContratoAnio,anioMax,max1);
   end;
-  promedio:=montoTotal/dimF;            //falta calcular 10 maximos
-  mostrarCate(vcat);
-  mostrarMes(vm);
-  mostrarDiez(vmx);
+  writeln('Año en que se firmó la mayor cantidad de contratos',anioMax);
+  promedio:=montoTotal/dimF;
   writeln('Cantidad de clientes que superan mensualmente el monto promedio',superanMonto(v,promedio));
+  maximo(vcid,vmax);
+end;
+procedure mostrar(var vcat:vcate);
+var i:rangoCate;
+begin
+  writeln('Cantidad de clientes para cada categoría de monotributo:');
+  for i:='A' to 'F'do
+    writeln('Categoria:',i,' cantidad:',vcat[i]);
+end;
+procedure mostrarDiez(var vmax:vdiez);
+var i:integer;
+begin
+  writeln('Código de las 10 ciudades con mayor cantidad de clientes:');
+  for i:= 1 to 10 do
+    writeln('Codigo ',vmax[i].codigo,' cantidad de clientes:',vmax[i].maxx);
+end;
+var 
+  v:vector;vcat:vcate;vcid:vciud;vmax:vdiez;
+begin
+  cargar(v);
+  recorrer(v,vcat,vcid,vmax);
+  mostrar(vcat);
+  mostrarDiez(vmax);
 end.
+
 {  
 1) La compañía Canonical Llt. desea obtener estadísticas acerca del uso de Ubuntu Linux en La Plata. Para ello, 
 debe realizar un programa que lea y almacene información sobre las computadoras con este sistema 
