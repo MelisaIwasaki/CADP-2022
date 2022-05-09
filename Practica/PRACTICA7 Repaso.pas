@@ -10,145 +10,144 @@ b. Informar los dos códigos de género más elegidos.
 c. Realizar un módulo que reciba un DNI, lo busque y lo elimine de la estructura. El DNI puede no
 existir. Invocar dicho módulo en el programa principal.
 }
-program Hello;
-const tam=5;
-type  rango=1..tam;
-      cadena30=string[30];
-      persona=record
-        dni:integer;
-        ap:cadena30;
-        nom:cadena30;
-        edad:integer;
-        cod:rango;
-      end;
-      vcont=array[rango]of integer;
-      lista=^nodo;
-      nodo=record
-        dato:persona;
-        sig:lista;
-      end;
-procedure leerPersona(var p:persona);
+program casting; 
+const
+  tipo=5;
+  corte=335;//55444;
+type
+  cadena=string[60];
+  rango=1..tipo;
+  actores=record
+    dni:integer;
+    apeYnom:cadena;
+    edad:integer;
+    genero:rango;
+  end;
+  lista=^nodo;
+  nodo=record
+    dato:actores;
+    sig:lista;
+  end;
+  vcont=array[rango ]of integer;
+  
+procedure leer(var a:actores);
 begin
-  write('Ingrese el DNI:');
-  readln(p.dni);
-  write('Ingrese el apellido:');
-  readln(p.ap);
-  write('Ingrese el nombre:');
-  readln(p.nom);
-  write('Ingrese la edad:');
-  readln(p.edad);
-  write('Ingrese el codigo de genero de actuacion que prefiere:');
-  readln(p.cod); 
+  writeln('Ingrese el dni');
+  readln(a.dni);
+  writeln('Ingrese el apellido y nombre');
+  readln(a.apeYnom);
+  writeln('Ingrese la edad');
+  readln(a.edad);
+  writeln('Ingrese el genero');
+  readln(a.genero);
 end;
-procedure agregarAdelante(var L:lista;p:persona);
+procedure agregarAdelante(var L:lista;a:actores);
 var nue:lista;
 begin
   new(nue);
-  nue^.dato:=p;
+  nue^.dato:=a;
   nue^.sig:=L;
   L:=nue;
 end;
 procedure cargarLista(var L:lista);
-var p:persona;
+var a:actores;
 begin
   repeat
-    leerPersona(p);
-    agregarAdelante(L,p);
-  until(p.dni=335);
-end;
-procedure inicializarVector(var vcont:vcont);
-var i:integer;
-begin
-  for i:=1 to tam do 
-    vcont[i]:=0;
+    leer(a);
+    agregarAdelante(L,a);
+  until(a.dni=corte);
 end;
 function masPares(dni:integer):boolean;
-var resto,cantp,canti:integer;
+var dig,par,impar:integer;
 begin
-  canti:=0;cantp:=0;
+  par:=0;impar:=0;
   while(dni<>0)do begin
-    resto:=dni mod 10;
-    if(resto mod 2=0)then
-      cantp:=cantp+1
-    else
-      canti:=canti+1;
+    dig:=dni mod 10;
+    if(dig mod 2= 0)then  par:=par+1
+                    else  impar:=impar+1;
     dni:=dni div 10;
   end;
-  if(cantp>canti)then
+  if(par>impar)then
     masPares:=true
-  else 
+  else
     masPares:=false;
 end;
-procedure recorrerLista(L:lista;var vcont:vcont;var cantp:integer);
+procedure inicializar(var v:vcont);
+var i:rango;
 begin
-  cantp:=0;
-  while(L<>nil)do begin
-    if(masPares(L^.dato.dni))then
-      cantp:=cantp+1;
-    vcont[L^.dato.cod]:=vcont[L^.dato.cod]+1;        //Informar los dos códigos de género más elegidos
-  L:=L^.sig;
-  end;
+  for i:=1 to tipo do
+    v[i]:=0;
 end;
-procedure maximo(var cod1,cod2:integer;vcont:vcont); //Informar los dos códigos de género más elegidos
-var i,max1,max2:integer;
+procedure maximo(var max1,max2:integer;var cod1,cod2:rango;v:vcont);
+var i:rango;
 begin
-  max1:=-1;max2:=-1;
-  for i:=1 to tam do begin
-    if(vcont[i]>max1)then begin
+  for i:=1 to tipo do 
+    if(v[i]>max1)then begin
       max2:=max1;
-      max1:=vcont[i];
+      max1:=v[i];
       cod2:=cod1;
       cod1:=i;
     end
-    else
-    if(vcont[i]>max2)then begin
-      max2:=vcont[i];
-      cod2:=i;
+    else if(v[i]>max2)then begin
+           max2:=v[i];
+           cod2:=i;
     end;
-  end;
 end;
-procedure informar(vcont:vcont;cantp:integer);
-var cod1,cod2:integer;
-begin
-  maximo(cod1,cod2,vcont);
-  writeln('La cantidad de personas cuyo DNI contiene más dígitos pares que impares.',cantp);
-  writeln('Los dos códigos de género más elegidos:',cod1,cod2);
-end;
-procedure EliminarDNI(var L:lista;dni:integer);
-var ant,act:lista;ok:boolean;
-begin
-  ant:=L;
-  act:=L;
-  ok:=false;
-  while(act<>nil)and(not ok)do begin
-    if(act^.dato.dni=dni)then
-      ok:=true
-    else begin
-      ant:=act;
-      act:=act^.sig;
-    end;
-    if(ok=true) then begin
-      if(ant=act)then
-        L:=act^.sig
-      else
-        ant:=act^.sig;
-      dispose(act);
-    end;
-  end;
-end;
-var L:lista;
+procedure recorrerLista(L:lista);
+var cant,max1,max2:integer;
+    cod1,cod2:rango;
     v:vcont;
-    dni:integer;
-    cantp:integer;
+begin
+  cant:=0;
+  max1:=-1;
+  inicializar(v);
+  while(L<>nil)do begin
+    if(masPares(L^.dato.dni))then
+      cant:=cant+1;
+    v[L^.dato.genero]:=v[L^.dato.genero]+1;
+  
+    L:=L^.sig;
+  end;
+  maximo(max1,max2,cod1,cod2,v);
+  writeln('Los dos códigos de género más elegidos:',cod1,' y ',cod2);
+  writeln('Cantidad de personas cuyo DNI contiene más dígitos pares que impares:',cant);
+end;
+procedure eliminarDNI(var L:lista; dni:integer; var exito:boolean);
+var  ant,act:lista;
+begin
+     exito:= false;
+     act:= L;
+     while(act <> nil)and(act^.dato.dni <> dni )do begin
+          ant:= act;
+          act:= act^.sig;
+     end;
+     if(act <> nil)then begin
+          exito:= true;
+          if(act = L)then   L:= act^.sig
+                     else   ant^.sig:= act^.sig;
+          dispose(act);
+     end;
+end;          
+procedure mostrar(L:lista);
+begin
+  while(L<>nil)do begin
+    writeln(L^.dato.dni,' ',L^.dato.apeYnom,' ',L^.dato.edad,' ',L^.dato.genero);
+    L:=L^.sig;
+  end;
+end;
+var
+  L:lista;
+  dni:integer;
+  ok:boolean;
 begin
   L:=nil;
-  inicializarVector(v);
   cargarLista(L);
-  recorrerLista(L,v,cantp);
-  informar(v,cantp);
-  write('Ingrese el dni a eliminar:');
+  mostrar(L);   //prueba
+  recorrerLista(L);
+  writeln('Ingrese el DNI a eliminar');
   readln(dni);
-  EliminarDNI(L,dni);
+  eliminarDNI(L,dni,ok);
+  mostrar(L);   //prueba
 end.
 {
 2. Implementar un programa que lea y almacene información de clientes de una empresa aseguradora
@@ -165,33 +164,50 @@ b. Informar apellido y nombre de aquellos clientes cuyo DNI contiene al menos do
 c. Realizar un módulo que reciba un código de cliente, lo busque (seguro existe) y lo elimine de la
 estructura.
 }  
-program Hello;
-type  cadena50=string[50];
-      cliente=record
-        codCliente:integer;
-        dni:integer;
-        apnom:cadena50;
-        codPoliza:integer;
-        montoAbono:real;
-      end;
-      vector=array[1..6]of real;
-      lista=^nodo;
-      nodo=record
-        dato:cliente;
-        sig:lista;
-      end;
-procedure leerCliente(var c:cliente);
+program automotriz;
+const
+  poliza=6;
+type
+  rango=1..poliza;
+  cadena=string[30];
+  cliente=record
+    codigo:integer;
+    dni:integer;
+    apellido:cadena;
+    nombre:cadena;
+    codPol:rango;
+    monto:real;
+  end;
+  lista=^nodo;
+  nodo=record
+    dato:cliente;
+    sig:lista;
+  end;
+  tabla=array[rango]of real;//se dispone
+
+procedure montoAdicional(var v:tabla); //se dispone, lo cargue para probar
 begin
-  write('Ingrese codigo de cliente:');
-  readln(c.codCliente);
-  write('Ingrese DNI:');
+  v[1]:=100;
+  v[2]:=200;
+  v[3]:=300;
+  v[4]:=400;
+  v[5]:=500;
+  v[6]:=600;
+end;
+procedure leer(var c:cliente);
+begin
+  writeln('Ingrese el codigo');
+  readln(c.codigo);
+  writeln('Ingrese el dni');
   readln(c.dni);
-  write('Ingrese el apellido y nombre:');
-  readln(c.apnom);
-  write('Ingrese codigo de poliza:');
-  readln(c.codPoliza);
-  write('Ingrese el monto que abona:');
-  readln(c.montoAbono);
+  writeln('Ingrese el apellido');
+  readln(c.apellido);
+  writeln('Ingrese el nombre');
+  readln(c.nombre);
+  writeln('Ingrese el codigo de poliza');
+  readln(c.codPol);
+  writeln('Ingrese el monto');
+  readln(c.monto);
 end;
 procedure agregarAdelante(var L:lista;c:cliente);
 var nue:lista;
@@ -201,98 +217,79 @@ begin
   nue^.sig:=L;
   L:=nue;
 end;
-procedure crearLista(var L:lista);
+procedure cargar(var L:lista);
 var c:cliente;
 begin
   repeat
-    leerCliente(c);
+    leer(c);
     agregarAdelante(L,c);
-  until(c.codCliente=1122);
+  until(c.codigo=1122);
 end;
-procedure muestroListaCargada(L:lista);
+procedure informar(L:lista;v:tabla);
+var  completo:real;
 begin
-  while(L<>nil)do begin
-    writeln('Apellido y nombre:',L^.dato.apnom);
-    writeln('Codigo de cliente:',L^.dato.codCliente);
-    writeln('DNI:',L^.dato.dni);
-    writeln('Codigo de poliza:',L^.dato.codPoliza);
-    writeln('Monto que abona mensualmente:',L^.dato.montoAbono:2:2);
-    L:=L^.sig;
-  end;
+    completo:=L^.dato.monto+v[L^.dato.codPol];
+    writeln('DNI:',L^.dato.dni,'Apellido:',L^.dato.apellido,'Nombre:',L^.dato.nombre);
+    writeln('Monto completo:',completo:2:2);
 end;
-procedure iniVector(var v:vector);
-var i,valor:integer;
+function dosDigNueve(dni:integer):boolean;
+var dig,nueve:integer;
 begin
-  valor:=100;
-  for i:=1 to 6 do begin
-    v[i]:=valor;
-    valor:=valor+50;
-  end;
-end;
-procedure muestroVectorCargado(v:vector);
-var i:integer;
-begin
-  for i:=1 to 6 do 
-    writeln('Poliza numero ',i,' monto extra a pagar:',v[i]:2:2);
-end;
-function dosNueve(dni:integer):boolean;
-var  cant,numero:integer;ok:boolean;
-begin
-  cant:=0;
-  ok:=false;
-  while(dni<>0)and(cant<2)do begin
-    numero:=dni mod 10;
-    if(numero=9)then
-      cant:=cant+1;
+  nueve:=0;
+  while(dni<>0)and(nueve<2)do begin
+    dig:=dni mod 10;
+    if(dig=9)then nueve:=nueve+1;
     dni:=dni div 10;
   end;
-  if(cant=2)then
-    ok:=true;
-  dosNueve:=ok;
+  if(nueve>=2)then
+    dosDigNueve:=true
+  else
+    dosDigNueve:=false;
 end;
-procedure recorrerLista(L:lista;v:vector);
-var montoCompleto:real;
+procedure recorrer(L:lista);
+var v:tabla;
 begin
+  montoAdicional(v);
   while(L<>nil)do begin
-    montoCompleto:=0;
-    writeln('DNI:',L^.dato.dni);
-    writeln('Apellido y nombre:',L^.dato.apnom);
-    montoCompleto:=L^.dato.montoAbono+v[L^.dato.codPoliza];
-    writeln('Monto completo a pagar:',montoCompleto:2:2);
-    if(dosNueve(L^.dato.dni))then
-      writeln('Apellido y nombre:',L^.dato.apnom);
+    informar(L,v);
+    if(dosDigNueve(L^.dato.dni))then
+      writeln('Apellido y nombre de clientes cuyo DNI contiene al menos dos dígitos 9:',L^.dato.apellido,' ',L^.dato.nombre);
     L:=L^.sig;
   end;
 end;
-procedure borrarCodigo(codigo:integer;L:lista);
-var ant,act:lista;
+procedure eliminar(var L:lista);
+var ant,act:lista;codigo:integer;
 begin
-  ant:=L;
+  writeln('Ingrese un codigo a eliminar');
+  readln(codigo);
   act:=L;
-  while(act<>nil)and(act^.dato.codCliente<>codigo)do begin
+  while(act<>nil)and(act^.dato.codigo<>codigo)do begin
     ant:=act;
     act:=act^.sig;
   end;
-  if(ant=act)then
-    L:=act^.sig
-  else
-    ant^.sig:=act^.sig;
-  dispose(act);
-  writeln('Codigo borrado con exito.');
+  if(act<>nil)then begin
+    if(act=L)then  L:=L^.sig
+    else   ant^.sig:=act^.sig;
+    dispose(act);
+    writeln('El valor se elimino de la lista');
+  end;
 end;
-var L:lista;
-    v:vector;
-    codBorrar:integer;
+procedure mostrar(L:lista);
+begin
+  while(L<>nil)do begin
+    writeln(L^.dato.codigo,' ',L^.dato.apellido,' ',L^.dato.codPol,' ',L^.dato.monto);
+    L:=L^.sig;
+  end;
+end;
+var
+  L:lista;
 begin
   L:=nil;
-  iniVector(v);
-  crearLista(L);
-  muestroListaCargada(L);
-  muestroVectorCargado(v);
-  recorrerLista(L,v);
-  write('Ingrese el codigo de cliente a eliminar:');
-  readln(codBorrar);
-  borrarCodigo(codBorrar,L);
+  cargar(L);
+  mostrar(L);  //para probar si se cargo
+  recorrer(L);
+  eliminar(L);
+  mostrar(L);  //para probar si se borro
 end.
 {
 3. Una remisería dispone de información acerca de los viajes realizados durante el mes de mayo de
@@ -303,152 +300,106 @@ a. Informar los dos códigos de auto que más kilómetros recorrieron.
 b. Generar una lista nueva con los viajes de más de 5 kilómetros recorridos, ordenada por número
 de viaje.
 }
-program Hello;
-type cadena20=string[20];
-     viaje=record 
-       numViaje:integer;
-       codAuto:integer;
-       direOrigen:cadena20;
-       direDestino:cadena20;
-       kmRecorridos:real;
-     end;
-     lista=^nodo;
-     nodo=record
-       dato:viaje;
-       sig:lista;
-     end;
-procedure leerRegistro(var v:viaje);
-begin
-  write('Ingrese codigo de auto:');
-  readln(v.codAuto);
-  if(v.codAuto<>0)then begin
-    write('Ingrese numero de viaje:');
-    readln(v.numViaje);
-    write('Ingrese direccion de origen:');
-    readln(v.direOrigen);
-    write('Ingrese direccion de destino:');
-    readln(v.direDestino);
-    write('Ingrese km recorridos:');
-    readln(v.kmRecorridos);
+program remiseria;
+type
+  cadena=string[30];
+  viaje=record
+    numero:integer;
+    codigo:integer;
+    origen:cadena;
+    destino:cadena;
+    km:real;
   end;
+  lista=^nodo;  //se dispone la lista de viaje
+  nodo=record
+    dato:viaje;
+    sig:lista;
+  end;
+
+procedure leer(var v:viaje); //se dispone,para probar
+begin
+  writeln('Ingrese numero de viaje');
+  readln(v.numero);
+  writeln('Ingrese codigo de auto');
+  readln(v.codigo);
+  writeln('Ingrese la direccion de origen');
+  readln(v.origen);
+  writeln('Ingrese la direccion de destino');
+  readln(v.destino);
+  writeln('Ingrese el km recorrido');
+  readln(v.km);
 end;
-procedure insertarOrdenado(var L:lista;dato:viaje);
-var nue,act,ant:lista;
+procedure insertarOrdenado(var L:lista;v:viaje);
+var ant,act,nue:lista;
 begin
   new(nue);
-  nue^.dato:=dato;
-  nue^.sig:=nil;
-  if(L=nil)then 
-    L:=nue
-  else
-    act:=L;
-    ant:=L;
-    while(act<>nil)and(act^.dato.codAuto<nue^.dato.codAuto)do begin
-      ant:=act;
-      act:=act^.sig;
-    end;
-    if(ant=act)then begin
-      nue^.sig:=L;
-      L:=nue;
-    end
-    else if(act<>nil)then begin
-      ant^.sig:=nue;
-      nue^.sig:=act;
-    end
-    else begin 
-      ant^.sig:=nue;
-      nue^.sig:=nil;
+  nue^.dato:=v;
+  ant:=L;
+  act:=L;
+  while(act<>nil)and(act^.dato.numero<v.numero)do begin
+    ant:=act;
+    act:=act^.sig;
   end;
+  if(ant=act)then L:=nue
+    else ant^.sig:=nue;
+  nue^.sig:=act;
 end;
-procedure crearLista(var L:lista);
+procedure cargarLista(var L:lista);  //se dispone,para probar
 var v:viaje;
 begin
-  leerRegistro(v);
-  while(v.codAuto<>0)do begin
+  repeat
+    leer(v);
     insertarOrdenado(L,v);
-    leerRegistro(v);
-  end;
+  until(v.numero=1122);
 end;
-procedure nuevaLista(var L2:lista;dato:viaje);
-var nue,act,ant:lista;
+procedure maximos(var max1,max2:real;var cod1,cod2:integer;km:real;codigo:integer);
 begin
-  new(nue);
-  nue^.dato:=dato;
-  nue^.sig:=nil;
-  if(L2=nil)then
-    L2:=nue
-  else
-    act:=L2;
-    ant:=L2;
-    while(act<>nil)and(act^.dato.numViaje<nue^.dato.numViaje)do begin
-      ant:=act;
-      act:=act^.sig;
-    end;
-    if(ant=act)then
-      nue^.sig:=L2;
-      L2:=nue
-    end;
-    else
-    if(act<>nil)then begin
-      ant^.sig:=nue;
-      nue^.sig:=act
-    end;
-    else
-    begin
-      ant^.sig:=nue;
-      nue^.sig:=nil;
-    end;
-  end;
-end;
-procedure mostrarListaCargada(L:lista);
-begin
-  while(L<>nil)do begin
-    writeln('Codigo de auto:',L^.dato.codAuto);
-    writeln('Numero de viaje:',L^.dato.numViaje);
-    writeln('Direccion de origen:',L^.dato.direOrigen);
-    writeln('Direccion de destino:',L^.dato.direDestino);
-    writeln('Km recorridos',L^.dato.kmRecorridos:2:2);
-  L:=L^.sig;
-end;
-procedure maximo(var cod1,cod2:integer;max1.max2,kmTotal:real;cod:integer);
-begin
-  if(kmTotal>max1)then begin
+  if(km>max1)then begin
     max2:=max1;
-    max1:=kmTotal;
+    max1:=km;
     cod2:=cod1;
-    cod1:=cod;
+    cod1:=codigo;
   end
-  else  
-    if(kmTotal>max2)then begin
-      max2:=kmTotal;
-      cod2:=cod;
+  else if(km>max2)then begin
+         max2:=km;
+         cod2:=codigo;
   end;
 end;
-procedure recorrerLista(L:lista);
-var  act,max1,max2,cod1,cod2:integer;
-     kmTotal:real;L2:lista;
+
+procedure recorrer(L:lista;var nueva:lista);
+var codActual,cod1,cod2:integer;
+    kmTotal,max1,max2:real;
 begin
-  max1:=-1;max2:=-1;
+  max1:=-1;cod1:=0;
   while(L<>nil)do begin
     kmTotal:=0;
-    act:=L^.dato.codAuto;
-    while(act=L^.dato.codAuto)do begin
-      kmTotal:=kmTotal+L^.dato.kmRecorridos;
-      if(L^.dato.kmRecorridos>5)then
-        nuevaLista(L2,L^.dato);
+    codActual:=L^.dato.codigo;
+    while(L<>nil)and(codActual=L^.dato.codigo)do begin
+      kmTotal:=kmTotal+L^.dato.km;
+      if(L^.dato.km>5)then
+        insertarOrdenado(nueva,L^.dato);
       L:=L^.sig;
     end;
-    maximo(cod1,cod2,max1,max2,kmTotal,L^.dato.codAuto);
+    maximos(max1,max2,cod1,cod2,kmTotal,codActual);
+  end;
+  writeln('Los dos códigos de auto que más kilómetros recorrieron ',cod1,' y ',cod2);
+end;
+procedure mostrarNuevaLista(L:lista);
+begin
+  writeln('Lista nueva con los viajes de más de 5 kilómetros recorridos, ordenada por número de viaje.');
+  while(L<>nil)do begin
+    writeln(L^.dato.numero,' ',L^.dato.origen,' a ',L^.dato.destino,' km recorridos:',L^.dato.km:2:2);
     L:=L^.sig;
   end;
-  writeln('Los dos códigos de auto que más kilómetros recorrieron:', cod1,' y ',cod2);
 end;
-var    L:lista;
+var
+  L:lista;
+  nueva:lista;
 begin
-  L:=nil;
-  crearLista(L);
-  mostrarListaCargada(L);
-  recorrerLista(L);
+  L:=nil; //se dispone
+  cargarLista(L);  //se dispone
+  recorrer(L,nueva);
+  mostrarNuevaLista(nueva);
 end.
 {
 4. Una maternidad dispone información sobre sus pacientes. De cada una se conoce: nombre, apellido y
