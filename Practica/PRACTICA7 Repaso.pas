@@ -408,44 +408,44 @@ programa que analice esta información, determine e informe:
 a. Para cada embarazada, la semana con mayor aumento de peso.
 b. El aumento de peso total de cada embarazada durante el embarazo.
 }
-program Hello;
-const dimF=42;
-type  vector=array[1..dimF]of real;
-      cadena30=string[30];
-      paciente=record
-        apynom:cadena30;
-        peso:vector;
-        dimL:integer;
-      end;
-      lista=^nodo;
-      nodo=record
-        dato:paciente;
-        sig:lista;
-      end;
-procedure leerVector(var v:vector;dimL:integer);
-var i:integer;peso:real;
+program maternidad;
+const
+  sem=42;
+type
+  cadena=string[30];
+  vector=array[1..sem]of real;
+  paciente=record    //se dispone informacion sobre sus pacientes
+    nombre:cadena;
+    apellido:cadena;
+    peso:vector;
+    dimL:integer;
+  end;
+  lista=^nodo;
+  nodo=record
+    dato:paciente;
+    sig:lista;
+  end;
+  
+procedure LeerVector(var v:vector;dimL:integer); //se dispone
+var i:integer;
 begin
+  writeln('Ingrese el peso');
   for i:=1 to dimL do begin
-    writeln ('Peso de la semana numero:',i,' : ');
-    readln(peso);
-    v[i]:=peso;
+    writeln('Peso de la semana:',i,':');
+    readln(v[i]);
   end;
 end;
-procedure leerRegistro(var p:paciente);
+procedure leer(var p:paciente); //se dispone,para probar
 begin
-  write('Ingrese apellido y nombre de la paciente:');
-  readln(p.apynom);
-  if(p.apynom<>' ')then begin
-    write('Ingrese cantidad de semana de embarazo(maximo 42):');
-    readln(p.dimL);
-    while(p.dimL>dimF)do begin
-      write('Incorrecto, ingrese otro valor');
-      readln(p.dimL);
-    end;
-    leerVector(p.peso,p.dimL);
-  end;
+  writeln('Ingrese el nombre');
+  readln(p.nombre);
+  writeln('Ingrese el apellido');
+  readln(p.apellido);
+  writeln('Ingrese dias de semanas registrados');
+  readln(p.dimL);
+  LeerVector(p.peso,p.dimL);
 end;
-procedure agregarAdelante(var L:lista;p:paciente);
+procedure agregarAdelante(var L:lista;p:paciente); //se dispone
 var nue:lista;
 begin
   new(nue);
@@ -453,63 +453,45 @@ begin
   nue^.sig:=L;
   L:=nue;
 end;
-procedure crearLista(var L:lista);
+procedure cargarLista(var L:lista);  //se dispone
 var p:paciente;
 begin
-  leerRegistro(p);
-  while(p.apynom<>' ')do begin
+  repeat
+    leer(p);
     agregarAdelante(L,p);
-    leerRegistro(p);
-  end;
+  until(p.nombre='Fulano');
 end;
-procedure mostrarVector(v:vector;dimL:integer);
+procedure maximo(var max:real;var maxSem:integer;v:vector;dimL:integer;var pesoTotal:real);
 var i:integer;
 begin
-  for i:=1 to dimL do 
-    writeln('Peso registrado en la semana numero:',i,':',v[i]);
-end;
-procedure muestroListaCargada(L:lista);
-begin
-  while(L<>nil)do begin
-    writeln('Apellido y nombre de la paciente:',L^.dato.apynom);
-    mostrarVector(L^.dato.peso,L^.dato.dimL);
-    L:=L^.sig;
-  end;
-end;
-procedure informo(sem:integer;pesoTotal:real);
-begin
-  writeln('Semana con mayor aumento de peso:',sem);
-  writeln('Aumento de peso total:', pesoTotal);
-end;
-procedure recorrerVn(v:vector;dimL:integer;var sem:integer;var pesoTotal:real);
-var  max:real; i:integer;
-begin
   max:=-1;
+  pesoTotal:=0;
   for i:=1 to dimL do begin
     if(v[i]>max)then begin
       max:=v[i];
-      sem:=i;
+      maxSem:=i;
     end;
     pesoTotal:=pesoTotal+v[i];
   end;
 end;
-procedure recorrerLista(L:lista);
-var  sem:integer;pesoTotal:real;
+procedure recorrer(L:lista);
+var max,pesoTotal:real;
+    maxSem:integer;
 begin
   while(L<>nil)do begin
-    pesoTotal:=0;
-    recorrerVn(L^.dato.peso,L^.dato.dimL,sem,pesoTotal);
-    writeln('Apellido y nombre:',L^.dato.apynom);
-    informo(sem,pesoTotal);
+    maximo(max,maxSem,L^.dato.peso,L^.dato.dimL,pesoTotal);
+    writeln('Paciente:',L^.dato.nombre,' ',L^.dato.apellido);
+    writeln('Semana con mayor aumento de peso:',maxSem);
+    writeln('Peso total:',pesoTotal:2:2);
     L:=L^.sig;
   end;
 end;
-var  L:lista;
+var 
+  L:lista;
 begin
-  L:=nil;
-  crearLista(L);
-  muestroListaCargada(L);
-  recorrerLista(L);
+  L:=nil; //se dispone
+  cargarLista(L);  //se dispone, se carga la lista y el vector de peso.
+  recorrer(L);
 end.
 {
 5. Una empresa de transporte de cargas dispone de la información de su flota compuesta por 100
