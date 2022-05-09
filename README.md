@@ -4,7 +4,11 @@
 
 ###### Lenguaje de Programación : `` Pascal ``🚀
 
-## [CONTENIDO](docs/CONTRIBUTING.md)
+> [VECTOR](docs/CONTRIBUTING.md)
+
+> [LISTA](docs/Listas.md)
+
+> [次へ](docs/solucion.md)
 
 ## IDE para instalar :
 
