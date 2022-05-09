@@ -4,6 +4,8 @@
 
 ###### Lenguaje de Programación : `` Pascal ``🚀
 
+## [CONTENIDO](docs/CONTRIBUTING.md)
+
 ## IDE para instalar :
 
  > Geany+freepascal 🧞
