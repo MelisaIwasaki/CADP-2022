@@ -667,150 +667,134 @@ información:
 4. Los nombres de las estrellas cuyos códigos de objeto poseen más dígitos pares que
 impares.
 }
-program Hello;
-const tam=7;
-type  rango=1..tam;
-      cadena20=string[20];
-      objeto=record
-        cod:integer;
-        categoria:rango;
-        nomObjeto:cadena20;
-        distancia:real;
-        nomDescubridor:cadena20;
-        anio:integer;
-      end;
-      vector=array[rango]of integer;
-      lista=^nodo;
-      nodo=record
-        dato:objeto;
-        sig:lista;
-      end;
-procedure inicializar(var v:vector);
-var i:integer;
+program astronomicos;
+const
+  obj=7;
+type
+  cadena=string[30];
+  rango=1..obj;
+  objeto=record
+    codigo:integer;
+    categoria:rango;
+    nombre:cadena;
+    distancia:real;
+    descubridor:cadena;
+    anio:integer;
+  end;
+  lista=^nodo;
+  nodo=record
+    dato:objeto;
+    sig:lista;
+  end;
+  vcont=array[rango]of integer;
+  
+procedure leer(var o:objeto);
 begin
-  for i:=1 to tam do 
-    v[i]:=0;
-end;
-procedure leerObjeto(var o:objeto);
-begin
-  write('Ingrese el codigo:');
-  readln(o.cod);
-  if(o.cod<>-1)then begin
-    write('Ingrese la categoria:');
+  writeln('Ingrese el codigo');
+  readln(o.codigo);
+  if(o.codigo<>-1)then begin
+    writeln('Ingrese la categoria[1-7]');
     readln(o.categoria);
-    write('Ingrese el nombre del objeto:');
-    readln(o.nomObjeto);  
-    write('Ingrese la distancia:');
+    writeln('Ingrese el nombre');
+    readln(o.nombre);
+    writeln('Ingrese la distancia');
     readln(o.distancia);
-    write('Ingrese el nombre del descubridor:');
-    readln(o.nomDescubridor);
-    write('Ingrese el anio :');
+    writeln('Nombre del descubridor');
+    readln(o.descubridor);
+    writeln('Anio de descubrimiento');
     readln(o.anio);
   end;
 end;
-procedure agregarAtras(var L:lista;o:objeto;var ult:lista);
+procedure agregarAtras(var L,ult:lista;o:objeto);
 var nue:lista;
 begin
   new(nue);
   nue^.dato:=o;
   nue^.sig:=nil;
-  if(L<>nil)then  L:=nue;
-            else  ult^.sig:=nue;
+  if(L=nil)then  L:=nue
+    else  ult^.sig:=nue;
   ult:=nue;
 end;
-procedure crearLista(var L:lista);
+procedure cargarObjeto(var L:lista);
 var o:objeto;ult:lista;
 begin
-  leerObjeto(o);
-  while(o.cod<>-1)do begin
-    agregarAtras(L,o,ult);
-    leerObjeto(o);
+  leer(o);
+  while(o.codigo<>-1)do begin
+    agregarAtras(L,ult,o);
+    leer(o);
   end;
 end;
-procedure mostrarListaCargada(L:lista);
+procedure inicializar(var v:vcont);
+var i:rango;
 begin
-  while(L<>nil)do begin
-    writeln('Codigo de objeto:',L^.dato.cod);
-    writeln('Categoria del objeto:',L^.dato.categoria);
-    writeln('Nombre del objeto:',L^.dato.nomObjeto);
-    writeln('Nombre del descubridor:',L^.dato.nomDescubridor);
-    writeln('Distancia a la tierra:',L^.dato.distancia);
-    writeln('Anio de descubrimiento:',L^.dato.anio);
-    L:=L^.sig;
-  end;
-end;
-procedure maximos(var max1,max2:real;var codmax1,codmax2:integer;dist:real;cod:integer);
+  for i:=1 to obj do
+    v[i]:=0;
+end; 
+procedure masLejano(var max1,max2:real;var cod1,cod2:integer;distancia:real;codigo:integer);
 begin
-  if(dist>max1)then begin
+  if(distancia>max1)then begin
     max2:=max1;
-    max1:=dist;
-    codmax2:=codmax1;
-    codmax1:=cod;
+    max1:=distancia;
+    cod2:=cod1;
+    cod1:=codigo;
   end
-  else if(dist>max2)then begin
-         max2:=dist;
-         codmax2:=cod;
+  else if(distancia>max2)then begin
+         max2:=distancia;
+         cod2:=codigo;
   end;
 end;
-function cumpleInciso2(nom:cadena20;anio:integer;categ:integer):boolean;
+function galileo(descubridor:cadena;anio:integer):boolean;
 begin
-  if(nom='Galileo Galilei')and(anio<1600)and(categ=2)then
-    cumpleInciso2:=true;
-  else
-    cumpleInciso2:=false;
+  galileo:=(descubridor='Galileo Galilei')and(anio<1600);
 end;
-procedure informoInciso3(v:vector);
-var i:integer;
+procedure mostrarVector(v:vcont);
+var i:rango;
 begin
-  for i:=1 to tam do 
-    writeln('La cantidad de objetos observados en categoria ',i,' es de ',v[i]);
+  for i:=1 to obj do
+    writeln('Categoria: ',i,' objetos observados: ',v[i]);
 end;
-function cumpleInciso4(codigo:integer):boolean;
-var resto,cantp,canti:integer;
+function masPares(codigo:integer):boolean;
+var dig,pares,impares:integer;
 begin
+  pares:=0;impares:=0;
   while(codigo<>0)do begin
-    resto:=codigo mod 10;
-    if(resto mod 2=0)then
-      cantp:=cantp+1;
-    else
-      canti:=canti+1;
+    dig:=codigo mod 10;
+    if(dig mod 2 = 0 )then  pares:=pares+1
+                      else impares:=impares+1;
     codigo:=codigo div 10;
   end;
-  if(cantp>canti)then 
-    cumpleInciso4:=true;
+  if(pares>impares)then
+    masPares:=true
   else
-    cumpleInciso4:=false;
+    masPares:=false;
 end;
-procedure informo(codmax1,codmax2,cantGalileo:integer;v:vector);
+procedure recorrerObjeto(L:lista);
+var v:vcont;
+    max1,max2:real;
+    cod1,cod2,cant:integer;
 begin
-  writeln('Codigo de los dos objetos mas lejano a la tierra:',codmax1,codmax2);
-  writeln('La cantidad de planetas descubiertos por "Galileo Galilei" antes del año 1600',cantGalileo);
-  informoInciso3(v);
-end;
-procedure recorrerLista(L:lista;v:vector);
-var max1,max2:real;codmax1,codmax2,cantGalileo:integer;
-begin
-  cantGalileo:=0;
+  cant:=0;
+  max1:=-1;cod1:=0;
+  inicializar(v);
   while(L<>nil)do begin
-    maximos(max1,max2,codmax1,codmax2,L^.dato.distancia,L^.dato.cod);
-    if(cumpleInciso2(L^.dato.nomDescubridor,L^.dato.anio,L^.dato.categoria))then
-      cantGalileo:=cantGalileo+1;
+    masLejano(max1,max2,cod1,cod2,L^.dato.distancia,L^.dato.codigo);
+    if(L^.dato.categoria=2)and(galileo(L^.dato.descubridor,L^.dato.anio))then
+      cant:=cant+1;
     v[L^.dato.categoria]:=v[L^.dato.categoria]+1;
-    if(L^.dato.categoria=1)and(cumpleInciso4(L^.dato.cod))then
-      writeln('Los nombres de las estrellas cuyos códigos de objeto poseen más dígitos pares que
-impares.',L^.dato.nomObjeto);
+    if(L^.dato.categoria=1)and(masPares(L^.dato.codigo))then
+      writeln('Nombre de las estrellas con codigo mas par: ',L^.dato.nombre);
     L:=L^.sig;
   end;
-  informo(codmax1,codmax2,cantGalileo,v);
+  writeln('Los códigos de los dos objetos más lejanos de la tierra ',cod1,' y ',cod2);
+  writeln('La cantidad de planetas descubiertos por "Galileo Galilei" antes del año 1600 ',cant);
+  mostrarVector(v);
 end;
-var  L:lista;
-     v:vector;
+var  
+  L:lista;
 begin
   L:=nil;
-  inicializar(v);
-  crearLista(L);
-  mostrarListaCargada(L);
-  recorrerLista(L,v);
+  cargarObjeto(L);
+  recorrerObjeto(L);
 end.
 {
 7. La Facultad de Informática desea procesar la información de los alumnos que finalizaron la carrera de
