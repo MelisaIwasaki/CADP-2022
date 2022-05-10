@@ -510,70 +510,58 @@ que se realizó el viaje).
 3. Informar los códigos de los viajes realizados por choferes cuyo DNI tenga sólo dígitos impares.
 Nota: Los códigos de viaje no se repiten.
 }
-program Hello;
-const dimF=3;    //100 camiones
-type  rango=1..dimF;
-      cadena20=string[20];
-      camion=record 
-        patente:cadena20;
-        aniof:integer;
-        capacidad:real;
-      end;
-      viaje=record 
-        codviaje:integer;
-        codcamion:rango;
-        distancia:real;
-        ciudad:cadena20;
-        aniov:integer;
-        dni:integer;
-      end;
-      vector=array[rango]of camion;
-      lista=^nodo;
-      nodo=record
-        dato:viaje;
-        sig:lista;
-      end;
-procedure leerCamion(var c:camion);
-begin
- write('Ingrese patente del camion:');
- readln(c.patente);
- write('Ingrese anio de fabricacion:');
- readln(c.aniof);
- write('Ingrese capacidad');
- readln(c.capacidad);
-end;
-procedure cargarVcamion(var v:vector);
-var i:integer;c:camion;
-begin
-  for i:=1 to dimF do begin
-    leerCamion(c);
-    v[i]:=c;
+program flota;
+const
+  dimF=3;//100;
+type
+  rango=1..dimF;
+  cadena=string[30];
+  camion=record
+    patente:cadena;
+    anioFab:integer;
+    capacidad:real;
   end;
-end;
-procedue mostrarVectorCamion(v:vector);
-var i:integer;
-begin
-  for i:=1 to dimF do begin
-    writeln('Camion numero:',i,':');
-    writeln('Patente:',v[i].patente);
-    writeln('Anio de fabricacion:',v[i].aniof);
-    writeln('Capacidad:',v[i].Capacidad);
+  camiones=array[rango]of camion; //se dispone
+  viaje=record
+    codViaje:integer;
+    codCamion:rango;
+    distancia:real;
+    ciudad:cadena;
+    anio:integer;
+    dni:integer;
   end;
-end;
-procedure leerViaje(var v:viaje);
+  lista=^nodo;
+  nodo=record
+    dato:viaje;
+    sig:lista;
+  end;
+
+procedure cargarVector(var v:camiones); //se dispone,no necesita cargar,solo para probar
 begin
-  write('Ingrese codigo de vije:');
-  readln(v.codviaje);
-  if(v.codviaje<>-1)then begin
-    write('Ingrese codigo de camion:');
-    readln(v.codcamion);
-    write('Ingrese distancia recorrida:');
+  v[1].patente:='AF200';
+  v[1].anioFab:=1900;
+  v[1].capacidad:=30;
+  v[2].patente:='AR500';
+  v[2].anioFab:=2022;
+  v[2].capacidad:=40;
+  v[3].patente:='GT100';
+  v[3].anioFab:=2010;
+  v[3].capacidad:=50;
+end;
+procedure leer(var v:viaje);
+begin
+  writeln('Ingrese el codigo de viaje');
+  readln(v.codViaje);
+  if(v.codViaje<>-1)then begin
+    writeln('Ingrese el codigo de camion');
+    readln(v.codCamion);
+    writeln('Ingrese la distancia recorrida');
     readln(v.distancia);
-    write('Ingrese ciudad de destino:');
+    writeln('Ciudad de destino');
     readln(v.ciudad);
-    write('Ingrese el anio en que se realizo el viaje:');
-    readln(v.aniov);
-    write('Ingrese el dni del chofer:');
+    writeln('Anio en que se realizo el viaje');
+    readln(v.anio);
+    writeln('DNI del chofer');
     readln(v.dni);
   end;
 end;
@@ -585,78 +573,81 @@ begin
   nue^.sig:=L;
   L:=nue;
 end;
-procedure crearLista(var L:lista);
+procedure cargarViaje(var L:lista);
 var v:viaje;
-begin 
-  leerViaje(v);
-  while(v.codviaje<>-1)do begin
+begin
+  leer(v);
+  while(v.codViaje<>-1)do begin
     agregarAdelante(L,v);
-    leerViaje(v);
+    leer(v);
   end;
 end;
-procedure maximo(var max,min:real,var patmax,patmin:cadena20;v:vector;km:real;codcamion:integer);
+procedure maximoKm(var max:real;var patenteMax:cadena;km:real;patente:cadena);
 begin
   if(km>max)then begin
     max:=km;
-    patmax:=v[codcamion].patente;
+    patenteMax:=patente;
   end;
+end;
+procedure minimoKm(var min:real;var patenteMin:cadena;km:real;patente:cadena);
+begin
   if(km<min)then begin
     min:=km;
-    patmin:=v[codcamion].patente;
+    patenteMin:=patente;
   end;
 end;
-function cumpleInciso2(v:vector;cod,aniov:integer):boolean;
-var  antiguedad:integer;
+function condicion(capacidad:real;anio:integer):boolean;
 begin
-  antiguedad:=aniov-v[cod].aniof;
-  if(v[cod].capacidad>30.5)and(antiguedad>5)then
-    cumpleInciso2:=true
-  else
-    cumpleInciso2:=false;
+  condicion:=(capacidad>30.5)and(anio>5);
 end;
-function cumpleInciso3(dni:integer):boolean;
-var resto:integer;
+function soloDigImpares(dni:integer):boolean;
+var dig,cant,impar:integer;
 begin
+  cant:=0;impar:=0;
   while(dni<>0)do begin
-    resto:=dni mod 10;
-    if(resto mod 2<>0)then
-      dni:=dni div 10;
-    else
-      cumpleInciso3:=false;
+    dig:=dni mod 10;
+    cant:=cant+1;
+    if(dig mod 2 =1)then
+      impar:=impar+1;
+    dni:=dni div 10;
   end;
-  cumpleInciso3:=true;
+  if(cant=impar)then
+    soloDigImpares:=true
+  else
+    soloDigImpares:=false;
 end;
-procedure informar(patmax,patmin:cadena20;cantv:integer);
+procedure recorrerViaje(L:lista);
+var
+    patente,patenteMax,patenteMin:cadena;
+    v:camiones;
+    max,min:real;
+    cant:integer;
 begin
-  writeln('Patente del camion que mas km recorridos tiene:',patmax);
-  writeln('Patente del camion que menos km recorridos tiene:',patmin);
-  writeln('Cantidad de viajes realizado con camiones con capacidad mayor a 30.5 toneladas con antiguedad mayor a 5 anios',cantv);
-end;
-procedure recorrerLista(L:lista,v:vector);
-var max,min:real;patmin,patmax:cadena20;cantv:integer;
-begin
-  max:=-1;
-  min:=999;
-  cantv:=0;
+  cant:=0;
+  max:=-1;min:=9999;
+  cargarVector(v);
   while(L<>nil)do begin
-    maximo(max,min,patmax,patmin,v,L^.dato.distancia,L^.dato.codcamion);
-    if(cumpleInciso2(v,L^.dat.codcamion,L^.dato.aniov))then
-      cantv:=cantv+1;
-      if(cumpleInciso3(L^.dato.dni))then
-        writeln('Codigo de viaje realizado por chofer con digitos impares:',L^.dato.codviaje);
+    patente:=v[L^.dato.codCamion].patente;
+    maximoKm(max,patenteMax,L^.dato.distancia,patente);
+    minimoKm(min,patenteMin,L^.dato.distancia,patente);
+    if(condicion(v[L^.dato.codCamion].capacidad,2022-L^.dato.anio))then
+      cant:=cant+1;
+    if(soloDigImpares(L^.dato.dni))then
+      writeln('Los códigos de los viajes realizados por choferes cuyo DNI tenga sólo dígitos impares',L^.dato.codViaje);
     L:=L^.sig;
   end;
-  informar(patmax,patmin,cantv);
+  writeln('La patente del camión que más kilómetros recorridos posee',patenteMax);
+  writeln('La patente del camión que menos kilómetros recorridos posee',patenteMin);
+  writeln('La cantidad de viajes con capacidad mayor a 30,5 y antigüedad mayor a 5 años:',cant);
 end;
-var  L:lista;
-     v:vector;
+var
+  L:lista;
 begin
-   L:=nil;
-   cargarVcamion(v);//se dispone
-   mostrarVectorCamion(v);
-   crearLista(L);
-   recorrerLista(L,v);
+  L:=nil;
+  cargarViaje(L);
+  recorrerViaje(L);
 end.
+
 {
 6. El Observatorio Astronómico de La Plata ha realizado un relevamiento sobre los distintos objetos
 astronómicos observados durante el año 2015. Los objetos se clasifican en 7 categorías: 1: estrellas,
