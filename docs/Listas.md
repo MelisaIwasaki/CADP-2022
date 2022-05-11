@@ -154,22 +154,5 @@ begin
      end;
 end;          
 ````
-## Insertar un elemento en la lista
-````pascal
-procedure insertar(var L:lista; per:persona);
-var   nue,ant,act:lista;
-begin
-     new(nue);
-     nue^.datos:= per;
-     ant:= L;
-     act:= L;
-     while(act <> nil)and(act^.dato.nom < per.nom)do begin
-          ant:= act;
-          act:= act^.sig;
-     end;
-     if(ant = act)then   L:= nue
-                  else   ant^.sig:= nue;
-     nue^.sig:= act;
-end;
-````
+
 <!-- hacer 4 caso de insercion y falta Buscar un elemento en la lista -->
