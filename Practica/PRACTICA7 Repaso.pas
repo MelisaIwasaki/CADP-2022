@@ -813,62 +813,72 @@ se recibieron (o sea, que tardaron menos años)
 3. Realizar un módulo que, dado un número de alumno leído desde teclado, lo busque y elimine de
 la estructura generada en el inciso 1. El alumno puede no existir.
 }
-program Hello;
-const  dimF=24;
-type   rango=1..dimF;
-       cadena30=string[30];
-       vector=array[rango]of real;
-       alumno=record
-         numero:integer;
-         apnom:cadena30;
-         mail:cadena30;
-         anioIngreso:integer;
-         anioEgreso:integer;
-         notas:vector;
-       end;
-       lista=^nodo;
-       nodo=record
-         dato:alumno;
-         sig:lista;
-       end;
-procedure cargarVector(var v:vector);
-var i:integer;nota:real;
+program APU;
+const
+  dimF=3;//24;
+type
+  rango=1..dimF;
+  cadena=string[30];
+  materias=array[rango]of real;
+  alumno=record
+    numero:integer;
+    apellido:cadena;
+    nombre:cadena;
+    email:cadena;
+    anioIngreso:integer;
+    anioEgreso:integer;
+    notas:materias;
+  end;
+  lista=^nodo;
+  nodo=record
+    dato:alumno;
+    sig:lista;
+  end;
+  dosAlumnos=record
+    apellido:cadena;
+    nombre:cadena;
+    email:cadena;
+  end;
+  
+Procedure OrdenarNotas(var v:materias);
+var i, j, p:integer;item:real;	
+begin
+  for i:=1 to dimF-1 do begin 
+    p := i;
+    for j := i+1 to dimF do
+      if v[ j ] > v[ p ] then p:=j;
+    item := v[ p ];   
+    v[ p ] := v[ i ];   
+    v[ i ] := item;
+  end;
+end;
+procedure cargarNotas(var v:materias);
+var i:rango;
 begin
   for i:=1 to dimF do begin
-    writeln('Ingrese la nota de la materia:',i,':');
-    readln(nota);
-    v[i]:=nota;
+    writeln('Ingrese la nota:',i);
+    readln(v[i]);
   end;
+  OrdenarNotas(v);
 end;
-procedure ordenarVector(var v:vector);
-var i,j,p:integer;item:real;
-begin
-  for i:=1 to dimF-1 do begin
-    p:=i;
-    for j:=i+1 to dimF do
-      if(v[j]>v[p])then
-        p:=j;
-    item:=v[p];
-    v[p]:=v[i];
-    v[i]:=item;
-  end;
-end;
+
 procedure leerAlumno(var a:alumno);
 begin
-  write('Ingrese el numero de alumno:');
+  writeln('Ingrese el numero');
   readln(a.numero);
   if(a.numero<>-1)then begin
-    write('Ingrese el apellido y nombre de alumno:');
-    readln(a.apnom);
-    write('Ingrese el mail de alumno:');
-    readln(a.mail);
-    write('Ingrese el anio de ingreso:');
+    writeln('Ingrese el apellido');
+    readln(a.apellido);
+    writeln('Ingrese el nombre');
+    readln(a.nombre);
+    writeln('Ingrese email');
+    readln(a.email);
+    writeln('Anio de ingreso');
     readln(a.anioIngreso);
-    write('Ingrese el anio de egreso:');
+    writeln('Anio de egreso');
     readln(a.anioEgreso);
-    write('Ingrese la nota de alumno:');
-    cargarVector(a.notas);
-    ordenarVector(a.notas);
+    writeln('Ingrese las notas');
+    cargarNotas(a.notas);
   end;
 end;
 procedure agregarAdelante(var L:lista;a:alumno);
@@ -879,7 +889,7 @@ begin
   nue^.sig:=L;
   L:=nue;
 end;
-procedure cargarLista(var L:lista);
+procedure cargarAlumno(var L:lista);
 var a:alumno;
 begin
   leerAlumno(a);
@@ -888,120 +898,106 @@ begin
     leerAlumno(a);
   end;
 end;
-procedure mostrarVectorCargado(v:vector);
-var i: integer;
-begin
-  for i:=1 to dimF do
-    writeln('Nota numero:',i,':',v[i]:2:2);
-end;
-procedure mostrarListaCargada(L:lista);
-begin
-  while(L<>nil)do begin
-    writeln('Numero de alumno:',L^.dato.numero);
-    writeln('Apellido y nombre de alumno:',L^.dato.apnom);
-    writeln('Mail de alumno:',L^.dato.mail);
-    writeln('Anio de ingreso:',L^.dato.anioIngreso);
-    writeln('Anio de egreso:',L^.dato.anioEgreso);
-    writeln('Notas:');
-    mostrarVectorCargado(L^.dato.notas);
-    L:=L^.sig;
-  end;
-end;
-procedure incisoA(v:vector;apnom:cadena30);
-var i:integer;suma,promedio:real;
+function promedio(v:materias):real;
+var i:rango;
+    suma:real;
 begin
   suma:=0;
-  for i:=1 to dimF do 
+  for i:=1 to dimF do
     suma:=suma+v[i];
   promedio:=suma/dimF;
-  writeln('Alumno:',apnom);
-  writeln('Promedio de notas:',promedio);
 end;
-function incisoB(num:integer):boolean;
-var resto:integer;
-begin
-  while(num<>0 )do begin
-    resto:=num mod 10;
-    if(resto mod 2<>0 )then
-      num:=num div 10
-    else 
-      incisoB:=false;
-    end;
-      incisoB:=true;
-end;
-procedure incisoC(L:lista;var min1,min2:integer;var apnom1,apnom2,mail1,mail2:cadena30);
-var resta:integer;
-begin
-  resta:=L^.dato.anioEgreso-L^.dato.anioIngreso;
-  if(resta<min1)then begin 
-    min2:=min1;
-    min1:=resta;
-    apnom2:=apnom1;
-    apnom1:=L^.dato.apnom;
-    mail2:=mail1;
-    mail1:=L^.dato.mail;
-  end
-  else if(resta<min2)then begin
-         min2:=resta;
-         apnom2:=L^.dato.apnom;
-         mail2:=L^.dato.mail;
-  end;
-end;
-procedure informo(cant:integer;apnom1,mail1,apnom2,mail2:cadena30);
-begin
-  writeln('Cantidad de alumnos cuyo numero de alumno tiene solo digitos impares:',cant);
-  writeln('Datos del primer alumno que menos tardo en recibirse:',apnom1,mail1);
-  writeln('Datos del segundo alumno que menos tardo en recibirse:',apnom2,mail2);
-end;
-procedure recorrerLista(L:lista);
-var  cant,min1,min2:integer;apnom1,apnom2,mail1,mail2:cadena30;
+function digImpares(num:integer):boolean;
+var dig,impares,cant:integer;
 begin
   cant:=0;
-  min1:=999;min2:=999;
-  apnom1:='';apnom2:='';mail1:='';mail2:='';
+  impares:=0;
+  while(num<>0)do begin
+    dig:=num mod 10;
+    cant:=cant+1;
+    if(dig mod 2 = 1)then  impares:=impares+1;
+    num:=num div 10;
+  end;
+  if(cant=impares)then
+    digImpares:=true
+  else
+    digImpares:=false;
+end;
+procedure inicializarAlu(var alu1:dosAlumnos);
+begin
+  alu1.apellido:='';
+  alu1.nombre:='';
+  alu1.email:='';
+end;
+procedure masRapidoRecibido(var min1,min2:integer;var alu1,alu2:dosAlumnos;anioRec:integer;a:alumno); 
+begin
+  if(anioRec<min1)then begin       //use un registro con los 3 campos
+    min2:=min1;
+    min1:=anioRec;
+    alu2:=alu1;
+    alu1.apellido:=a.apellido;
+    alu1.nombre:=a.nombre;
+    alu1.email:=a.email;
+  end
+  else if(anioRec<min2)then begin
+         min2:=anioRec;
+         alu2.apellido:=a.apellido;
+         alu2.nombre:=a.nombre;
+         alu2.email:=a.email;
+  end;
+end;
+procedure recorrerAlumno(L:lista);
+var  prom:real;
+     cant,min1,min2,anioRec:integer;
+     alu1,alu2:dosAlumnos;
+begin
+  min1:=9999;
+  cant:=0;
+  inicializarAlu(alu1);
   while(L<>nil)do begin
-    incisoA(L^.dato.notas,L^.dato.apnom);
-    if(L^.dato.anioIngreso=2012)and(incisoB(L^.dato.numero))then
+    prom:=promedio(L^.dato.notas);
+    writeln('Alumno:',L^.dato.apellido,' ',L^.dato.nombre,' Promedio de notas:',prom:2:2);
+    if(L^.dato.anioIngreso=2012)and(digImpares(L^.dato.numero))then
       cant:=cant+1;
-    incisoC(L,min1,min2,apnom1,apnom2,mail1,mail2);
+    anioRec:=L^.dato.anioEgreso-L^.dato.anioIngreso;
+    masRapidoRecibido(min1,min2,alu1,alu2,anioRec,L^.dato);
     L:=L^.sig;
   end;
-  informo(cant,apnom1,mail1,apnom2,mail2);
+  writeln('La cantidad de alumnos ingresantes 2012 con nros impares:',cant);
+  writeln('Los dos alumnos que mas rapido se recibieron:');
+  writeln('Alumno 1:',alu1.apellido,' ',alu1.nombre,' ',alu1.email);
+  writeln('Alumno 2:',alu2.apellido,' ',alu2.nombre,' ',alu2.email);
 end;
-procedure eliminarNumero(var L:lista;numero:integer);
-var ant,act:lista;ok:boolean;
+procedure eliminar(var L:lista;var exito:boolean);
+var  ant,act:lista;num:integer;
 begin
-  ant:=L;
-  act:=L;
-  ok:=false;
-  while(act<>nil)and(not ok)do begin
-    if(act^.dato.numero=numero)then
-      ok:=true
-    else begin
-      ant:=act;
-      act:=act^.sig;
+    exito:= false;
+    writeln('Ingrese el numero de alumno a borrar');
+    readln(num);
+    act:= L;
+    while(act <> nil)and(act^.dato.numero <> num )do begin
+        ant:= act;
+        act:= act^.sig;
     end;
-  end;
-  if(ok=true)then begin
-    if(ant=act)then  L:=act^.sig
-               else  ant^.sig:=act^.sig;
-    dispose(act);
-    writeln('El alumno se elimino correctamente.');
-  end
-  else
-    writeln('No se encotro el alumno.');
-end;
-var  L:lista;
-     numElimino:integer;
+    if(act <> nil)then begin
+        exito:= true;
+        if(act = L)then   L:= act^.sig
+                   else   ant^.sig:= act^.sig;
+        dispose(act);
+    end;
+end;          
+var 
+  L:lista;
+  ok:boolean;
 begin
   L:=nil;
-  cargarLista(L);
-  mostrarListaCargada(L);
-  recorrerLista(L);
-  writeln('Ingrese el numero de alumno a eliminar:');
-  readln(numElimino);
-  eliminarNumero(L,numElimino);
-  mostrarListaCargada(L);  //para corroborar si se elimino el numero.
+  cargarAlumno(L);
+  recorrerAlumno(L);
+  eliminar(L,ok);
+  if(ok)then
+    writeln('Se borro el alumno')
+  else
+    writeln('No se encontro el alumno');
 end.
 {
 8. Una entidad bancaria de la ciudad de La Plata solicita realizar un programa destinado a la
@@ -1022,185 +1018,126 @@ c) Calcular e informar cuál es el código de motivo que más transferencias a t
 d) Calcular e informar la cantidad de transferencias a terceros realizadas en el mes de Junio en las
 cuales el número de cuenta destino posea menos dígitos pares que impares.
 }
-program Hello;
-const tam=7;
-type  rango=1..tam;
-      fecha=record
-        dia:1..31;
-        mes:1..12;
-        anio:integer;
-      end;
-      hora=record
-        horas:1..24;
-        min:0..59;
-      end;
-      transferencia=record
-        numOrigen:integer;
-        dniOrigen:integer;
-        numDestino:integer;
-        dniDestino:integer;
-        f:fecha;
-        h:hora;
-        monto:real;
-        cod:rango;
-      end;
-      vector=array[rango]of integer;
-      lista=^nodo;
-      nodo=record
-        dato:transferencia;
-        sig:lista;
-      end;
-procedure inicializar(var v:vector);
-var i:integer;
+program banco;  //No esta probado, hay que cargar la lista para probar
+const
+  motivo=7;
+type
+  rango=1..motivo;
+  rangoDia=1..31;
+  rangoMes=1..12;
+  rangoAnio=2000..2022;
+  cadena=string[30];
+  fechaF=record
+    dia:rangoDia;
+    mes:rangoMes;
+    anio:rangoAnio;
+  end;
+  transferencia=record
+    nroOrigen:integer;
+    dniOrigen:integer;
+    nroDestino:integer;
+    dniDestino:integer;
+    fecha:fechaF;
+    hora:real;
+    monto:real;
+    codMotivo:rango;
+  end;
+  lista=^nodo;
+  nodo=record
+    dato:transferencia;  //se dispone
+    sig:lista;
+  end;
+  vcont=array[rango ]of integer;
+  
+procedure insertarOrdenado(var L:lista;t:transferencia);
+var  act,ant,nue:lista;
 begin
-  for i:=1 to tam do 
-    v[i]:=0;
-end;
-function cumple(dniOrigen,dniDestino:integer):boolean;
-begin
-  cumple:=(dniOrigen<>dniDestino);
-end;
-procedure insertarOrdenado(var L2:lista;trans:transferencia);
-var  nue,act,ant:lista;
-begin
-  new(nue);
-  nue^.dato:=trans;
-  nue^.sig:=nil;
-  if(L2=nil)then  L2:=nue
-            else begin  
-                  act:=L2;
-                  ant:=L2;
-    while(act<>nil)and(act^.dato.numOrigen<nue^.dato.numOrigen)do begin
-      ant:=act;
-      act:=act^.sig;
+    new(nue);
+    nue^.dato:= t;
+    ant:= L;
+    act:= L;
+    while (act <> nil)and(act^.dato.nroOrigen < t.nroOrigen)do begin
+        ant:= act;
+        act:= act^.sig;
     end;
-    if(ant=act)then begin
-      nue^.sig:=L2;
-      L2:=nue;
-    end
-    else if(act<>nil)then begin
-           ant^.sig:=nue;
-           nue^.sig:=act;
-         end
-         else begin
-           ant^.sig:=nue;
-           nue^.sig:=nil;
-         end;
-    end;
+    if(ant = act)then L:= nue
+                 else ant^.sig:= nue;
+    nue^.sig:= act;
 end;
-procedure leerTransferencia(var t:transferencia);  //se dispone
+function distintoTitular(dniO,dniD:integer):boolean;
 begin
-  write('Ingrese numero cuenta origen:');
-  readln(t.numOrigen);
-  if(t.numOrigen<>-1)then begin
-    write('DNI de titular de cuenta origen:');
-    readln(t.dniOrigen);
-    write('Ingrese numero cuenta destino:');
-    readln(t.numDestino);
-    write('DNI de titular de cuenta destino:');
-    readln(t.dniDestino);
-    write('Ingrese el dia:');
-    readln(t.f.dia);
-    write('Ingrese el mes:');
-    readln(t.f.mes);
-    write('Ingrese el anio:');
-    readln(t.f.anio);
-    write('Ingrese la hora:');
-    readln(t.h.horas);
-    write('Ingrese el minuto:');
-    readln(t.h.min);
-    write('Ingrese el monto:');
-    readln(t.monto);
-    write('Ingrese código del motivo de la transferencia:');
-    readln(t.cod);
-  end;
+  distintoTitular:=(dniO <> dniD);
 end;
-procedure insertarPrincipio(var L:lista;t:transferencia);
-var nue:lista;
-begin
-  new(nue);
-  nue^.dato:=t;
-  nue^.sig:=nil;
-  if(L=nil)then  L:=nue;
-           else  nue^.sig:=L;
-  L:=nue;
-  end;
-end;
-procedure cargarLista(var L:lista);
-var t:transferencia;
-begin
-  leerTransferencia(t);
-  while(t.numOrigen<>-1)do begin
-    insertarPrincipio(L,t);
-    leerTransferencia(t);
-  end;
-end;
-procedure recorrerLista(L:lista;var L2:lista);
+procedure cargarLista2(L:lista;var L2:lista);
 begin
   while(L<>nil)do begin
-    if(cumple(L^.dato.dniOrigen,L^.dato.dniDestino))then
+    if(distintoTitular(L^.dato.dniOrigen,L^.dato.dniDestino))then
       insertarOrdenado(L2,L^.dato);
-      L:=L^.sig
+    L:=L^.sig;
   end;
 end;
-procedure calcularMaximo(v:vector;var codmax:integer);
-var i,max:integer;
+procedure inicializar(var v:vcont);
+var i:rango;
+begin
+  for i:=1 to motivo do
+    v[i]:=0;
+end;
+procedure masTranferencias(var max:integer;v:vcont);
+var i:rango;
 begin
   max:=-1;
-  for i:=1 to tam do begin
-    if(v[i]>max)then begin
+  for i:=1 to motivo do
+    if(v[i]>max)then
       max:=v[i];
-      codmax:=i;
-    end;
-  end;
 end;
-function cumpleMenosPares(numero:integer):boolean;
-var resto,cantp,canti:integer;
+function menosPares(numero:integer):boolean;
+var dig,pares,impares:integer;
 begin
-  cantp:=0;canti:=0;
+  pares:=0;
+  impares:=0;
   while(numero<>0)do begin
-    resto:=numero mod 10;
-    if(resto mod 2=0)then
-      cantp:=cantp+1
-    else
-      canti:=canti+1;
+    dig:=numero mod 10;
+    if(dig mod 2 = 0)then  pares:=pares+1
+                     else  impares:=impares+1;
     numero:=numero div 10;
   end;
-  if(canti>cantp)then
-     cumpleMenosPares:=true
+  if(pares<impares)then
+    menosPares:=true
   else
-     cumpleMenosPares:=false;
-end;
-procedure recorrerLista2(L2:lista;v:vector);
-var codmax,cant,aux:integer;suma:real;
+    menosPares:=false;
+end;      
+procedure recorrerLista2(L:lista);
+var ctaActual,max,cant:integer;
+    montoTotal:real;
+    v:vcont;
 begin
   cant:=0;
-  while(L2<>nil)do begin
-    aux:=L2^.dato.numOrigen;
-    suma:=0;
-    while(L2<>nil)and(aux=L2^.dato.numOrigen)do
-      suma:=suma+L2^.dato.monto;
-    v[L2^.dato.cod]:=v[L2^.dato.cod]+1;
-    if(L2^.dato.mes=6)and(cumpleMenosPares(L2^.dato.numDestino))then
-      cant:=cant+1;
-    L2:=L2^.sig;
-    writeln('Monto total:',suma:2:2);
-  end;
-  calcularMaximo(v,codmax);
-  writeln('Código de motivo que más transferencias a terceros tuvo:',codmax);
-  writeln('la cantidad de transferencias a terceros realizadas en el mes de Junio en las
-cuales el número de cuenta destino posea menos dígitos pares que impares:',cant);
-end;
-var  L:lista;
-     L2:lista;
-     v:vector;
-begin
-  L:=nil;
-  L2:=nil;
   inicializar(v);
-  cargarLista(L);  //se dispone
-  recorrerLista(L,L2);
-  recorrerLista2(L2,v);
+  while(L<>nil)do begin
+    ctaActual:=L^.dato.nroOrigen;
+    montoTotal:=0;
+    while(L<>nil)and(ctaActual=L^.dato.nroOrigen)do begin
+      montoTotal:=montoTotal+L^.dato.monto;
+      v[L^.dato.codMotivo]:=v[L^.dato.codMotivo]+1;
+      if(L^.dato.fecha.mes=6)and(menosPares(L^.dato.nroDestino))then
+        cant:=cant+1;
+      L:=L^.sig;
+    end;
+    writeln('Cuenta de origen:',ctaActual,' monto total:',montoTotal:2:2);
+  end;
+  masTranferencias(max,v);
+  writeln('Código de motivo que más transferencias a terceros tuvo:',max);
+  writeln('Cantidad de trans en junio con nro cta destino con menos dig pares:',cant);
+end;
+var 
+  L,L2:lista;
+begin
+  L:=nil;  //se dispone
+  L2:=nil;
+  cargarLista(L); //se dispone
+  cargarLista2(L,L2);
+  recorrerLista2(L2);
+  writeln ('Hello World')
 end.
 { 
 9. Un cine posee la lista de películas que proyectará durante el mes de Febrero. De cada película se
