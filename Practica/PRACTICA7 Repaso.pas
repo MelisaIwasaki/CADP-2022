@@ -1156,160 +1156,370 @@ que impares en su DNI.
 d) Realizar un módulo que elimine de la lista que se dispone una película cuyo código se recibe
 como parámetro (el mismo puede no existir).
 }
-program Hello;
-const  dimF=8;
-type   rango=1..dimF;
-       cadena50=string[50];
-       pelicula=record
-         codigo:integer;
-         nombre:cadena50;
-         codGenero:rango;
-         puntaje:real;
-       end;
-       lista=^nodo;
-       nodo=record
-         dato:pelicula;
-         sig:lista;
-       end;
-       critico=record
-         dni:integer;
-         nomape:cadena50;
-         cod:integer;
-         punto:real;
-       end;
-       vector=array[rango]of real;
-procedure inicializar(var v:vector);
-var i:integer;
-begin
-  for i:=1 to dimF do
-    v[i]:=-1;
-end;
-procedure leerCritico(var c:critico);
-begin
-  write('Ingrese el codigo:');
-  readln(c.cod);
-  if(c.cod<>-1)then begin
-    write('Ingrese el DNI:');
-    readln(c.cod);
-    write('Ingrese nombre y apellido:');
-    readln(c.cod);
-    write('Ingrese el puntaje:');
-    readln(c.cod);
+program cine;
+const
+  dimF=8;
+type
+  cadena=string[30];
+  rango=1..dimF;
+  pelicula=record
+    codigo:integer;
+    titulo:cadena;
+    genero:rango;
+    puntaje:real;
   end;
-end;
-procedure leerPelicula(var p:pelicula);
+  lista=^nodo;  //se dispone
+  nodo=record
+    dato:pelicula;
+    sig:lista;
+  end;
+  critica=record
+    dni:integer;
+    ape:cadena;
+    nom:cadena;
+    cod:integer;
+    punto:real;
+  end;
+  vcont=array[rango]of real;
+
+procedure inicializar(var v:vcont);
+var i:rango;
 begin
-  write('Ingrese el codigo:');
+  for i:= 1 to dimF do
+    v[i]:=0;
+end;
+procedure leerPeli(var p:pelicula); //se dispone
+begin
+  writeln('Ingrese el codigo');
   readln(p.codigo);
-  if(p.codigo<>-1)then begin
-    write('Ingrese el nombre:');
-    readln(p.nombre);
-    write('Ingrese el codigo de genero:');
-    readln(p.codGenero);
-    write('Ingrese el punteje:');
-    readln(p.puntaje);
-  end;
+  writeln('Ingrese el titulo');
+  readln(p.titulo);
+  writeln('Ingrese el genero');
+  readln(p.genero);
+  writeln('Ingrese el puntaje');
+  readln(p.puntaje);
 end;
-procedure insertarPrincipio(var L:lista;p:pelicula);
+procedure agregarAdelante(var L:lista;p:pelicula); //se dispone
 var nue:lista;
 begin
   new(nue);
   nue^.dato:=p;
-  nue^.sig:=nil;
-  if(L=nil)then 
-    L:=nue
-  else 
-    nue^.sig:=L;
+  nue^.sig:=L;
   L:=nue;
 end;
-procedure cargarLista(var L:lista);
+procedure cargarPeli(var L:lista);  //se dispone
 var p:pelicula;
 begin
-  leerPelicula(p);
-  while(p.codigo<>-1)do begin
-    insertarPrincipio(L,p);
-    leerPelicula(p);
-  end;
+  repeat
+    leerPeli(p);
+    agregarAdelante(L,p);
+  until(p.codigo= 1122);
 end;
-function parImpar(dni:integer):boolean;
-var par,impar,dig:integer;
+procedure leerCritica(var c:critica);
+begin
+  writeln('Ingrese el dni');
+  readln(c.dni);
+  writeln('Ingrese el apellido');
+  readln(c.ape);
+  writeln('Ingrese el nombre');
+  readln(c.nom);
+  writeln('Ingrese el codigo');
+  readln(c.cod);
+  writeln('Ingrese el puntaje');
+  readln(c.punto);
+end;
+
+function paresImpares(dni:integer):boolean;
+var dig,par,impar:integer;
 begin
   par:=0;impar:=0;
   while(dni<>0)do begin
     dig:=dni mod 10;
-    if(dig mod 2=0)then
+    if(dig mod 2 = 0)then
       par:=par+1
     else
       impar:=impar+1;
     dni:=dni div 10;
   end;
-  parImpar:=(par=impar);
+  if(par=impar)then
+    paresImpares:=true
+  else
+    paresImpares:=false;
 end;
-procedure masPuntaje(v:vector);
-var i,cod:integer;max:real;
+procedure actualizar(L:lista;var v:vcont);
+var c:critica;
+    codActual,total:integer;
+    suma,promedio:real;
 begin
-  max:=-1;
-  for i:=1 to dimF do  
-    if(v[i]>max)then begin
-      cod:=i;
-      max:=v[i];
-    end;
-    writeln(cod,' tuvo el mayor puntaje:',max:2:2);
-end;
-procedure actualizar(var v:vector;L:lista);
-var c:critico;Actual,cant:integer;promedio,suma:real;
-begin
-  leerCritico(c);
-  suma:=0;cant:=0;
+  total:=0;
+  leerCritica(c);
   while(c.cod<>-1)do begin
-    Actual:=c.cod;
-    while(c.cod<>-1)and(Actual=c.cod)do begin
-      if(parImpar(c.dni))then
-        writeln('Nombre y apellido de aquellos críticos con cantidad de dígitos pares que impares en su DNI:',c.nomape);
-      suma:=suma+c.punto;
-      cant:=cant+1;
-      leerCritico(c);
+    codActual:=c.cod;
+    suma:=0;
+    while(c.cod<>-1)and (codActual=c.cod)do begin
+      suma:=suma + c.punto;
+      total:=total+1;
+      if(paresImpares(c.dni))then
+        writeln('críticos con la misma cantidad de dígitos pares que impares en su DNI:',c.ape,' ',c.nom);
+      leerCritica(c);
     end;
-    promedio:=suma/cant;
+    promedio:=suma/total;  //promedio por cada codigo de pelicula
     while(L<>nil)do begin
-      if(L^.dato.codigo=c.cod)then
-        L^.dato.puntaje:=promedio;
-      if(v[L^.dato.codigo]<L^.dato.puntaje)then
-        v[L^.dato.codigo]:=L^.dato.puntaje;
+      if(L^.dato.codigo=codActual)then  //pregunto si los codigos de peli son iguales
+          L^.dato.puntaje:=promedio;       //Le agrego nuevo promedio
+      v[L^.dato.genero]:=v[L^.dato.genero]+L^.dato.puntaje;  //Le cargo el promedio en el vector
       L:=L^.sig;
     end;
   end;
 end;
-procedure Eliminar(var L:lista;numero:integer);
-var act,ant:lista;ok:boolean;
+procedure informar(v:vcont);
+var i:rango;max:real;pos:integer;
 begin
-  act:=L;ant:=L;ok:=false;
-  while(act<>nil)and(not ok)do 
-    if(act^.dato.codigo=numero)then
-      ok:=true
-    else begin
-      ant:=act;
-      act:=act^.sig;
+  max:=-1;
+  for i:=1 to dimF do
+    if(v[i]>max)then begin
+      max:=v[i];
+      pos:=i;
     end;
-    if(ok=true)then begin
-      if(act=L)then
-        L:=act^.sig
-      else
-        ant^.sig:=act^.sig;
-      dispose(act);
+  writeln('Código de género que más puntaje obtuvo entre todas las críticas:',pos);
+end;    
+procedure eliminar(var L:lista;codigo:integer;var exito:boolean);
+var  ant,act:lista;num:integer;
+begin
+    exito:= false;
+    act:= L;
+    while(act <> nil)and(act^.dato.codigo <> codigo )do begin
+        ant:= act;
+        act:= act^.sig;
+    end;
+    if(act <> nil)then begin
+        exito:= true;
+        if(act = L)then   L:= act^.sig
+                   else   ant^.sig:= act^.sig;
+        dispose(act);
+    end;
+end;          
+var
+  L:lista;
+  v:vcont;
+  codigo:integer;
+  ok:boolean;
+begin
+  L:=nil;  //se dispone
+  cargarPeli(L); //se dispone
+  actualizar(L,v);
+  informar(v);
+  writeln('Ingrese un codigo a eliminar');
+  readln(codigo);
+  eliminar(L,codigo,ok);
+  if(ok)then  writeln('Se elimino de la lista')
+        else  writeln('No se encontro el codigo');
+end.
+{
+10. Una compañía de venta de insumos agrícolas desea procesar la información de las empresas a las que
+les provee sus productos. De cada empresa se conoce su código, nombre, si es estatal o privada,
+nombre de la ciudad donde está radicada y los cultivos que realiza (a lo sumo 20). Para cada cultivo
+de la empresa se registra: tipo de cultivo (trigo, maíz, soja, girasol, etc.), cantidad de hectáreas
+dedicadas y la cantidad de meses que lleva el ciclo de cultivo.
+a. Realizar un programa que lea la información de las empresas y sus cultivos. Dicha información
+se ingresa hasta que llegue una empresa con código -1 (la cual no debe procesarse). Para cada
+empresa se leen todos sus cultivos, hasta que se ingrese un cultivo con 0 hectáreas (que no
+debe procesarse).
+Una vez leída y almacenada la información, calcular e informar:
+b. Nombres de las empresas radicadas en “San Miguel del Monte” que cultivan trigo y cuyo código
+de empresa posee al menos dos ceros.
+c. La cantidad de hectáreas dedicadas al cultivo de soja y qué porcentaje representa con respecto
+al total de hectáreas.
+d. La empresa que dedica más tiempo al cultivo de maíz
+e. Realizar un módulo que incremente en un mes los tiempos de cultivos de girasol de menos de 5
+hectáreas de todas las empresas que no son estatales.
+}
+
+
+{
+11. Realizar un programa para una empresa productora que necesita organizar 100 eventos culturales. De
+cada evento se dispone la siguiente información: nombre del evento, tipo de evento (1: música, 2: cine, 3:
+obra de teatro, 4: unipersonal y 5: monólogo), lugar del evento, cantidad máxima de personas permitidas
+para el evento y costo de la entrada. Se pide:
+1. Generar una estructura con las ventas de entradas para tales eventos culturales. De cada venta se
+debe guardar: código de venta, número de evento (1..100), DNI del comprador y cantidad de
+entradas adquiridas. La lectura de las ventas finaliza con código de venta -1.
+2. Una vez leída y almacenada la información de las ventas, calcular e informar:
+a. El nombre y lugar de los dos eventos que han tenido menos recaudación.
+b. La cantidad de entradas vendidas cuyo comprador contiene en su DNI más dígitos pares que
+impares y que sean para el evento de tipo “obra de teatro”.
+c. Si la cantidad de entradas vendidas para el evento número 50 alcanzó la cantidad máxima de
+personas permitidas.
+}
+program productora; //Ya esta,anda bien
+const
+  dimF=3;//100;
+type
+  cadena=string[30];
+  rango=1..dimF;
+  rangoTipo=1..5;
+  evento=record
+    nom:cadena;
+    tipo:rangoTipo;  //(1: música, 2: cine, 3:obra de teatro, 4: unipersonal y 5: monólogo)
+    lugar:cadena;
+    cantMaxPers:integer;
+    costo:real;
+  end;
+  vector=array[rango]of evento;  //se dispone
+  venta=record
+    cod:integer;
+    num:rango;    //número de evento (1..100) del vector
+    dni:integer;
+    cantEnt:integer;
+  end;
+  lista=^nodo;
+  nodo=record
+    dato:venta;
+    sig:lista;
+  end;
+  rMinimo=record
+    min:real;
+    nom:cadena;
+    lug:cadena;
+  end;
+  vMinimo=array[1..2]of rMinimo;  //para sacar los dos minimos
+
+procedure cargarVector(var v:vector); //se dispone
+begin
+  v[1].nom:='Evento';
+  v[1].tipo:=1;
+  v[1].lugar:='La Plata';
+  v[1].cantMaxPers:=1000;
+  v[1].costo:=10;
+  v[2].nom:='Feria';
+  v[2].tipo:=2;
+  v[2].lugar:='City Bell';
+  v[2].cantMaxPers:=50;
+  v[2].costo:=11;
+  v[3].nom:='Arte';
+  v[3].tipo:=3;
+  v[3].lugar:='Ensenada';
+  v[3].cantMaxPers:=100;
+  v[3].costo:=12;
+end;
+procedure leerVenta(var v:venta);
+begin
+  writeln('Ingrese el codigo');
+  readln(v.cod);
+  if(v.cod<>-1)then begin
+    writeln('Ingrese el numero de evento');
+    readln(v.num);
+    writeln('Ingrese el DNI');
+    readln(v.dni);
+    writeln('Ingrese la cantidad de entradas');
+    readln(v.cantEnt);
   end;
 end;
-var L:lista;
-    v:vector;
-    cod:integer;
+procedure agregarAdelante(var L:lista;v:venta);
+var nue:lista;
+begin
+  new(nue);
+  nue^.dato:=v;
+  nue^.sig:=L;
+  L:=nue;
+end;
+procedure cargarVenta(var L:lista);
+var v:venta;
+begin
+  leerVenta(v);
+  while(v.cod<>-1)do begin
+    agregarAdelante(L,v);
+    leerVenta(v);
+  end;
+end;
+
+procedure minimoQNoAnda(var min1,min2:real;var nom1,nom2:cadena;var lug1,lug2:cadena;recaudacion:real;nom,lugar:cadena);
+begin
+  if(recaudacion<min1)then begin
+    min2:=min1;
+    min1:=recaudacion;
+    nom2:=nom1;  writeln('nom2:',nom2); //nom1,nom2,lug1,lug2 anda mal,no guarda los valores
+    nom1:=nom;   writeln('nom1:',nom1); //<-esto ni siquiera lo esta leyendo
+    lug2:=lug1;  writeln('lug2:',lug2); //Estaba bien el modulo.La recaudacion pasaba al minimo,por eso 
+    lug1:=lugar; writeln('lug1:',lug1); //que no entraba al if.
+  end
+  else if(recaudacion<min2)then begin
+         min2:=recaudacion;
+         nom2:=nom;
+         lug2:=lugar;
+  end;                          
+end;
+procedure inicializarMinimo(var vm:vMinimo); 
+var i:integer;
+begin
+  for i:=1 to 2 do begin
+    vm[i].min:=9999;
+    vm[i].nom:='vacio';
+    vm[i].lug:='vacio';
+    writeln('Que tiene en el vector min:',vm[i].min,' ',vm[i].nom,' ',vm[i].lug);
+  end;
+end;
+procedure minimo(var vm:vMinimo;recaudacion:real;nom,lugar:cadena);
+begin
+  //writeln('Que tiene recaudacion en minimo:',recaudacion);
+  //writeln('Que tiene vm[1].min:',vm[1].min);
+  if(recaudacion < (vm[1].min))then begin  //no esta entrando en if,o sea que esta dando falso
+    vm[2].min:=vm[1].min;                  //claro,porque la cant de recaudacion se pasaba los 9999
+    vm[2].nom:=vm[1].nom;
+    vm[2].lug:=vm[1].lug;
+    vm[1].min:=recaudacion;
+    vm[1].nom:=nom;
+    vm[1].lug:=lugar;
+  end
+  else if(recaudacion < vm[2].min)then begin
+         vm[2].min:=recaudacion;
+         vm[2].nom:=nom;
+         vm[2].lug:=lugar;
+  end;
+end;
+function masPares(dni:integer):boolean;
+var dig,pares,impares:integer;
+begin
+  pares:=0;impares:=0;
+  while(dni<>0)do begin
+    dig:=dni mod 10;
+    if(dig mod 2 = 0)then
+      pares:=pares+1
+    else
+      impares:=impares+1;
+    dni:=dni div 10;
+  end;
+  if(pares>impares)then
+    masPares:=true
+  else
+    masPares:=false;
+end;
+procedure recorrerVenta(L:lista;v:vector);  { evento->vector venta->lista}
+var recaudacion:real;
+    vm:vMinimo;
+begin
+  inicializarMinimo(vm);
+  while(L<>NIL)do begin
+    recaudacion:=v[L^.dato.num].costo* L^.dato.cantEnt;
+    //writeln('Prueba, que tiene recaudacion:',recaudacion); //bien
+    //writeln('Prueba, que tiene v[L^.dato.num].nom:',v[L^.dato.num].nom); //bien
+    //writeln('Prueba, que tiene v[L^.dato.num].lugar:',v[L^.dato.num].lugar); //bien
+    minimo(vm,recaudacion,v[L^.dato.num].nom,v[L^.dato.num].lugar);//ya anda
+    if(v[L^.dato.num].tipo= 3)and(masPares(L^.dato.dni))then
+      writeln('Cantidad de entradas de Obra de Teatro con dni mas pares:',L^.dato.cantEnt);
+    if(L^.dato.num=3)and(L^.dato.cantEnt >= v[3].cantMaxPers)then   //en vez de 50->3 para probar
+      writeln('El evento 50 alcanzó la cantidad máxima de personas permitidas');
+    L:=L^.sig;
+  end;
+  writeln('El nombre y lugar de los dos eventos que han tenido menos recaudación:');
+  writeln('Evento 1: ',vm[1].nom,' ',vm[1].lug,' Evento 2: ',vm[2].nom,' ',vm[2].lug);
+end;
+var
+  L:lista;
+  v:vector;
 begin
   L:=nil;
-  inicializar(v);
-  cargarLista(L);
-  actualizar(v,L);
-  masPuntaje(v);
-  write('Ingrese el codigo a borrar:');
-  readln(cod);
-  Eliminar(L,cod);
+  cargarVenta(L);
+  cargarVector(v);
+  recorrerVenta(L,v);
 end.
-
