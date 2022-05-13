@@ -38,7 +38,7 @@ puntero_cadena = ^cadena; //4 (puntero)
 var
 pc: puntero_cadena;       //4
 begin
-writeln(sizeof(pc), ' bytes');  //8 bytes
+writeln(sizeof(pc), ' bytes');  //En el pascal de GDB online, el puntero ocupa 8 bytes
 new(pc);
 writeln(sizeof(pc), ' bytes');  //8 bytes 
 pc^:= 'un nuevo nombre';
@@ -64,7 +64,7 @@ var
 p: puntero_producto;  //4
 prod: producto;       //16
 begin
-writeln(sizeof(p), ' bytes');     //8
+writeln(sizeof(p), ' bytes');     //En el pascal de GDB online, el puntero ocupa 8 bytes
 writeln(sizeof(prod), ' bytes');  //24
 new(p);
 writeln(sizeof(p), ' bytes');     //8
@@ -90,7 +90,7 @@ n: puntero_numeros;  //4
 num: numeros;        //20000
 i:integer;           //2
 begin
-writeln(sizeof(n), ' bytes');   //8
+writeln(sizeof(n), ' bytes');   //En el pascal de GDB online, el puntero ocupa 8 bytes
 writeln(sizeof(num), ' bytes'); //20000
 new(n);
 writeln(sizeof(n^), ' bytes');  //20000
