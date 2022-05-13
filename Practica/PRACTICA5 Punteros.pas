@@ -202,7 +202,18 @@ Dispose( PtrEmpleado );//400000-72-4-72
 //Libero espacio en memoria por lo tanto tengo nuevamente 400000-72-4
 end.
 {
-6) Se desea almacenar en memoria una secuencia de 2500 nombres de ciudades, cada nombre podrá
+6) Realizar un programa que ocupe 50 KB de memoria en total. Para ello:
+a) El programa debe utilizar sólo memoria estática
+b) El programa debe utilizar el 50% de memoria estática y el 50% de memoria dinámica
+c) El programa debe minimizar tanto como sea posible el uso de la memoria estática (a lo sumo, 4
+bytes)
+}
+
+
+
+
+{
+7) Se desea almacenar en memoria una secuencia de 2500 nombres de ciudades, cada nombre podrá
 tener una longitud máxima de 50 caracteres.
 a) Definir una estructura de datos estática que permita guardar la información leída. Calcular el tamaño
 de memoria que requiere la estructura.
@@ -251,3 +262,40 @@ begin
     readln(v[i]^)-->otra forma
   end;
 end;
+
+{
+8) Analice el siguiente programa:
+1. program memoria;
+2. type
+3. datos = array [1..20] of integer;
+4. punt = ^datos;
+5.
+6. procedure procesarDatos(v : datos; var v2 : datos);
+7. var
+8. i, j : integer;
+9. begin
+10. for i := 1 to 20 do
+11. v2[21 - i] := v[i];
+12. end;
+13.
+14. var
+15. vect : datos;
+16. pvect : punt;
+17. i : integer;
+18. begin
+19. for i:= 1 to 20 do
+20. vect[i] := i;
+21. new(pvect);
+22. for i:= 20 downto 1 do
+23. pvect^[i] := 0;
+24. procesarDatos(pvect^, vect);
+25. writeln(‘fin’);
+26. end.
+Responda: ¿cuánta memoria en total ocupa el programa al ejecutarse? Considere tanto variables estáticas
+como dinámicas, parámetros y variables locales de los módulos.
+a) Hasta la sentencia de la línea 18
+b) Hasta la sentencia de la línea 20
+c) Hasta la sentencia de la línea 23
+d) Hasta la sentencia de la línea 11
+e) Hasta la sentencia de la línea 25
+}
