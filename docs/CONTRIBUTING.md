@@ -66,27 +66,6 @@ begin
        end;
 end;
 ````
-> dimL  ***otra forma***
-````pascal
-const
-  dimF=5;
-type
-  vNumeros=array[1..dimF]of integer;
-  
-procedure cargarVector(var a:vNumeros;var dimL:integer);
-var
-  i,num:integer;
-begin
-  i:=1;
-  readln(num);
-  while(i<=dimF)and(num<>-1)do begin
-    a[i]:=num;
-    i:=i+1;
-    readln(num);
-  end;
-  dimL:=i-1;
-end;
-````
 > Repeat until  ***La informacion de los clientes finaliza al ingresar al cliente 'Mirtha Legrand'con dni 2320718 
    (que debe procesarse)o al alcanzarse el maximo de clientes.***
 ````pascal
@@ -318,6 +297,24 @@ begin
     v[ p ] := v[ i ];   
     v[ i ] := item;
   end;
+end;
+````
+> Insertar Ordenado
+````pascal
+procedure insertar (var v:vector;var dimL:integer;a:alumno;var ok:boolean);
+var
+  i,pos:integer;
+begin
+  ok:=false;
+  if(dimL + 1 <= dimF)then
+    ok:=true;
+    pos:=1;
+    while(pos <= dimL)and(v[pos].nro < a.nro)do
+      pos:= pos + 1;
+    for i:= dimL downto pos do
+      v[i + 1]:= v[i];
+    v[pos]:= a;
+    dimL:= dimL + 1;
 end;
 ````
 > Dado un arreglo de números enteros (150 elementos como máximo) realice un programa que genere otro arreglo 
