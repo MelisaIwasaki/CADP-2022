@@ -152,7 +152,9 @@ begin
                      else   ant^.sig:= act^.sig;
           dispose(act);
      end;
-end;          
+end; 
 ````
+
+![avatar](https://user-images.githubusercontent.com/92184167/168390241-fee05258-a6f8-48c4-921b-9c9aafbfe7f5.jpg)
 
 <!-- hacer 4 caso de insercion y falta Buscar un elemento en la lista -->
