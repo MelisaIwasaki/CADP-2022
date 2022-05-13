@@ -491,9 +491,9 @@ begin
     anioMax:=anio;
   end;
 end;
-procedure maximo(vcid:vciud; var vmax:vdiez); //este es lo mismo que un insertar
-var
-	i,j,pos:integer;
+procedure maximo(vcid:vciud; var vmax:vdiez); //este modulo lo hizo un compañero y anda perfecto 
+var					      //la profe dijo que era como un insertar
+	i,j,pos:integer;		      //yo todavia no entiendo la logica de como elegir 10 maximos de los 2400 ciudades
 begin
   for i:=1 to 2400 do begin
   pos:=1;
