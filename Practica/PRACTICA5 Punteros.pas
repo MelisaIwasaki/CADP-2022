@@ -208,10 +208,121 @@ b) El programa debe utilizar el 50% de memoria estática y el 50% de memoria din
 c) El programa debe minimizar tanto como sea posible el uso de la memoria estática (a lo sumo, 4
 bytes)
 }
+program Punteros6a;  //50kb = 50.000
+const
+  dimF=162;
+type
+  cadena=string[99]; //100
+  celular=record   //celular:100+100+4+4+100+2:310
+    marca:cadena;  //100
+    modelo:cadena; //100
+    precio:real;   //4
+    memoria:real;  //4
+    color:cadena;  //100
+    stock:integer;  //2
+  end;
+  vector=array[1..dimF]of celular; //162*310 = 50.220 ocupa en la memoria estatica.
 
 
+procedure cargar(var v:vector);
+var i:integer;
+begin
+  for i:=1 to dimF do
+    leer(v[i]);
+end;
+var
+  v:vector;
+begin
+  writeln(sizeof(v), ' bytes');
+end.
+********************************************************************************************  
 
+program Punteros6b;  //25kb de mem estatica y 25kb de mem dinamica, 25kb= 25.000byte
+const
+  dimF=80.6;
+type
+  cadena=string[99]; //100
+  celular=record   //celular:100+100+4+4+100+2:310
+    marca:cadena;  //100
+    modelo:cadena; //100
+    precio:real;   //4
+    memoria:real;  //4
+    color:cadena;  //100
+    stock:integer;  //2
+  end;
+  vector=array[1..dimF]of celular; //80.6*310= 24.986 byte ocupa en la memoria estatica.
+  
+  pCelu:=^vector;
 
+procedure leer(var c:celular);
+begin
+  writeln('Marca:');
+  readln(c.marca);
+  writeln('Modelo');
+  readln(c.modelo);
+  writeln('Precio:');
+  readln(c.marca);
+  writeln('Memoria');
+  readln(c.modelo);
+  writeln('Color:');
+  readln(c.marca);
+  writeln('Stock');
+  readln(c.modelo);
+end;
+procedure cargar(var v:vector);
+var i:integer;c:celular;
+begin
+  for i:=1 to dimF do begin
+    leer(v[i]);
+end;
+procedure cargarPuntero(var pun:pCelu);
+begin
+    cargar(v[i]^);
+end;
+var 
+  v:vector;  //24.986 byte 
+  pun:pCelu; //4 byte -->24.986+4= 24990 ocupa en la memoria estatica
+begin
+  cargar(v);  
+  new(pun);
+  cargarPuntero(pun); //24.986 byte ocupa en la memoria dinamica
+end.                  //En total serian 24.986 + 4 + 24.986= 49.976 byte
+********************************************************************************************
+program Punteros6c;
+const
+  dimF=80.6;
+type
+  cadena=string[99]; //100
+  celular=record   //celular:100+100+4+4+100+2:310
+    marca:cadena;  //100
+    modelo:cadena; //100
+    precio:real;   //4
+    memoria:real;  //4
+    color:cadena;  //100
+    stock:integer;  //2
+  end;
+  vector=array[1..dimF]of celular; //80.6*310= 24.986 byte 
+  
+  pCelu:=^vector;
+
+procedure leer(var c:celular);
+
+procedure cargar(var v:vector);
+var i:integer;c:celular;
+begin
+  for i:=1 to dimF do begin
+    leer(v[i]);
+end;
+procedure cargarPuntero(var pun:pCelu);
+begin
+    cargar(v[i]^);
+end;
+var
+  pun:pCelu;  //4 byte en meoria estatica
+begin
+  new(pun);
+  cargarPuntero(pun);  //En total serian 24.986 + 24.986= 49.972 byte en memoria dinamica
+end.
 {
 7) Se desea almacenar en memoria una secuencia de 2500 nombres de ciudades, cada nombre podrá
 tener una longitud máxima de 50 caracteres.
