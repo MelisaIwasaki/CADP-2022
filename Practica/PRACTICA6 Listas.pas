@@ -1668,3 +1668,115 @@ o La distancia promedio recorrida por corredores de Brasil.
 o La cantidad de corredores que partieron de una ciudad y finalizaron en otra ciudad.
 o El paso (cantidad de minutos por km) promedio de los corredores de la ciudad de Boston.
 }
+program competencia;
+type
+  cadena=string[50];
+  corredor=record
+    nomYape:cadena;
+    distancia:real;
+    minuto:real;
+    pais:cadena;
+    ciuPart:cadena;
+    ciuFinal:cadena;
+  end;
+  lista=^nodo;
+  nodo=record
+    dato:corredor;
+    sig:lista;
+  end;
+
+procedure leerCorredor(var c:corredor);
+begin
+  writeln('Ingrese el nombre y apellido');
+  readln(c.nomYape);
+  writeln('Ingrese la distancia');
+  readln(c.distancia);
+  writeln('Ingrese el tiempo');
+  readln(c.minuto);
+  writeln('Ingrese el pais');
+  readln(c.pais);
+  writeln('Ciudad de partida');
+  readln(c.ciuPart);
+  writeln('Ciudad de llegada');
+  readln(c.ciuFinal);
+end;
+procedure insertarOrdenado(var L:lista;c:corredor);
+var nue,ant,act:lista;
+begin
+  new(nue);
+  nue^.dato:=c;
+  ant:=L;
+  act:=L;
+  while(act<>nil)and(act^.dato.ciuPart< c.ciuPart)do begin
+    ant:=act;
+    act:=act^.sig;
+  end;
+  if(ant=act)then  L:=nue
+             else  ant^.sig:=nue;
+  nue^.sig:=act;
+end;
+procedure cargarLista(var L:lista);
+var c:corredor;
+begin
+  leerCorredor(c);
+  while(c.nomYape<>'Fulano')do begin
+    insertarOrdenado(L,c);
+    leerCorredor(c);
+  end;
+end;
+
+procedure mayorCantCorredores(ciudActual:cadena;cantPorCiud:integer;var max:integer;var ciudad:cadena;cantkm:real;var km:real);
+begin
+  if(cantPorCiud> max)then begin
+    max:=cantPorCiud;
+    ciudad:=ciudActual;
+    km:=cantkm;
+  end;
+end;
+procedure recorrerLista(L:lista);
+var  
+    cantTotal,cantPorCiud,max,sumaBrasil,cantCiuDistinta:integer;
+    ciudActual,ciudad:cadena;
+    disTotal,tiempoTotal,distBrasil,km,cantkm,promedio,sumaMin,sumaKm,promBoston:real;
+begin
+  max:=-1;sumaBrasil:=0;cantCiuDistinta:=0;sumaMin:=0;sumaKm:=0;
+  cantTotal:=0;disTotal:=0;tiempoTotal:=0;distBrasil:=0;
+  while(L<>nil)do begin
+    ciudActual:=L^.dato.ciuPart;
+    cantPorCiud:=0;cantKm:=0;
+    while(L<>nil)and(ciudActual=L^.dato.ciuPart)do begin
+      cantTotal:=cantTotal+1;
+      disTotal:=disTotal+L^.dato.distancia;
+      tiempoTotal:=tiempoTotal+L^.dato.minuto;
+      cantPorCiud:=cantPorCiud+1;
+      cantKm:=cantKm+L^.dato.distancia;
+      if(L^.dato.pais='Brasil')then
+        sumaBrasil:=sumaBrasil+1;
+        distBrasil:=distBrasil+L^.dato.distancia;
+      if(L^.dato.ciuPart<>L^.dato.ciuFinal)then
+        cantCiuDistinta:=cantCiuDistinta+1;
+      if(L^.dato.pais='Boston')then
+        sumaMin:=sumaMin+L^.dato.minuto;
+        sumaKm:=sumaKm+L^.dato.distancia;
+      L:=L^.sig;
+    end;
+    mayorCantCorredores(ciudActual,cantPorCiud,max,ciudad,cantkm,km)
+  end;
+  promedio:=distBrasil/sumaBrasil;
+  promBoston:=sumaMin/sumaKm;
+  writeln('La cantidad total de corredores',cantTotal);
+  writeln('La distancia total recorrida',disTotal:2:2);
+  writeln('El tiempo total de carrera de todos los corredores',tiempoTotal:2:2);
+  writeln('El nombre de la ciudad que convocó la mayor cantidad de corredores',ciudad);
+  writeln('la cantidad total de kilómetros recorridos por los corredores de esa ciudad',km:2:2);
+  writeln('La distancia promedio recorrida por corredores de Brasil',promedio:2:2);
+  writeln('La cantidad de corredores que partieron de una ciudad y finalizaron en otra ciudad',cantCiuDistinta);
+  writeln('El paso (cantidad de minutos por km) promedio de los corredores de la ciudad de Boston',promBoston:2:2);
+end;
+var
+  L:lista;
+begin
+  L:=nil;
+  cargarLista(L);
+  recorrerLista(L);
+end.
