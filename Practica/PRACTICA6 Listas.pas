@@ -1392,8 +1392,137 @@ b. La cantidad de alumnos que gastan en transporte más de $80 por día
 c. Los dos medios de transporte más utilizados.
 d. La cantidad de alumnos que combinan bicicleta con algún otro medio de transporte
 }
-
-
+program becasTransporte; 
+const
+  alu=1300;
+type
+  rangoAlu=1..alu;
+  rangoDia=1..31;
+  rangoMedio=1..5;
+  cadena=string[30];
+  viaje=record
+    codigo:rangoAlu;
+    dia:rangoDia;
+    facultad:cadena;
+    transporte:rangoMedio;
+  end;
+  lista=^nodo;
+  nodo=record
+    dato:viaje;
+    sig:lista;
+  end;
+  vprecios=array[rangoMedio]of real;  //se dispone
+  vcodigo=array[rangoAlu]of lista;  //cada alumno tiene una lista de viajes
+  vmedio=array[rangoMedio]of integer;  //transporte más utilizados
+  
+procedure leer(var vi:viaje);
+begin
+  writeln('Ingrese el codigo');
+  readln(vi.codigo);
+  if(vi.codigo<>-1)then begin
+    writeln('Ingrese el dia');
+    readln(vi.dia);
+    writeln('Ingrese la facultad');
+    readln(vi.facultad);
+    writeln('Ingrese el transporte');
+    readln(vi.transporte);
+  end;
+end;
+procedure insertarOrdenado(var L:lista;vi:viaje);
+var nue,ant,act:lista;
+begin
+  new(nue);
+  nue^.dato:=vi;
+  ant:=L;
+  act:=L;
+  while(act<>nil)and(act^.dato.dia<vi.dia)do begin
+    ant:=act;
+    act:=act^.sig;
+  end;
+  if(ant=act)then  L:=nue;
+             else  ant^.sig:=nue;
+  nue^.sig:=act;
+end;
+procedure inicializarVc(var vc:vcodigo);
+var i:rangoAlu;
+begin
+  for i:=1 to alu do
+    vc[i]:=nil;
+end;
+procedure cargar(var vc:vcodigo);
+var vi:viaje;
+begin
+  leer(vi);
+  while(vi.codigo<>-1)do begin
+    insertarOrdenado(vc[vi.codigo],vi);
+    leer(vi);
+  end;
+end;
+procedure inicializarVm(var vm:vmedio);
+var i:rangoMedio;
+begin
+  for i:= 1 to 5 do
+    vm[i]:=0;
+end;
+procedure maximo(vm:vmedio;var max1,max2:integer;var cod1,cod2:integer);
+var i:rangoMedio;
+begin
+  for i:=1 to 5 do begin
+    if(vm[i]>max1)then begin
+      max2:=max1;
+      max1:=vm[i];
+      cod2:=cod1;
+      cod1:=i;
+    end 
+    else if(vm[i]>max2)then begin
+           max2:=vm[i];
+           cod2:=i;
+    end;
+  end;
+end;
+procedure recorrer(vc:vcodigo;);
+var vm:vmedio;vp:vprecios;
+    diaActual,viajesPorDia,cantSeisViajes,gastoPorDia,cantMasDe80:integer;
+    i:rangoAlu;max1,max2,cod1,cod2,Bici,NoBici:integer;
+begin
+  max1:=-1;cod1:=0;
+  cantSeisViajes:=0;cantMasDe80:=0;combinanBici:=0;
+  inicializarVm(vm);
+  for i:=1 to alu do begin    //recorre el vector de 1300 alumnos
+    L:=vc[i];                 //cada alumno tiene una lista
+    Bici:=0;NoBici:=0;
+    while(L <> nil)do begin     //recorre la lista de un alumno
+      diaActual:=L^.dato.dia; 
+      viajesPorDia:=0;
+      while(L <> nil)and(diaActual = L^.dato.dia)do begin  //por dia
+        viajesPorDia:=viajesPorDia+1;
+        gastoPorDia:=gastoPorDia + vp[L^.dato.transporte];
+        vm[L^.dato.transporte]:= vm[L^.dato.transporte]+1;
+        if(L^.dato.transporte = 5)then   Bici:= Bici+1
+                                else   NoBici:= NoBici+1;
+        L:=L^.sig;
+      end;
+      if(viajesPorDia > 6)then
+        cantSeisViajes:=cantSeisViajes+1;
+      if(gastoPorDia > 80)then
+        cantMasDe80:=cantMasDe80+1;
+    end;
+    if(Bici>=1)and(NoBici>=1)then
+      combinanBici:=combinanBici+1;
+  end;
+  maximo(vm,max1,max2,cod1,cod2);
+  writeln('La cantidad de alumnos que realizan más de 6 viajes por día',cantSeisViajes);
+  writeln('La cantidad de alumnos que gastan en transporte más de $80 por día',cantMasDe80);
+  writeln('Los dos medios de transporte más utilizados',cod1,' ',cod2);
+  writeln('La cantidad de alumnos que combinan bicicleta con algún otro medio de transporte',combinanBici);
+end;
+var 
+  vc:vcodigo;
+begin
+  inicializarVc(vc);
+  cargar(vc);
+  recorrer(vc);
+end.
 {
 15. La cátedra de CADP está organizando la cursada para el año 2019. Para ello, dispone de una lista con todos 
 los alumnos que cursaron EPA. De cada alumno se conoce su DNI, apellido, nombre y la nota obtenida. Escribir 
