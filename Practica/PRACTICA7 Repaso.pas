@@ -1334,7 +1334,171 @@ d. La empresa que dedica más tiempo al cultivo de maíz
 e. Realizar un módulo que incremente en un mes los tiempos de cultivos de girasol de menos de 5
 hectáreas de todas las empresas que no son estatales.
 }
+program agricultura;
+const
+  dimF=20;
+type
+  cadena=string[30];
+  rango=1..dimF;
+  cultivos=record
+    tipo:cadena;
+    hectarea:real;
+    meses:integer;
+  end;
+  vector=array[rango]of cultivos;
+  empresa=record
+    cod:integer;
+    nom:cadena;
+    estOpri:boolean;
+    ciudad:cadena;
+    cultivo:vector;
+    dimL:integer;
+  end;
+  lista=^nodo;
+  nodo=record
+    dato:empresa;
+    sig:lista;
+  end;
+  
+procedure leerCultivo(var c:cultivos);
+begin
+  writeln('Ingrese la cantidad de hectareas');
+  readln(c.hectarea);
+  if(c.hectarea<> 0)then begin
+    writeln('Ingrese el tipo de cultivo[1-20]');
+    readln(c.tipo);
+    writeln('Ingrese la cantidad de meses');
+    readln(c.meses);
+  end;
+end;
+procedure cargarCultivo(var v:vector;var dimL:integer);
+var c:cultivos;
+begin
+  dimL:=0;
+  leerCultivo(c);
+  while (dimL< dimF)and(c.hectarea<> 0)do begin
+    dimL:=dimL+1;
+    v[dimL]:= c;
+    leerCultivo(c);
+  end;
+end;
+procedure leerEmpresa(var e:empresa;var v:vector);
+var aux:char;dim:integer;
+begin
+  writeln('Ingrese el codigo');
+  readln(e.cod);
+  if(e.cod<> -1)then begin
+    writeln('Ingrese el nombre');
+    readln(e.nom);
+    writeln('Ingrese E para estatal, P para privado');
+    readln(aux);
+    e.estOpri:=(aux='E');  //significa que E es true
+    writeln('Ingrese la ciudad');
+    readln(e.ciudad);
+    writeln('Se leen los cultivos de la empresa');
+    cargarCultivo(v,dim);
+    e.dimL:=dim;
+  end;
+end;
+procedure agregarAdelante(var L:lista; e:empresa);
+var nue:lista;
+begin
+  new(nue);
+  nue^.dato:=e;
+  nue^.sig:=L;
+  L:=nue;
+end;
 
+procedure cargarEmpresa(var L:lista; var v:vector);
+var e:empresa;
+begin
+  leerEmpresa(e,v);
+  while(e.cod<> -1)do begin
+    agregarAdelante(L,e);
+    leerEmpresa(e,v);
+  end;
+end;
+function dosCeros(codigo:integer):boolean;
+var dig,ceros:integer;
+begin
+  ceros:=0;
+  while(codigo<>0)and(ceros<=2)do begin
+    dig:=codigo mod 10;
+    if(dig=0)then ceros:=ceros+1;
+    codigo:=codigo div 10;
+  end;
+  if(ceros>=2)then dosCeros:=true
+    else dosCeros:=false;
+end;
+function buscoPos(v:vector;dimL:integer;busco:cadena):integer;
+var pos:integer;ok:boolean;
+begin
+  pos:=1;ok:=false;
+  while(pos<= dimL)and(not ok)do begin
+    if(busco= v[pos].tipo)then  ok:=true
+        else  pos:=pos+1;
+  end;
+  if(ok= false)then  buscoPos:=0
+    else  buscoPos:= pos;
+end;
+function sumaHectTotal(v:vector;dimL:integer):real;
+var i:integer;suma:real;
+begin
+  suma:=0;
+  for i:=1 to dimL do
+    suma:=suma + v[i].hectarea;
+  sumaHectTotal:=suma;
+end;
+procedure maximo(tiempo:integer;var max:integer;nom:cadena;var maxNom:cadena);
+begin
+  if(tiempo> max)then begin
+    max:=tiempo;
+    maxNom:=nom;
+  end;
+end;
+
+procedure recorrerLista(L:lista);
+var v:vector; 
+    maxNom:cadena;
+    pos,tiempoMaiz,max:integer;
+    hecTotal,porcentaje,cantHectSoja:real;
+begin
+  cantHectSoja:=0;hecTotal:=0;porcentaje:=0;max:=-1;maxNom:='';
+  while(L<>nil)do begin
+    pos:=(buscoPos(L^.dato.cultivo,L^.dato.dimL,'trigo'));
+    if(pos<>0)then begin
+      if(L^.dato.ciudad ='San Miguel del Monte')and(dosCeros(L^.dato.cod))then
+        writeln('Empresas radicadas en San Miguel del Monte con codigo minimo a 2 ceros:',L^.dato.nom);
+    end;
+    hecTotal:=hecTotal +(sumaHectTotal(L^.dato.cultivo,L^.dato.dimL));
+    pos:=(buscoPos(L^.dato.cultivo,L^.dato.dimL,'soja'));
+    if(pos<>0)then
+      cantHectSoja:=cantHectSoja+L^.dato.cultivo[pos].hectarea;
+      
+    pos:=(buscoPos(L^.dato.cultivo,L^.dato.dimL,'maiz'));
+    if(pos<>0)then begin
+      tiempoMaiz:=L^.dato.cultivo[pos].meses;
+      maximo(tiempoMaiz,max,L^.dato.nom,maxNom);
+    end;
+    pos:=(buscoPos(L^.dato.cultivo,L^.dato.dimL,'girasol'));
+    if(pos<>0)then begin
+      if(L^.dato.cultivo[pos].hectarea< 5)and(not L^.dato.estOpri)then //estOpri es un boolean
+        L^.dato.cultivo[pos].meses:=L^.dato.cultivo[pos].meses + 1;
+    end;
+    L:=L^.sig;
+  end;
+  porcentaje:=cantHectSoja*100/hecTotal;
+  writeln('Porcentaje de hectareas dedicadas al cultivo de soja:',porcentaje:2:2,'%');
+  writeln('La empresa que dedica más tiempo al cultivo de maíz:',maxNom);
+end;
+var
+  L:lista;
+  v:vector;
+begin
+  L:=nil;
+  cargarEmpresa(L,v);
+  recorrerLista(L);
+end.
 
 {
 11. Realizar un programa para una empresa productora que necesita organizar 100 eventos culturales. De
@@ -1523,3 +1687,50 @@ begin
   cargarVector(v);
   recorrerVenta(L,v);
 end.
+{
+12. El centro de deportes Fortaco’s quiere procesar la información de los 4 tipos de suscripciones que
+ofrece: 1)Musculación, 2)Spinning, 3)Cross Fit, 4)Todas las clases. Para ello, el centro dispone de una tabla
+con información sobre el costo mensual de cada tipo de suscripción.
+Realizar un programa que lea y almacene la información de los clientes del centro. De cada cliente se
+conoce el nombre, DNI, edad y tipo de suscripción contratada (valor entre 1 y 4). Cada cliente tiene una
+sola suscripción. La lectura finaliza cuando se lee el cliente con DNI 0, el cual no debe procesarse.
+Una vez almacenados todos los datos, procesar la estructura de datos generada, calcular e informar:
+- La ganancia total de Fortaco’s
+- Las 2 suscripciones con más clientes.
+- Genere una lista con nombre y DNI de los clientes de más de 40 años que están suscritos a
+CrossFit o a Todas las clases. Esta lista debe estar ordenada por DNI.
+}
+
+{
+13. La tienda de libros Amazon Books está analizando información de algunas editoriales. Para ello,
+Amazon cuenta con una tabla con las 35 áreas temáticas utilizadas para clasificar los libros (Arte y Cultura,
+Historia, Literatura, etc.).
+De cada libro se conoce su título, nombre de la editorial, cantidad de páginas, año de edición, cantidad de
+veces que fue vendido y código del área temática (1..35).
+Realizar un programa que:
+A) Invoque a un módulo que lea la información de los libros hasta ingresar el título “Relato de un
+náufrago” (que debe procesarse) y devuelva en una estructura de datos adecuada para la
+editorial “Planeta Libros”, con la siguiente información:
+- Nombre de la editorial
+- Año de edición del libro más antiguo
+- Cantidad de libros editados
+- Cantidad total de ventas entre todos los libros
+- Detalle con título, nombre del área temática y cantidad de páginas de todos los libros con
+más de 250 ventas.
+B) Invoque a un módulo que reciba la estructura generada en A) e imprima el nombre de la editorial
+y el título de cada libro con más de 250 ventas.
+}
+
+{
+14. La biblioteca de la Universidad Nacional de La Plata necesita un programa para administrar
+información de préstamos de libros efectuados en marzo de 2020. Para ello, se debe leer la información
+de los préstamos realizados. De cada préstamo se lee: nro. de préstamo, ISBN del libro prestado, nro. de
+socio al que se prestó el libro, día del préstamo (1..31). La información de los préstamos se lee de manera
+ordenada por ISBN y finaliza cuando se ingresa el ISBN -1 (que no debe procesarse).
+Se pide:
+A) Generar una estructura que contenga, para cada ISBN de libro, la cantidad de veces que fue prestado.
+Esta estructura debe quedar ordenada por ISBN de libro.
+B) Calcular e informar el día del mes en que se realizaron menos préstamos.
+C) Calcular e informar el porcentaje de préstamos que poseen nro. de préstamo impar y nro. de socio
+par.
+}
