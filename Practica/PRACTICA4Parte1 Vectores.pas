@@ -861,58 +861,52 @@ b) el año con la mayor temperatura detectada en algún punto del planeta en los
 }
 program GIE;
 const
-  LUGAR=100;
-  anioI=1972;
-  anioF=2022;
+  LUGAR= 100;
+  anioI= 1972;
+  anioF= 2022;
 type
-  mediciones=record
-    lugar:string[30];
-    temperatura:real;
-  end;
-  vector=array[1..100]of mediciones;
+ 
+  vector= array[1..100]of real;  {temperatura de cada anio}
+  anios= array[1972..2022]of vector; {NICO: Para que concuerde con el indice del FOR}
 
-procedure leer(var m:mediciones);
+procedure cargar(var v:vector;anio,punto:integer);
+var temperatura:real;aux:real;
 begin
-  writeln('Ingrese el lugar');
-  readln(m.lugar);
   writeln('Ingrese la temperatura promedio anual');
-  readln(m.temperatura);
-end;
-procedure cargar(var v:vector;j:integer);
-var m:mediciones;
-begin
-    leer(m);
-    v[j]:=m;
+  readln(temperatura);
+  aux:=v[anio];
+  aux[punto]:= temperatura;  
 end;
 procedure maximo(promedio:real;var max:real;var anioMax:integer;anio:integer);
 begin
   if(promedio>max)then begin
-    max:=promedio;
-    anioMax:=anio;
+    max:= promedio;
+    anioMax:= anio;
   end;
 end;
 procedure mayor(temp:real;var maxTemp:real;anio:integer;var anioMayor:integer);
 begin
   if(temp>maxTemp)then begin
-    maxTemp:=temp;
-    anioMayor:=anio;
+    maxTemp:= temp;
+    anioMayor:= anio;
   end;
 end;
 var
-  v:vector;
-  i,j,anioMayor,anioMax:integer;
+  v:anios; {NICO: anios contiene vectores}
+  anio,punto,anioMayor,anioMax:integer;
   temp,max,promedio,maxTemp:real;
 begin
-  maxTemp:=-1;max:=-1;
-  for i:= anioI to anioF do begin
-    temp:=0;
-    for j:= 1 to LUGAR do begin
-      cargar(v,j);
-      temp:=temp+v[j].temperatura;
-      mayor(v[j].temperatura,maxTemp,i,anioMayor);
+  maxTemp:= -1;max:= -1;
+  anioMayor:= 0;anioMax:= 0;
+  cargar(v,anio,punto);
+  for anio:= anioI to anioF do begin {NICO: Primero almacenar, y luego procesar}
+    temp:= 0;
+    for punto:= 1 to LUGAR do begin
+      temp:= temp+v[anio][punto]; {NICO: Con anio actual}
+      mayor(v[anio][punto],maxTemp,anio,anioMayor); 
     end;
-    promedio:=temp/LUGAR;
-    maximo(promedio,max,anioMax,i);
+    promedio:= temp/LUGAR;
+    maximo(promedio,max,anioMax,anio);
   end;
   
   writeln('El año con mayor temperatura promedio a nivel mundial',anioMax);
