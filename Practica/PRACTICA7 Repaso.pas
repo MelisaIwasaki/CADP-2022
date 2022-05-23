@@ -1720,7 +1720,99 @@ más de 250 ventas.
 B) Invoque a un módulo que reciba la estructura generada en A) e imprima el nombre de la editorial
 y el título de cada libro con más de 250 ventas.
 }
-
+program AmazonBooks;
+const
+  tema=35;
+type
+  rango=1..tema;
+  cadena=string[30];
+  tabla=array[rango]of cadena; //se dispone
+  libro=record
+    titulo:cadena;
+    editorial:cadena;
+    cantPag:integer;
+    edicion:integer;
+    cantVenta:integer;
+    codigo:rango;
+  end;
+  detalleLib=record
+    titulo:cadena;
+    areaNom:cadena;
+    cantPag250:integer;
+  end;
+  lista=^nodo;    //lo que no entiendo: como se cual hago lista?
+  nodo=record
+    dato:detalleLib;
+    sig:lista;
+  end;
+  planetaLibros=record
+    editorial:cadena;
+    edicion:integer;  
+    cantEdicion:integer;
+    cantTotalVenta:integer;
+    detalle:lista;
+  end;
+procedure agregarAdelante(var L:lista;d:detalleLib);
+var nue:lista;
+begin
+  new(nue);
+  nue^.dato:=d;
+  nue^.sig:=L;
+  L:=nue;
+end;
+{A) Invoque a un módulo que lea la información de los libros hasta ingresar el título “Relato de un
+náufrago” (que debe procesarse) y devuelva en una estructura de datos adecuada para la
+editorial “Planeta Libros” 
+Detalle con título, nombre del área temática y cantidad de páginas de todos los libros con
+más de 250 ventas}  
+procedure inicializarPlaneta(var p:planetaLibros);  
+begin
+  p.editorial:='Planeta Libros';
+  p.edicion:=9999;       //Año de edición del libro más antiguo->min
+  p.cantEdicion:=0;
+  p.cantTotalVenta:=0;
+  p.detalle:=nil;
+end;
+procedure procesarPlaneta(var p:planetaLibros;v:tabla);
+var lib:libro;d:detalleLib;
+begin
+  repeat
+    leerLibro(lib);
+    if(lib.editorial='Planeta Libros')then begin
+      p.cantEdicion:=p.cantEdicion+ 1;
+      p.cantTotalVenta:=p.cantTotalVenta+ lib.cantVenta;
+      if(lib.edicion< p.edicion)then  //saco el minimo
+        p.edicion:= lib.edicion;
+      if(lib.cantVenta> 250)then begin
+        d.titulo:= lib.titulo;
+        d.areaNom:= v[lib.codigo];
+        d.cantPag250:= lib.cantPag;
+        agregarAdelante(p.detalle,d);  //recien aca entiendo que hay que cargar en una lista
+      end;                             //"de todos los libros con más de 250 ventas."
+  until(lib.titulo='Relato de un naufrago'); //no se cuantos libros son por eso es una lista
+end;
+{ B) Invoque a un módulo que reciba la estructura generada en A) e imprima el nombre de la editorial
+y el título de cada libro con más de 250 ventas.}
+procedure imprimirPlaneta(p:planetaLibros);
+  procedure imprimirLista(L:lista);
+  begin
+    while(L<>nil)do begin
+      writeln('El título del libro con más de 250 ventas',L^.dato.titulo);
+      L:=L^.sig;
+    end;
+  end;
+begin
+  writeln('Editorial:',p.editorial);
+  imprimirLista(p.detalle);
+end;
+var
+  p:planetaLibros;
+  v:tabla;
+begin
+  cargarTabla(v); //se dispone
+  procesarPlaneta(p,v);
+  imprimirPlaneta(p);
+end.
 {
 14. La biblioteca de la Universidad Nacional de La Plata necesita un programa para administrar
 información de préstamos de libros efectuados en marzo de 2020. Para ello, se debe leer la información
