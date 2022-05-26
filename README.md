@@ -8,7 +8,7 @@
 
 > [LISTA](docs/Listas.md)
 
-> [次へ](docs/solucion.md)
+> [おまけ](docs/solucion.md)
 
 ## IDE para instalar :
 
@@ -25,6 +25,8 @@
  > Dev-pascal 💻
 
 - https://dev-pascal.programas-gratis.net
+
+## Si no quieres instalar :
 
  > Online GDB 🍱
 
