@@ -1826,3 +1826,154 @@ B) Calcular e informar el día del mes en que se realizaron menos préstamos.
 C) Calcular e informar el porcentaje de préstamos que poseen nro. de préstamo impar y nro. de socio
 par.
 }
+program Hello;
+type
+  rangoDia=1..31;
+  prestamo=record
+    numero:integer;
+    isbn:integer;
+    numSocio:integer;
+    dia:rangoDia;
+  end;
+  lista=^nodo;
+  nodo=record
+    dato:prestamo;
+    sig:lista;
+  end;
+  libro=record
+    isbn:integer;
+    cantVeces:integer;
+  end;
+  lista2=^nodo2;
+  nodo2=record
+    dato:libro;
+    sig:lista2;
+  end;
+  vdia=array[rangoDia]of integer;
+  
+procedure leerPrestamo(var p:prestamo);
+begin
+  writeln('Ingrese el isbn');
+  readln(p.isbn);
+  if(p.isbn<>-1)then begin
+    writeln('Ingrese el numero prestamo');
+    readln(p.numero);
+    writeln('Ingrese el numero de socio');
+    readln(p.numSocio);
+    writeln('Ingrese el dia');
+    readln(p.dia);
+  end;
+end;
+procedure insertarOrdenado(var L:lista;p:prestamo);
+var nue,ant,act:lista;
+begin
+  new(nue);
+  nue^.dato:=p;
+  ant:=L;
+  act:=L;
+  while(act<>nil)and(act^.dato.isbn< p.isbn)do begin
+    ant:=act;
+    act:=act^.sig;
+  end;
+  if(ant=act)then
+    L:=nue
+  else
+    ant^.sig:=nue;
+  nue^.sig:=act;
+end;
+procedure cargarLista(var L:lista);
+var p:prestamo;
+begin
+  leerPrestamo(p);
+  while(p.isbn<>-1)do begin
+    insertarOrdenado(L,p);
+    leerPrestamo(p);
+  end;
+end;
+procedure agregarAtras(var L,ult:lista2;lib:libro);
+var nue:lista2;
+begin
+  new(nue);
+  nue^.dato:=lib;
+  nue^.sig:=nil;
+  if(L=nil)then L:=nue
+           else  ult^.sig:=nue;
+  ult:=nue;
+end;
+procedure inicializar(var v:vdia);
+var i:rangoDia;
+begin
+  for i:=1 to 31 do 
+    v[i]:=0;
+end;
+procedure minimo(var min:integer;var diaMin:rangoDia;v:vdia);
+var i:rangoDia;
+begin
+  for i:=1 to 31 do begin
+    if(v[i]<min)then begin
+      min:=v[i];
+      diaMin:=i;
+    end;
+  end;
+end;
+function digitosPar(num:integer):boolean;
+var dig,par,cant:integer;
+begin
+  par:=0;cant:=0;
+  while(num<>0)do begin
+    dig:=num mod 10;
+    cant:=cant+1;
+    if(dig mod 2 = 0)then
+      par:=par+1;
+    num:=num div 10;
+  end;
+  if(cant=par)then 
+    digitosPar:=true
+  else
+    digitosPar:=false;
+end;
+procedure recorrerLista(L:lista;var L2:lista2);
+var lib:libro;
+    v:vdia;
+    cant,total,min:integer;
+    porcentaje:real;
+    ult:lista2;
+    diaMin:rangoDia;
+begin
+  cant:=0;total:=0;min:=999;
+  inicializar(v);
+  while(L<>nil)do begin
+    lib.isbn:= L^.dato.isbn;
+    lib.cantVeces:= 0;
+    while(L<>nil)and(lib.isbn=L^.dato.isbn)do begin
+      lib.cantVeces:=lib.cantVeces+1;
+      v[L^.dato.dia]:=v[L^.dato.dia]+1;
+      total:=total+lib.cantVeces;
+      if(digitosPar(L^.dato.numSocio))and(not digitosPar(L^.dato.numero))then
+        cant:=cant+1;
+      L:=L^.sig;
+    end;
+    agregarAtras(L2,ult,lib);
+  end;
+  minimo(min,diaMin,v);
+  writeln('Día del mes en que se realizaron menos préstamos',diaMin);
+  porcentaje:=cant*100/total;
+  writeln('Porcentaje de préstamos que poseen nro. de préstamo impar y nro. de socio par',porcentaje:2:2,'%');
+end;
+procedure mostrar(L:lista2); //para probar
+begin
+  while(L<>nil)do begin
+    writeln('ISBN:',L^.dato.isbn,'Cantidad de veces:',L^.dato.cantVeces);
+    L:=L^.sig;
+  end;
+end;
+var
+  L:lista;
+  L2:lista2;
+begin
+  L:=nil;
+  L2:=nil;
+  cargarLista(L);
+  recorrerLista(L,L2);
+  mostrar(L2);
+end.
