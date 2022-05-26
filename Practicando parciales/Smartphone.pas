@@ -14,6 +14,7 @@ c)Informar el DNI,nombre y apellido de los alumnos cuyo DNI poseen a lo sumo 3 d
 d)Informar el nombre, apellido y año de ingreso del alumno inscripto con mejor promedio entre todas las carreras.
 Nota: Un alumno se encuentra inscripto a una única carrera.
 }
+
 program Smartphones;
 const
   dimF=32;
@@ -43,24 +44,24 @@ type
   end;
   vcont=array[rangoC]of integer;
   
-procedure LeerAnalitico(var ana:analitico);
+procedure LeerAnalitico(var a:aprobada);
 begin
   writeln('Ingrese la materia');
-  readln(ana.materia);
-  if(ana.materia='ZZZ')then begin
+  readln(a.materia);
+  if(a.materia='ZZZ')then begin
     writeln('Ingrese la nota');
-    readln(ana.nota);
+    readln(a.nota);
   end;
 end;
 procedure cargarAnalitico(var v:vector;var dimL:integer);
-var ana:analitico;
+var a:aprobada;
 begin
   dimL:=0;
-  LeerAnalitico(ana);
-  while(dimL<dimF)and(ana.materia='ZZZ')do begin
+  LeerAnalitico(a);
+  while(dimL<dimF)and(a.materia='ZZZ')do begin
     dimL:=dimL+1;
-    v[dimL]:=ana;
-    LeerAnalitico(ana);
+    v[dimL]:=a;
+    LeerAnalitico(a);
   end;
 end;
 procedure leerAlumno(var a:alumno);
@@ -150,7 +151,8 @@ end;
 procedure recorrer(L:lista);
 var vc:vcont;v:vector;
     min1,min2,cod1,cod2,anioMax:integer;
-    nomMax,apeMax:cadena;  prom:real;
+    nomMax,apeMax:cadena;  
+    prom,max:real;
 begin
   min1:=9999;cod1:=0;max:=-1;
   while(L<>nil)do begin
