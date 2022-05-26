@@ -1396,12 +1396,12 @@ program becasTransporte;
 const
   alu=1300;
 type
-  rangoAlu=1..alu;
+  rangoAlu=-1..alu;
   rangoDia=1..31;
   rangoMedio=1..5;
   cadena=string[30];
   viaje=record
-    codigo:rangoAlu;
+    codigo:rangoAlu; {NICO: Nota: Deberia contemplar el -1 ya que se debe leer (o usar una variable auxiliar de tipo integer, y si es <> -1 copiar a vi.codigo)}
     dia:rangoDia;
     facultad:cadena;
     transporte:rangoMedio;
@@ -1439,7 +1439,7 @@ begin
     ant:=act;
     act:=act^.sig;
   end;
-  if(ant=act)then  L:=nue;
+  if(ant=act)then  L:=nue
              else  ant^.sig:=nue;
   nue^.sig:=act;
 end;
@@ -1464,6 +1464,15 @@ begin
   for i:= 1 to 5 do
     vm[i]:=0;
 end;
+procedure cargarVectorPrecio(var vp:vprecios); //se dispone pero lo cargo para probar
+var i:rangoMedio;
+begin
+  vp[1]:=30;
+  vp[2]:=20;
+  vp[3]:=15;
+  vp[4]:=10;
+  vp[5]:=5;
+end;
 procedure maximo(vm:vmedio;var max1,max2:integer;var cod1,cod2:integer);
 var i:rangoMedio;
 begin
@@ -1480,49 +1489,61 @@ begin
     end;
   end;
 end;
-procedure recorrer(vc:vcodigo;);
+procedure recorrer(vc:vcodigo);
 var vm:vmedio;vp:vprecios;
-    diaActual,viajesPorDia,cantSeisViajes,gastoPorDia,cantMasDe80:integer;
-    i:rangoAlu;max1,max2,cod1,cod2,Bici,NoBici:integer;
+    diaActual,viajesPorDia,cantSeisViajes,cantMasDe80:integer;
+    gastoPorDia: real; {NICO: gastoPorDia debe ser real}
+    i:rangoAlu;max1,max2,cod1,cod2,Bici,NoBici, combinanBici:integer;
+    L : Lista; {NICO: Falta declarar L auxiliar}
+    ok6,ok8:boolean;
 begin
-  max1:=-1;cod1:=0;
-  cantSeisViajes:=0;cantMasDe80:=0;combinanBici:=0;
+  ok6:=false; ok8:=false;
+  max1:=-1;cod1:=0;combinanBici:=0;
+  cantSeisViajes:=0;cantMasDe80:=0;
   inicializarVm(vm);
   for i:=1 to alu do begin    //recorre el vector de 1300 alumnos
     L:=vc[i];                 //cada alumno tiene una lista
     Bici:=0;NoBici:=0;
-    while(L <> nil)do begin     //recorre la lista de un alumno
+    while(L<>nil)do begin     //recorre la lista de un alumno
       diaActual:=L^.dato.dia; 
       viajesPorDia:=0;
-      while(L <> nil)and(diaActual = L^.dato.dia)do begin  //por dia
+      gastoPorDia:= 0; {NICO: Falta inicializar gasto por dia}
+      while(L<>nil)and(diaActual=L^.dato.dia)do begin  //por dia
         viajesPorDia:=viajesPorDia+1;
-        gastoPorDia:=gastoPorDia + vp[L^.dato.transporte];
-        vm[L^.dato.transporte]:= vm[L^.dato.transporte]+1;
-        if(L^.dato.transporte = 5)then   Bici:= Bici+1
-                                else   NoBici:= NoBici+1;
+        gastoPorDia:=gastoPorDia+vp[L^.dato.transporte];
+        vm[L^.dato.transporte]:=vm[L^.dato.transporte]+1;
+        if(L^.dato.transporte=5)then   Bici:=Bici+1
+                                else   NoBici:=NoBici+1;
         L:=L^.sig;
       end;
-      if(viajesPorDia > 6)then
-        cantSeisViajes:=cantSeisViajes+1;
-      if(gastoPorDia > 80)then
-        cantMasDe80:=cantMasDe80+1;
+      if(viajesPorDia > 6)then  {NICO: Podria contar cada alumno mas de una vez}
+        ok6:=true;
+      if(cantMasDe80 > 80)then   {NICO: Podria contar cada alumno mas de una vez}
+        ok8:=true;
     end;
+    if(ok6)then
+      cantSeisViajes:=cantSeisViajes+1;
+    if(ok8)then
+      cantMasDe80:=cantMasDe80+1;
     if(Bici>=1)and(NoBici>=1)then
       combinanBici:=combinanBici+1;
   end;
   maximo(vm,max1,max2,cod1,cod2);
   writeln('La cantidad de alumnos que realizan más de 6 viajes por día',cantSeisViajes);
   writeln('La cantidad de alumnos que gastan en transporte más de $80 por día',cantMasDe80);
-  writeln('Los dos medios de transporte más utilizados',cod1,' ',cod2);
+  writeln('Los dos medios de transporte más utilizados',cod1,' y ',cod2);
   writeln('La cantidad de alumnos que combinan bicicleta con algún otro medio de transporte',combinanBici);
 end;
 var 
   vc:vcodigo;
+  vp:vprecios;
 begin
+  cargarVectorPrecio(vp); //se dispone
   inicializarVc(vc);
   cargar(vc);
   recorrer(vc);
 end.
+
 {
 15. La cátedra de CADP está organizando la cursada para el año 2019. Para ello, dispone de una lista con todos 
 los alumnos que cursaron EPA. De cada alumno se conoce su DNI, apellido, nombre y la nota obtenida. Escribir 
