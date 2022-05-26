@@ -18,11 +18,11 @@ d)Informar el DNI, apellido y nombre de aquellos docentes cuyo DNI contenga igua
 impares.
 }
 
-
 program Hello;
 type
   rangoFacu=1..17;
   rangoCate=1..5;
+  cadena=string[30];
   docente=record
     dni:integer;
     ape:cadena;
@@ -39,7 +39,15 @@ type
   end;
   tabla=array[rangoCate]of real; //se dispone
   vcont=array[rangoFacu]of integer;
-  
+
+procedure cargarTabla(var v:tabla);
+begin
+  v[1]:=10;
+  v[2]:=7;
+  v[3]:=9.5;
+  v[4]:=8.5;
+  v[5]:=8;
+end;
 procedure leerDoc(var d:docente);
 begin
   writeln('Ingrese el dni');
@@ -52,7 +60,7 @@ begin
     writeln('Ingrese el codigo de la facultad');
     readln(d.codFacu);
     writeln('Ingrese el codigo de categoria ');
-    readln(d.cateDoc);
+    readln(d.cate);
     writeln('Ingrese el area de investigacion');
     readln(d.invest);
     writeln('Ingrese la cant de anios de investigacion');
@@ -86,14 +94,14 @@ end;
 y su categoría de docente. El puntaje total se calcula como: año de investigación del docente multiplicado por 
 el valor que indique la tabla para su categoría de docente.}
 
-procedure informar(L:lista);
-var v:tabla;punTotal:real;
+procedure informar(L:lista;v:tabla );
+var punTotal:real;
 begin
   while(L<>nil)do begin
-    punTotal:=L^.dato.cantAnios*v[L^.dato.cate];
+    punTotal:=L^.dato.cantAnios * v[L^.dato.cate];
     writeln('DNI:',L^.dato.dni);
-    writeln('Apellido:',L^.dato.apellido);
-    writeln('Nombre:',L^.dato.nombre);
+    writeln('Apellido:',L^.dato.ape);
+    writeln('Nombre:',L^.dato.nom);
     writeln('Puntaje total:',punTotal);
     L:=L^.sig;
   end;
@@ -150,9 +158,11 @@ begin
 end;
 var
   L:lista;
+  v:tabla;
 begin
   L:=nil;
+  cargarTabla(v); //se dispone
   cargarLista(L);
-  Informar(L);
+  Informar(L,v);
   recorrer(L);
 end.
