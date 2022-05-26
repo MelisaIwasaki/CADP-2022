@@ -15,7 +15,6 @@ d- Calcular e informar la cantidad de proyectos en los que el número interno co
 impares.
 }
 
-
 program consultoraInfo;
 const
   dimF=5;
@@ -72,6 +71,7 @@ begin
   nue^.sig:=act;
 end;
 procedure cargarLista(var L:lista);
+var p:proyecto;
 begin
   leerProyecto(p);
   while(p.num<>0)do begin
@@ -112,7 +112,7 @@ begin
     num:=num div 10;
   end;
   if(impar<= 3)then
-    tresImpares:=true;
+    tresImpares:=true
   else
     tresImpares:=false;
 end;
@@ -129,7 +129,7 @@ var  vc:vcont;
      costoTotal:real;
 begin
   max1:=-1;tipo1:=0;cantPhyton:=0;canTres:=0;
-  inicializar[vc];
+  inicializar(vc);
   while(L<>nil)do begin
     anioActual:=L^.dato.anioI;
     costoTotal:=0;
@@ -144,12 +144,12 @@ begin
       L:=L^.sig;
     end;
     if(anioActual>=2000)and(anioActual<=2014)then
-      writeln('Anio:',anioActual,' costo total:';costoTotal);
+      writeln('Anio:',anioActual,' costo total:',costoTotal);
   end;
   maximo(max1,max2,tipo1,tipo2,vc);
   writeln('Los dos lenguajes de programación más utilizados:',tipo1,' y ',tipo2);
   writeln('La cantidad de personas que utilizaron el lenguaje “Phyton” en menos de un año:',cantPhyton);
-  writeln('La cantidad de proyectos en los que el número interno contenga a lo sumo 3 dígitos impares',canTres);
+  writeln('La cantidad de proyectos en los que el número interno contenga a lo sumo 3 dígitos impares:',canTres);
 end;
 var
   L:lista;
@@ -158,3 +158,5 @@ begin
   cargarLista(L);
   recorrerLista(L);
 end.
+
+
