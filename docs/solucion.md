@@ -58,7 +58,7 @@ end;
 procedure incrementar(var L:lista; x:integer);
 var  aux:lista;
 begin
-  aux:= 1; //USO AUXILIAR PARA RECORRER
+  aux:= L; //USO AUXILIAR PARA RECORRER
   while(aux <> nil)do begin    
     aux^.num:= aux^.num + x;                   
     aux:= aux^.sig;
