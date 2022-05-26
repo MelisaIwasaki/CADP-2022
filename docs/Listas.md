@@ -105,8 +105,7 @@ begin
        ult:= nue;
 end;
 ````
-> InsertarOrdenado  ***"La informacion debe quedar almacenada de manera ordenada por dni del cliente
-                        finaliza cuando se lee el dni -1(que no debe procesarse)***
+> InsertarOrdenado  ***"La informacion debe quedar almacenada de manera ordenada por dni del cliente***
 ````pascal
 procedure insertarOrdenado(var L:lista; v:venta);
 var  act,ant,nue:lista;
