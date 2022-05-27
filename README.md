@@ -8,11 +8,13 @@
 
 > [LISTA](docs/Listas.md)
 
+> [CORRECCION Y EFICIENCIA](docs/correccion.md)
+
 > [おまけ](docs/solucion.md)
 
 ## IDE para instalar :
 
- > Geany+freepascal 🧞
+ > Geany + freepascal 🧞
 
 - https://www.geany.org
 
