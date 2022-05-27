@@ -53,9 +53,11 @@ Un programa es correcto si cumple con las especificaciones del problema a resolv
 Para medir la corrección de un programa, el programador cuenta con diferentes técnicas:
 
  :white_check_mark: TESTING
+:-:
  :white_check_mark: WALKTHROUGH
  :white_check_mark: DEBUGGING
-
+ 
+---------------
 #### TESTING
 La técnica de Testing es el proceso mediante el cual se proveen evidencias convincentes respecto a que el programa hace el trabajo esperado.
 | | |
@@ -74,6 +76,7 @@ Durante este proceso es importante analizar las postcondiciones en función de l
 
 :pushpin: Las postcondiciones describen los aspectos que deben cumplirse cuando el programa terminó.
 
+--------------
 #### DEBUGGING
 La técnica de Debugging  es el  proceso mediante el cual se pueden identificar y corregir errores.
 
@@ -86,7 +89,7 @@ Los errores pueden provenir de varios caminos, por ejemplo:
 
 - el diseño del programa puede ser defectuoso.
 - el programa puede usar un algoritmo defectuoso.
-
+-----------------
 #### WALKTHROUGH
 La técnica de Walkthroughs consiste en recorrer el programa ante una audiencia.
 
@@ -127,6 +130,7 @@ El tiempo de ejecución de un programa puede calcularse de dos maneras:
 :white_check_mark: Análisis Empírico
 :white_check_mark: Análisis Teórico
 
+---------------
 #### Análisis Empírico :test_tube:
 Para realizar un análisis empírico, es necesario ejecutar el programa y medir el tiempo empleado en la ejecución 
 
@@ -135,7 +139,7 @@ Inconveniente: este análisis tiene varias limitaciones porque puede dar una inf
 - Obtiene valores exactos para una máquina y unos datos determinados.
 - Es completamente dependiente de la máquina donde se ejecuta.
 - Requiere implementar el algoritmo y ejecutarlo repetidas veces.
-
+---------------
 #### Análisis Teórico :test_tube:  
 Para realizar un análisis teórico, es necesario establecer una medida intrínseca de la cantidad de trabajo realizado por el algoritmo. Esto nos permite comparar algoritmos y  seleccionar la mejor implementación.
 
@@ -165,6 +169,7 @@ Reglas Generales para el cálculo del tiempo de ejecución:
 
 IMPORTANTE: Los comentarios, declaraciones y operaciones de entrada/salida (Read / Write), no se consideran al realizar el cálculo
 
+------------
 ### Regla 1 Sentencias consecutivas :mate:
 <sup>Supongamos que se desea conocer el valor en grados centígrados de una temperatura  medida en grados Fahrenheit. Se tiene la siguiente función que recibe un valor expresado en F y lo devuelve en C.</sup>
 ````pascal
@@ -175,6 +180,7 @@ end.
 ````
 Recordar que una operación elemental :arrow_right: una unidad de tiempo
 
+------------
 ### Regla 2  For  / For anidados :mate:
 <sup>Se tiene el siguiente programa que lee las temperaturas registradas durante el mes de mayo de 2019 en una ciudad de la Pcia de Bs. As y calcula la temperatura promedio. ¿Cuántas operaciones elementales realiza el programa?</sup>
 ````pascal
@@ -201,6 +207,7 @@ En general : 3*n+2, siendo n la cantidad de repeticiones
 
 Total-> (2*30) + (3*30+2) + 3 = 155 op. elem.
 
+--------------
 <sup>Supongamos ahora que se cuenta con la función Contar que recibe un vector de temperaturas y devuelve la cantidad de veces que aparece la temperatura con valor 10 en el vector. ¿Cuánta memoria y cuántas unidades de tiempo emplea el módulo?</sup>
 ````pascal
 Type temperaturas = array [1..30] of real; 
@@ -226,6 +233,7 @@ Total de operaciones = 2 + 90 + 92 (como máximo!!!)  ¿Por qué?
 
 Cantidad de unidades de tiempo = 184 (como máximo!!!)
 
+-------------
 <sup>Aplicando la Regla del FOR, analicemos ahora el tiempo de ejecución del siguiente programa:</sup>
 ````pascal
 Program FA;
@@ -254,6 +262,7 @@ Cantidad de operaciones (unidades de tiempo)
 
 {4} * 200 + {3} * 300 + {2} + {1}
 
+-----------------
 ### Regla 3 While / Repeat…Until :mate:
 <sup>Supongamos que el siguiente programa calcula la nota promedio de un alumno de Informática a partir de las notas obtenidas en sus exámenes finales. ¿Cuál es el tiempo de ejecución de la solución propuesta?</sup>
 ````pascal
@@ -284,6 +293,7 @@ Cantidad de operaciones (unidades de tiempo)
 
 Se debe calcular la cantidad de operaciones elementales que se ejecutan dentro del WHILE y multiplicarla por la cantidad de veces que se ejecuta el WHILE. Como no se conoce esa cantidad se considera el PEOR CASO. Por ejemplo, se supone una cantidad de notas n…
 
+----------------
 ### Regla 4 If / else :mate:
 <sup>Calcular la cantidad de operaciones elementales del siguiente programa</sup>
 ````pascal
@@ -326,11 +336,17 @@ Algunas condiciones en las cuales el tiempo de ejecución de un programa se pued
 ## ¿Los siguientes conceptos influyen o no sobre el tiempo de ejecución de un programa?
 
 :octocat: Cantidad de datos de entrada
+
 :octocat: Cantidad de líneas de código
+
 :octocat: Orden en que se ingresan o aparecen los datos
+
 :octocat: Cantidad de iteraciones presentes en el programa
+
 :octocat: Uso de variables globales
+
 :octocat: Uso de variables locales
+
 :octocat: Uso de parámetros
 
 <!--faltaria algunos ejemplos de la teoria nueva-->
