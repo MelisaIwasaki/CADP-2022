@@ -1,6 +1,6 @@
 <h1 align = "center">:alembic:AUTOEVALUACION:test_tube:</h1>
 
-## Autoevaluación Uno :one:
+## Autoevaluación Uno
 1- Si el programa tiene la expresión:     
 ````pascal
 if (num MOD 2 <> 0) then
@@ -122,7 +122,7 @@ end.
 [Respuesta](#Autoevaluación-1)
 
 ------------------------
-## Autoevaluación :two:
+## Autoevaluación Dos
 1- Teniendo en cuenta el siguiente programa:
 ````pascal
 program ejercicio_1;
@@ -243,7 +243,7 @@ Indicar cuál de las siguientes proposiciones es verdadera:
 
 ------------------------
 
-## Autoevaluación :three:
+## Autoevaluación Tres
 1- Teniendo en cuenta el siguiente código:
 ````pascal
 program ejercicio_1;
@@ -344,7 +344,7 @@ Indique cuál de las siguientes afirmaciones es verdadera:
 
 ------------------------
 
-## Autoevaluación :four:
+## Autoevaluación Cuatro
 1- Que un registro sea una estructura de datos heterogénea significa:
 - [ ] A-Que puede contener cualquier cantidad de campos y de cualquier nombre.
 - [ ] B-Que puede utilizarse para declarar variables, y también puede pasarse como parámetro por valor y por referencia.
@@ -525,7 +525,7 @@ Marque la opción correcta:
 
 ------------------------
 
-## Autoevaluación :five:
+## Autoevaluación Cinco
 1- Teniendo en cuenta el siguiente código:
 ````pascal
 program arreglos;
@@ -713,7 +713,7 @@ Seleccione todas las respuestas correctas:
 - 4.E
 - 5.C
 
-[volver](#Autoevaluación-Uno)
+[volver](#Autoevaluación-Dos)
 
 #### Autoevaluación 3
 - 1.B
@@ -722,7 +722,7 @@ Seleccione todas las respuestas correctas:
 - 4.D
 - 5.B
 
-[volver](#Autoevaluación-Uno)
+[volver](#Autoevaluación-Tres)
 
 #### Autoevaluación 4
 - 1.D
@@ -731,7 +731,7 @@ Seleccione todas las respuestas correctas:
 - 4.E
 - 5.E
 
-[volver](#Autoevaluación-Uno)
+[volver](#Autoevaluación-Cuatro)
 
 #### Autoevaluación 5
 - 1.D
@@ -740,14 +740,6 @@ Seleccione todas las respuestas correctas:
 - 4.C,D,E,F,G
 - 5.B,C,E
 
-[volver](#Autoevaluación-Uno)
+[volver](#Autoevaluación-Cinco)
 
-#### Autoevaluación 6
-- 1.
-- 2.
-- 3.
-- 4.
-- 5.
-
-[volver](#Autoevaluación-Uno)
 
