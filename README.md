@@ -10,6 +10,8 @@
 
 > [CORRECCION Y EFICIENCIA](docs/correccion.md)
 
+> [AUTOEVALUACION](docs/autoevaluacion.md)
+
 > [おまけ](docs/solucion.md)
 
 ## IDE para instalar :
