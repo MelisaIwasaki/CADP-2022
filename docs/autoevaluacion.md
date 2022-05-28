@@ -1,6 +1,6 @@
 <h1 align = "center">:alembic:AUTOEVALUACION:test_tube:</h1>
 
-## Autoevaluación :one:
+## Autoevaluación Uno :one:
 1- Si el programa tiene la expresión:     
 ````pascal
 if (num MOD 2 <> 0) then
@@ -704,40 +704,50 @@ Seleccione todas las respuestas correctas:
 - 4.D
 - 5.D
 
-[volver](#Autoevaluación-:one:)
+[volver](#Autoevaluación-Uno)
+
 #### Autoevaluación 2
 - 1.B
 - 2.D
 - 3.B,C,E,F
 - 4.E
 - 5.C
-volver
+
+[volver](#Autoevaluación-Uno)
+
 #### Autoevaluación 3
 - 1.B
 - 2.B,D,E,F,G
 - 3.A
 - 4.D
 - 5.B
-volver
+
+[volver](#Autoevaluación-Uno)
+
 #### Autoevaluación 4
 - 1.D
 - 2.B
 - 3.D
 - 4.E
 - 5.E
-volver
+
+[volver](#Autoevaluación-Uno)
+
 #### Autoevaluación 5
 - 1.D
 - 2.B
 - 3.D
 - 4.C,D,E,F,G
 - 5.B,C,E
-volver
+
+[volver](#Autoevaluación-Uno)
+
 #### Autoevaluación 6
 - 1.
 - 2.
 - 3.
 - 4.
 - 5.
-- volver
+
+[volver](#Autoevaluación-Uno)
 
