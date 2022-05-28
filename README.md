@@ -10,7 +10,9 @@
 
 > [CORRECCION Y EFICIENCIA](docs/correccion.md)
 
-> [AUTOEVALUACION](docs/autoevaluacion.md)
+> [AUTOEVALUACION](docs/autoevaluacion.md) DE 1 A 5
+
+> [AUTOEVALUACION](docs/autoevaluacion2.md) DE 6 A 10
 
 > [おまけ](docs/solucion.md)
 
