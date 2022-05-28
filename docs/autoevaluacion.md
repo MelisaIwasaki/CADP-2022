@@ -692,10 +692,6 @@ Seleccione todas las respuestas correctas:
 [Respuesta](#Autoevaluación-5)
 
 ------------------------
-
-## Autoevaluación :six:
-
-------------------------
 ## Respuestas :see_no_evil:
 #### Autoevaluación 1
 - 1.B
@@ -742,4 +738,16 @@ Seleccione todas las respuestas correctas:
 
 [volver](#Autoevaluación-Cinco)
 
-
+<table>
+  <tr>
+    <td>    
+     <img src="https://user-images.githubusercontent.com/92184167/170361489-263f6064-7f5c-455f-b47d-c278a1017dfc.jpg">  
+    </td>
+    <td> 
+     <img src="https://user-images.githubusercontent.com/92184167/170361463-9900cb47-02c3-4d01-9a58-eb38395aee5d.png">
+    </td>
+    <td>    
+     <img src="https://user-images.githubusercontent.com/92184167/170361489-263f6064-7f5c-455f-b47d-c278a1017dfc.jpg">  
+    </td>
+  </tr>
+</table>
