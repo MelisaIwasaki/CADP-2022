@@ -189,23 +189,15 @@ Program temperaturas;
 Var valor, total: real;|
 Begin
  total:= 0; 
- for i:= 1 to 30 do begin
-   read (valor);
-   total:= total + valor;
- end; 
- prom:= total div 30;
+ for i:= 1 to 30 do begin      // asignación inicial i:=1 (1)
+   read (valor);               // testeo de i <=30 (31)
+   total:= total + valor;      // incrementos de i:= i+1  (30*2 )  entonces 1+ 31 + 60 = 92 op
+ end;                          // 3*n+2, siendo n la cantidad de repeticiones
+ prom:= total div 30;          // Total-> (2*30) + (3*30+2) + 3 = 155 op. elem.
  write(´Temperatura Promedio:´, prom);
 end;
 ````
 Se debe calcular la cantidad de operaciones elementales que se ejecutan dentro del FOR y multiplicarla por la cantidad de veces que se ejecuta la instrucción FOR.
-
-Además, la instrucción FOR realiza:
-- asignación inicial i:=1 (1)
-- testeo de i <=30 (31)
-- incrementos de i:= i+1  (30*2 )  entonces 1+ 31 + 60 = 92 op
-En general : 3*n+2, siendo n la cantidad de repeticiones
-
-Total-> (2*30) + (3*30+2) + 3 = 155 op. elem.
 
 --------------
 <sup>Supongamos ahora que se cuenta con la función Contar que recibe un vector de temperaturas y devuelve la cantidad de veces que aparece la temperatura con valor 10 en el vector. ¿Cuánta memoria y cuántas unidades de tiempo emplea el módulo?</sup>
@@ -215,24 +207,14 @@ Type temperaturas = array [1..30] of real;
 Function contar ( tem:temperaturas): integer;
 Var i: 1..30; can10 : integer;
 begin	
-  can10 := 0;
+  can10 := 0;                      // 1 unidad de tiempo
   {recorrido total del vector}
-  For  i  := 1  to  30 do  
-    If  (tem [i] = 10 ) then  can10 := can10 + 1;   
-  contar := can10;
-end.
+  For  i  := 1  to  30 do          // 3n + 2 = 3 * 30 + 2 = 92 unidad de tiempo
+    If  (tem [i] = 10 ) then       // 1 ut
+      can10 := can10 + 1;          // 2 ut
+  contar := can10;                 // 1 ut
+end.                               // total: 2 + 90 + 92
 ````
-- La línea {1} -> 1 unidad de tiempo
-- La línea {2} -> 3n + 2 = 92 unidades de tiempo 
-- La línea {3} evalúa una condición -> 1 unidad de tiempo
-- La línea {4} -> 2 unidades de tiempo.
-- Por la tanto, dentro del FOR se cuentan 3 unidades  3 * 30 
-- La línea {5} -> 1 unidad
-
-Total de operaciones = 2 + 90 + 92 (como máximo!!!)  ¿Por qué?
-
-Cantidad de unidades de tiempo = 184 (como máximo!!!)
-
 -------------
 <sup>Aplicando la Regla del FOR, analicemos ahora el tiempo de ejecución del siguiente programa:</sup>
 ````pascal
@@ -240,28 +222,12 @@ Program FA;
 Var
   valor,i,j,suma :integer;
 Begin
- suma:=0; {1}
- for j:= 1 to 300 do   {2}
-  for i:= 1 to 200 do  {3}
-    suma:= suma + I;   {4}
-End.
+ suma:=0; {1 ut}             
+ for j:= 1 to 300 do   {3n + 2 = 3 * 300 + 2 = 902}
+  for i:= 1 to 200 do  {3n + 2 = 3 * 200 + 2 = 602}
+    suma:= suma + I;   {2 * 200}
+End.                   {total: 1 + 902 + 300 (602 + 200 * 2)}
 ````
-Cantidad de operaciones (unidades de tiempo)
-- La línea {1} -> 1 
-- La línea {2} -> 3n + 2 = 3*300 +2 = 902 
-- La línea {3} -> 3n + 2 = 3*200 +2 = 602
-- La línea {4} -> 2 
-
-(((2 * 200 + 602) * 300) + 902) + 1= 301.503 ut
-
-{4} * 200 + {3}
-
-{4} * 200 + {3} * 300
-
-{4} * 200 + {3} * 300 + {2}
-
-{4} * 200 + {3} * 300 + {2} + {1}
-
 -----------------
 ### Regla 3 While / Repeat…Until :mate:
 <sup>Supongamos que el siguiente programa calcula la nota promedio de un alumno de Informática a partir de las notas obtenidas en sus exámenes finales. ¿Cuál es el tiempo de ejecución de la solución propuesta?</sup>
@@ -270,27 +236,19 @@ Program W;
 Var
   nota,i,suma, prom :integer;
 Begin
- suma:=0;  {1}
- total:= 0; {2}
+ suma:=0;   {1 ut}
+ total:= 0; {1 ut}
  read (nota);
- while (nota<>-1) do begin {3}
-   total:= total+1; {4}
-   suma_N:= suma_N + nota; {5}
+ while (nota<>-1) do begin {n + 1}
+   total:= total+1;        {2 ut}
+   suma_N:= suma_N + nota; {2 ut}
    read (nota);
  end;
- prom:= suma_N / total; {6}
- writeln (`Promedio: ´, prom)
+ prom:= suma_N / total;    {2 ut}
+ writeln (`Promedio: ´, prom)  {total: 2 + n+1 + 4*n + 2 = 
+                                       ((4 * n) n+1) + 4 = (5n + 4) ut}
 End.
 ````
-Cantidad de operaciones (unidades de tiempo)
-- La línea {1} -> 1 
-- La línea {2} -> 1 
-- La línea {3} -> n
-- La línea {4} -> 2 
-- La línea {5} -> 2 
-- La línea {6} -> 2 
-((4 * n) + n+1) + 4 = (5n + 5) ut
-
 Se debe calcular la cantidad de operaciones elementales que se ejecutan dentro del WHILE y multiplicarla por la cantidad de veces que se ejecuta el WHILE. Como no se conoce esa cantidad se considera el PEOR CASO. Por ejemplo, se supone una cantidad de notas n…
 
 ----------------
@@ -302,26 +260,72 @@ Var
   valor, i, j, suma :integer;
  Begin
   read (valor);
-  if (valor >8) then begin
-                  suma:=0;
+  if (valor >8) then begin            //Dentro del if: ((2*3000)+9002)+1= 15003 ut
+                  suma:=0;            //1ut(3*3000+2)(2ut*3000)
                   for i:= 1 to 3000 do
                       suma:= suma + I;
                  end
-                 else begin
-                   suma:=0;
-                   for j:= 1 to 300 do
+                 else begin           //Dentro del else: (((2*200+602)300)+902)+1= 301503 ut
+                   suma:=0;                           //1ut(3*300+2)(3*200+2)+2ut=
+                   for j:= 1 to 300 do                     //1ut 902+300(602+400)= 301503 ut
                       for i:= 1 to 200 do
                          suma:= suma + I;
                  end;
    end;
 End.
 ````
-for i :arrow_right: ((2*3000)+9002) + 1= 15.003 ut
+### Análisis Teórico: Se define T(n) al tiempo de ejecución de un programa con una entrada de tamaño n. Las unidades de T(n) no se especifican.
 
-for j :arrow_right: (((2 * 200 + 602) * 300) + 902) + 1= 301.503 ut
+| | |
+|:-:|:-:|
+| begin |
+|  x:= 24;  | T(1) asignación= 1 |
+|  y:= 50;  | T(2) asignación= 1 |
+| y:= x + 10; |T(3) asignación + suma = 2 |
+| end. | |
 
-Total de operaciones = 1 + 301.503= 301.504 (como máximo!!!) ¿Por qué?
+T(n)= T(1)+T(2)+T(3)= 4
 
+O(n)= max(T(1),T(2),T(3)
+
+````pascal
+Program Uno;
+var
+  valor,i,suma:integer;
+begin 
+  read(valor);            {T(1): no lo consideramos}
+  if(valor > 8)then begin // T(2): comaparción = 1
+    suma:= 0;             // asignación = 1
+    for i:= 1 to 3000 do  // 3000(suma + asignación = 2) = 6000
+      suma:= suma + i;
+  end
+  else begin            
+    suma:= 0;             // T(3): asignación = 1
+    for i:= 1 to 300 do   // T = (300 * 200 * (suma + asignación = 2))+ 1
+    for j:= 1 to 200 do   
+      suma:= suma + i;
+  end;                    // T = T(1) + Max (T(2)  + T(3) )
+end;             
+````
+````pascal
+Program uno;
+Function sum (n:integer): integer;
+Var
+ s_parcial,i:integer;
+Begin
+  s_parcial:= 0;                   // 1 unidad de tiempo
+  for i:= 1 to n do                // 2n + 2 (1 inicialización,1 asignación 1 +(n+1))
+    s_parcial:= s_parcial + i*i*i; // 4n (1 asignación,1 suma,2 productos)
+  sum:= s_parcial;                 // 1 unidad de tiempo
+End;                               {T(n)= (1, 2n + 2, 4n, 1)
+                                    O(n)= max(1, 2n + 2, 4n, 1)     O(n)= n
+Var
+ num:integer;
+Begin                              // T (instrucción 5 + instrucción 6)
+  num:= 13;                        // inst5 = 1
+  tot:= sum(num);                  // inst6 = 1 + 2n+2 + 4n + 1 = 6n + 4
+End.
+````
 ## Eficiencia en soluciones modularizadas
 - Si se tiene un programa con módulos, es posible calcular el tiempo de ejecución de los distintos procesos, uno a la vez, partiendo de aquellos que no llaman a otros. Debe haber al menos un módulo con esa característica. 
 - Después puede evaluarse el tiempo de ejecución de los procesos que llamaron a los módulos anteriores y así sucesivamente.
