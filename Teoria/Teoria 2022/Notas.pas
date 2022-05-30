@@ -23,4 +23,7 @@ begin
 end;
 
 
+
+for i:= 1 to 1500 do
+  v[i]:= abs(random(100));
   
