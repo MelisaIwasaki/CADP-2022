@@ -124,7 +124,7 @@ de alumnos y la cantidad de docente.
 }
 program Hello;
 const
-    escuelas=3;//2400
+    escuelas=2400;
     propUNESCO=1/23435;//proporción de alumnos por docente calculada por la UNESCO
 type 
     cadena30=string[30];
@@ -659,9 +659,9 @@ lectura, informar:
 ● Los nombres de las plantas nativas de Argentina que se encuentran en regiones con clima subtropical.
 ● El nombre de la planta que se encuentra en más países.
 }
-program CIUNLP; //Para mi que el enunciado esta mal hecho y por eso que ningun profesor quiere tomar este tema.  
+program CIUNLP;  
 const   
-  ESP=3; //320   
+  ESP=320;   
 type
   cadena=string[50];
   rangoMeses=1..12;
