@@ -97,11 +97,10 @@ begin
   Distribuir (lA, v);
   Imprimir (v);
 end;
-{
-Analicé la teoria y le fuí modificando y arreglando el programa. Hice lo que pude pero no me andó porque tuve problemas con la condición de corte.
-Cuando en el enunciado se dispone de una lista, no sabemos con qué condición cortar el ingreso de la información.Para que ande el programa debemos 
-ingresar todo el contenido sin importar que se disponga o no. Hay otra forma de ingresar contenido de lo que se dispone?
-}
+
+
+{COMPLETO}
+
 program cadp;
 const dimF = 5;             
 type cadena15 = string [15];
@@ -221,5 +220,3 @@ begin
   Distribuir (v,L);
   Imprimir (v);
 end.
-
-© 2022 GitHub, Inc.
