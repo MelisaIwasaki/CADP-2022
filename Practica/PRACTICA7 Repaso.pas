@@ -1804,7 +1804,7 @@ begin
              else ant^.sig:=nue;
   nue^.sig:=act;
 end;
-procedure recorrerLista(var L:lista; var L2:lista2; v:vtabla);
+procedure recorrerLista( L:lista; var L2:lista2; v:vtabla);
 var 
     vc:vcont;
     gananciaTotal:real;
@@ -1952,6 +1952,7 @@ var
   v:tabla;
 begin
   cargarTabla(v); //se dispone
+  inicializarPlaneta(p);
   procesarPlaneta(p,v);
   imprimirPlaneta(p);
 end.
@@ -1977,19 +1978,14 @@ type
     numSocio:integer;
     dia:rangoDia;
   end;
-  lista=^nodo;
-  nodo=record
-    dato:prestamo;
-    sig:lista;
-  end;
   libro=record
     isbn:integer;
     cantVeces:integer;
   end;
-  lista2=^nodo2;
-  nodo2=record
+  lista=^nodo;
+  nodo=record
     dato:libro;
-    sig:lista2;
+    sig:lista;
   end;
   vdia=array[rangoDia]of integer;
   
@@ -2006,34 +2002,8 @@ begin
     readln(p.dia);
   end;
 end;
-procedure insertarOrdenado(var L:lista;p:prestamo);
-var nue,ant,act:lista;
-begin
-  new(nue);
-  nue^.dato:=p;
-  ant:=L;
-  act:=L;
-  while(act<>nil)and(act^.dato.isbn< p.isbn)do begin
-    ant:=act;
-    act:=act^.sig;
-  end;
-  if(ant=act)then
-    L:=nue
-  else
-    ant^.sig:=nue;
-  nue^.sig:=act;
-end;
-procedure cargarLista(var L:lista);
-var p:prestamo;
-begin
-  leerPrestamo(p);
-  while(p.isbn<>-1)do begin
-    insertarOrdenado(L,p);
-    leerPrestamo(p);
-  end;
-end;
-procedure agregarAtras(var L,ult:lista2;lib:libro);
-var nue:lista2;
+procedure agregarAtras(var L,ult:lista;lib:libro);
+var nue:lista;
 begin
   new(nue);
   nue^.dato:=lib;
@@ -2059,22 +2029,15 @@ begin
   end;
 end;
 function digitosPar(num:integer):boolean;
-var dig,par,cant:integer;
+var dig:integer;
 begin
-  par:=0;cant:=0;
-  while(num<>0)do begin
     dig:=num mod 10;
-    cant:=cant+1;
     if(dig mod 2 = 0)then
-      par:=par+1;
-    num:=num div 10;
-  end;
-  if(cant=par)then 
-    digitosPar:=true
-  else
-    digitosPar:=false;
+          digitosPar:=true
+    else
+          digitosPar:=false;
 end;
-procedure recorrerLista(L:lista;var L2:lista2);
+procedure recorrerLista(p:prestamo;var L:lista);
 var lib:libro;
     v:vdia;
     cant,total,min:integer;
@@ -2084,14 +2047,15 @@ var lib:libro;
 begin
   cant:=0;total:=0;min:=999;
   inicializar(v);
-  while(L<>nil)do begin
-    lib.isbn:= L^.dato.isbn;
+  leerPrestamo(p);
+  while(p.isbn<>-1)do begin
+    lib.isbn:= p.isbn;
     lib.cantVeces:= 0;
-    while(L<>nil)and(lib.isbn=L^.dato.isbn)do begin
+    while(lib.isbn=p.isbn)do begin
       lib.cantVeces:=lib.cantVeces+1;
-      v[L^.dato.dia]:=v[L^.dato.dia]+1;
+      v[p.dia]:=v[p.dia]+1;
       total:=total+lib.cantVeces;
-      if(digitosPar(L^.dato.numSocio))and(not digitosPar(L^.dato.numero))then
+      if(digitosPar(p.numSocio))and(not digitosPar(p.numero))then
         cant:=cant+1;
       L:=L^.sig;
     end;
@@ -2102,7 +2066,7 @@ begin
   porcentaje:=cant*100/total;
   writeln('Porcentaje de préstamos que poseen nro. de préstamo impar y nro. de socio par',porcentaje:2:2,'%');
 end;
-procedure mostrar(L:lista2); //para probar
+procedure mostrar(L:lista); //para probar
 begin
   while(L<>nil)do begin
     writeln('ISBN:',L^.dato.isbn,'Cantidad de veces:',L^.dato.cantVeces);
@@ -2111,11 +2075,8 @@ begin
 end;
 var
   L:lista;
-  L2:lista2;
 begin
   L:=nil;
-  L2:=nil;
-  cargarLista(L);
-  recorrerLista(L,L2);
+  recorrerLista(p,L);
   mostrar(L2);
 end.
