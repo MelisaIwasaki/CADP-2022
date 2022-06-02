@@ -203,7 +203,7 @@ Nota: para realizar los cálculos tener en cuenta que cada minuto cuesta $3,40 y
 }
 program Hello;
 const
-  CLI=3;
+  CLI=3; //9300 clientes, el 3 es para probar si anda
   MIN=3.40;
   MB=1.35;
 type
@@ -283,8 +283,8 @@ begin
 end;
 procedure masCaro(a:auto;var aMax:auto);
 begin
-  if(a.precio>aMax.precio)then begin
-    aMax:=a;
+  if(a.precio > aMax.precio)then begin
+    aMax:= a;
 end;
 var  
    a:auto;aMax:auto;
