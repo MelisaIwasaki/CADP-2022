@@ -1472,9 +1472,9 @@ begin
     end;
     hecTotal:=hecTotal +(sumaHectTotal(L^.dato.cultivo,L^.dato.dimL));
     pos:=(buscoPos(L^.dato.cultivo,L^.dato.dimL,'soja'));
-    if(pos<>0)then
+    if(pos<>0)then begin
       cantHectSoja:=cantHectSoja+L^.dato.cultivo[pos].hectarea;
-      
+    end; 
     pos:=(buscoPos(L^.dato.cultivo,L^.dato.dimL,'maiz'));
     if(pos<>0)then begin
       tiempoMaiz:=L^.dato.cultivo[pos].meses;
