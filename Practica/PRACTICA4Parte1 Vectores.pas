@@ -308,8 +308,8 @@ begin
   posMax:=elementoMaximo(v,dimL);
   posMin:=elementoMinimo(v,dimL);
   intercambio(posMax,posMin,v);
-  writeln ('El elemento maximo ',v[posMin],' que se encontraba en la posicion ',posMax,
-  ' fue intercambiado con el elemento minimo ',v[posMax],' que se encontraba en la posicion ',posMin);
+  writeln ('El elemento maximo ',v[posMax],' que se encontraba en la posicion ',posMax,
+  ' fue intercambiado con el elemento minimo ',v[posMin],' que se encontraba en la posicion ',posMin);
 end.
 {
 6. Dado que en la solución anterior se recorre dos veces el vector (una para calcular el elemento máximo y
