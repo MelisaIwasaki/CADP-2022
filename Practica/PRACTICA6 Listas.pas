@@ -1209,8 +1209,8 @@ begin
   while(L<>nil)and(i<10)do begin
     writeln('Apellido con buen promedio:',L^.dato.apellido);
     writeln('Numero del alumno:',L^.dato.numero);
-    L:=L^.sig;
     i:=i+1;
+    L:=L^.sig;
   end;
 end;
 var L:lista;
