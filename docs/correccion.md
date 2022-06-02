@@ -355,3 +355,60 @@ Algunas condiciones en las cuales el tiempo de ejecución de un programa se pued
 
 <!--faltaria algunos ejemplos de la teoria nueva-->
 
+## Para entender mejor 
+
+````pascal
+Program temperaturas;
+
+Var valor, total: real;|
+Begin
+ total:= 0;                    // una signacion = 1 ut
+ for i:= 1 to 30 do begin       
+   read (valor);               
+   total:= total + valor;      // una asignacion dentro del for (2*30)   
+ end;                          
+ prom:= total div 30;          // una signacion y una operacion (+,-,*,/,mod,div) = 2 ut
+ write(´Temperatura Promedio:´, prom);
+end;
+````
+
+<table>
+<tr>  
+<td>for i:= 1 to 30 do begin</td><td>3 * n + 2</td><td>92 op</td> 
+</tr>  
+<tr>  
+<td>  
+ 
+-  asignación inicial i:= 1 (1)    
+-  testeo de i <= 30 (31)
+-  incrementos de i:= i + 1  (30 * 2 )   
+                   
+</td>
+<td>
+
+- siendo n la cantidad de repeticiones
+- n = 30
+ 
+</td>
+<td> 
+
+- total: 1 + 31 + (30 * 2) 
+- 1 + (30 + 1) + (30 * 2)
+- 1 + 1 + 30 + (30 * 2)
+- 2 + 30 + 60 = 92 op
+ 
+</td> 
+</tr>
+<tr>  
+<td>Dentro del for</td><td>(2 * 30)</td><td>60 op</td>  
+</tr>
+<tr>  
+<td>Lo que esta fuera del for</td><td>1 + 2 ut</td><td>3 ut</td>  
+</tr>
+<tr> 
+<td>Total =</td><td>(2 * 30) + (3 * 30 + 2) + 3</td><td>155 op. elem.</td>  
+<tr/>
+</table>
+
+<!-- TR lineas que separan--> 
+<!-- TD lo que va adentro-->
