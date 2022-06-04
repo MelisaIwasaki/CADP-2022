@@ -130,7 +130,7 @@ begin
   end;
 end;
 ````
->Usando POS
+>Usando i
 ````pascal
 function buscar(v:vector;dimL,n:integer):boolean;
 var
