@@ -1,3 +1,6 @@
+{Para que no haya confusiones:primero hice el ejercicio,luego el profesor me lo corrigió y después lo volví a arreglar.
+Dejé los comentarios del profesor para que no me olvidara mi error.}
+
 program FisicaYQuimica;
 const
   ATO=3;  //son 30,el 3 es para probar;
