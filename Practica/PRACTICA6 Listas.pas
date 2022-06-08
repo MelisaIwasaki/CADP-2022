@@ -1415,6 +1415,9 @@ type
   vcodigo=array[rangoAlu]of lista;  //cada alumno tiene una lista de viajes
   vmedio=array[rangoMedio]of integer;  //transporte más utilizados
   
+{Para que no haya confusiones:primero hice el ejercicio,luego el profesor me lo corrigió y después lo volví a arreglar.
+Dejé los comentarios del profesor para que no me olvidara mi error.} 
+
 procedure leer(var vi:viaje);
 begin
   writeln('Ingrese el codigo');
