@@ -129,10 +129,10 @@ begin
     vec[L^.dato.protones]:= vec[L^.dato.protones] + 1; 
     recorrerAyB(LA,moleUnion);
     recorrerAyB(LB,moleUnion);
-    if(L^.dato.protones = elemE.protones)then 
+    if(L^.dato.protones = elemE.protones)then begin
       borrar(L,elemE.protones,ok);
-    if(L^.dato.protones = elemE.protones)then
       agregarAdelante(M2.atomos,elemE);
+    end;
     L:=L^.sig;
   end;
 end;
