@@ -1334,7 +1334,9 @@ d. La empresa que dedica más tiempo al cultivo de maíz
 e. Realizar un módulo que incremente en un mes los tiempos de cultivos de girasol de menos de 5
 hectáreas de todas las empresas que no son estatales.
 }
-program agricultura;
+{Para que no haya confusiones:primero hice el ejercicio,luego el profesor me lo corrigió y después lo volví a arreglar.
+Dejé los comentarios del profesor para que no me olvidara mi error.}
+program repaso10;
 const
   dimF=20;
 type
@@ -1349,7 +1351,7 @@ type
   empresa=record
     cod:integer;
     nom:cadena;
-    estOpri:boolean;
+    estOpri:boolean; {es V cuando es estatal}
     ciudad:cadena;
     cultivo:vector;
     dimL:integer;
@@ -1382,7 +1384,7 @@ begin
     leerCultivo(c);
   end;
 end;
-procedure leerEmpresa(var e:empresa;var v:vector);
+procedure leerEmpresa(var e:empresa);
 var aux:char;dim:integer;
 begin
   writeln('Ingrese el codigo');
@@ -1396,8 +1398,7 @@ begin
     writeln('Ingrese la ciudad');
     readln(e.ciudad);
     writeln('Se leen los cultivos de la empresa');
-    cargarCultivo(v,dim);
-    e.dimL:=dim;
+    cargarCultivo(e.cultivo,e.dimL); {NICO: Enviar vector dentro del registro}
   end;
 end;
 procedure agregarAdelante(var L:lista; e:empresa);
@@ -1409,13 +1410,13 @@ begin
   L:=nue;
 end;
 
-procedure cargarEmpresa(var L:lista; var v:vector);
+procedure cargarEmpresa(var L:lista);
 var e:empresa;
 begin
-  leerEmpresa(e,v);
+  leerEmpresa(e);
   while(e.cod<> -1)do begin
     agregarAdelante(L,e);
-    leerEmpresa(e,v);
+    leerEmpresa(e);
   end;
 end;
 function dosCeros(codigo:integer):boolean;
@@ -1431,15 +1432,15 @@ begin
     else dosCeros:=false;
 end;
 function buscoPos(v:vector;dimL:integer;busco:cadena):integer;
-var pos:integer;ok:boolean;
+var i:integer;ok:boolean;
 begin
-  pos:=1;ok:=false;
-  while(pos<= dimL)and(not ok)do begin
-    if(busco= v[pos].tipo)then  ok:=true
-        else  pos:=pos+1;
+  i:=1;ok:=false;
+  while(i<= dimL)and(not ok)do begin
+    if(busco= v[i].tipo)then  ok:=true
+        else  i:=i+1;
   end;
   if(ok= false)then  buscoPos:=0
-    else  buscoPos:= pos;
+    else  buscoPos:= i;
 end;
 function sumaHectTotal(v:vector;dimL:integer):real;
 var i:integer;suma:real;
@@ -1472,32 +1473,42 @@ begin
     end;
     hecTotal:=hecTotal +(sumaHectTotal(L^.dato.cultivo,L^.dato.dimL));
     pos:=(buscoPos(L^.dato.cultivo,L^.dato.dimL,'soja'));
-    if(pos<>0)then begin
+    if(pos<>0)then
       cantHectSoja:=cantHectSoja+L^.dato.cultivo[pos].hectarea;
-    end; 
+      
     pos:=(buscoPos(L^.dato.cultivo,L^.dato.dimL,'maiz'));
     if(pos<>0)then begin
       tiempoMaiz:=L^.dato.cultivo[pos].meses;
       maximo(tiempoMaiz,max,L^.dato.nom,maxNom);
     end;
-    pos:=(buscoPos(L^.dato.cultivo,L^.dato.dimL,'girasol'));
-    if(pos<>0)then begin
-      if(L^.dato.cultivo[pos].hectarea< 5)and(not L^.dato.estOpri)then //estOpri es un boolean
-        L^.dato.cultivo[pos].meses:=L^.dato.cultivo[pos].meses + 1;
-    end;
     L:=L^.sig;
   end;
   porcentaje:=cantHectSoja*100/hecTotal;
-  writeln('Porcentaje de hectareas dedicadas al cultivo de soja:',porcentaje:2:2,'%');
+  writeln('Cantidad de hectareas dedicadas al cultivo de soja:',cantHectSoja);{NICO: informar cant soja}
+  writeln('Porcentaje de hectareas dedicadas al cultivo de soja:',porcentaje:2:2,'%'); 
   writeln('La empresa que dedica más tiempo al cultivo de maíz:',maxNom);
 end;
+{e. Realizar un módulo que incremente en un mes los tiempos de cultivos de girasol de menos de 5
+hectáreas de todas las empresas que no son estatales.}{NICO: Segun enunciado deberia ser un modulo aparte}
+procedure moduloE(L:lista);
+var pos:integer;
+begin
+  while(L<>nil)do begin
+    pos:=(busco(L^.dato.cultivo,L^.dato.dimL,'girasol'))
+    if(pos<>0)then begin
+    if(L^.dato.cultivo[pos].hectarea< 5)and(not L^.dato.estOpri)then
+        L^.dato.cultivo[pos].meses:=L^.dato.cultivo[pos].meses + 1;
+    end;
+  end;
+end;
+//no entiendo la necesidad de hacerlo en un modulo aparte...sera que se hace de otra manera?
 var
   L:lista;
-  v:vector;
 begin
   L:=nil;
-  cargarEmpresa(L,v);
+  cargarEmpresa(L);
   recorrerLista(L);
+  moduloE(L);{NICO: el E?}
 end.
 
 {
