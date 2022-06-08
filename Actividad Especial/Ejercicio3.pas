@@ -1,3 +1,6 @@
+{Para que no haya confusiones:primero hice el ejercicio,luego el profesor me lo corrigió y después lo volví a arreglar.
+Dejé los comentarios del profesor para que no me olvidara mi error.}
+
 program FisicaYQuimica;
 const
   ATO=30;  
@@ -186,6 +189,7 @@ begin
   tabla.atomoB.electrones:= 0;
   tabla.atomoB.neutrones:= 0;
 end;
+
 procedure buscar(v:vector;prot:integer;var tabla:tablaPeriodica); 
 begin
   //inicializarTabla(tabla);     {NICO: No hace falta inicializar, se va a sobreescribir}
