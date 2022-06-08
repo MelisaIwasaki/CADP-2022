@@ -868,6 +868,9 @@ type
  
   vector= array[1..100]of real;  {temperatura de cada anio}
   anios= array[1972..2022]of vector; {NICO: Para que concuerde con el indice del FOR}
+  
+{Para que no haya confusiones:primero hice el ejercicio,luego el profesor me lo corrigió y después lo volví a arreglar.
+Dejé los comentarios del profesor para que no me olvidara mi error.}
 
 procedure cargar(var v:vector;anio,punto:integer);
 var temperatura:real;aux:real;
