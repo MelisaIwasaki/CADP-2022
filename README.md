@@ -14,7 +14,7 @@
 
 > [AUTOEVALUACION](docs/autoevaluacion2.md) DE 6 A 10
 
-> [おまけ](docs/solucion.md)
+> [おまけ](docs/solucion.md) signaifica bonus,extra 🉑
 
 ## IDE para instalar :
 
