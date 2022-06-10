@@ -400,15 +400,16 @@ molécula M (o sea, una nueva molécula M2 o submolécula) con una copia de todo
 átomos de M hasta el elemento E inclusive. El elemento E podría no existir}
 
 procedure hacerCopia(m:molecula;elemE:atomo;var M2:molecula);
-var L:lista;
+var L:lista;                   {NICO: Deberia recorrer la lista de m.atomos hasta encontrar elemE (o terminar) agregando cada uno a M2.atomos}
 begin
   M2:= m;
   L:=m.atomos;
-  while(L<>nil)do begin
-    if(L^.dato.protones = elemE.protones)then
-      agregarAdelante(M2.atomos,elemE); {NICO: Deberia recorrer la lista de m.atomos hasta encontrar elemE (o terminar) agregando cada uno a M2.atomos}
-    L:=L^.sig;
-  end;
+  while(L<>nil)and(L^.dato.protones <> elemE.protones)do 
+    L:=L^.sig;  
+  if(L<>nil)and(L^.dato.protones = elemE.protones)then
+    agregarAdelante(M2.atomos,elemE);  //si lo encontro
+  else
+    agregarAdelante(M2.atomos,elemE);  //si llego al final de la lista
 end;
 var
   v:vector;
