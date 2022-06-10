@@ -872,7 +872,7 @@ type
 {Para que no haya confusiones:primero hice el ejercicio,luego el profesor me lo corrigió y después lo volví a arreglar.
 Dejé los comentarios del profesor para que no me olvidara mi error.}
 
-procedure cargar(var v:vector;anio,punto:integer);
+procedure cargar(var v:anios;anio,punto:integer);
 var temperatura:real;aux:real;
 begin
   writeln('Ingrese la temperatura promedio anual');
