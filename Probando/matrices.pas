@@ -74,19 +74,18 @@ begin
   writeln(v[2021,1]:2:2,' ',v[2021,2]:2:2,' ',v[2022,1]:2:2,' ',v[2022,2]:2:2);
 end;
 procedure recorrer(v:vector);
-var anio,punto,anioMax,anioMayor,anioAct:integer;
+var anio,punto,anioMax,anioMayor:integer;
     suma,promedio,max,maxTemp:real;
 begin
   max:=-1;maxTemp:=-1;
   for anio:= anioI to anioF do begin  
     suma:= 0;
-    anioAct:= anio;
     for punto:= 1 to LUG do begin  //100 puntos diferentes del planeta
       suma:= suma + v[anio,punto];
-      mayor(v[anio,punto],maxTemp,anioAct,anioMayor);
+      mayor(v[anio,punto],maxTemp,anio,anioMayor);
     end;
     promedio:= suma / LUG;
-    maximo(promedio,max,anioMax,anioAct);
+    maximo(promedio,max,anioMax,anio);
   end;
   writeln('El año con mayor temperatura promedio a nivel mundial: ',anioMax);
   writeln('El año con la mayor temperatura detectada en algún punto del planeta en los últimos 50 años: ',anioMayor);
