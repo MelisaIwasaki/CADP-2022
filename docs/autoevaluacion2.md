@@ -1,6 +1,6 @@
 <h1 align = "center">:hamster:AUTOEVALUACION:100:</h1>
 
-## Autoevaluación Seis
+## Autoevaluación :six:
 
 1- Dado un vector 'v' de 200 números reales, ordenado de menor a mayor. La siguiente función debería buscar el valor PI (3,14) dentro de dicho vector:
 ````pascal
@@ -85,7 +85,7 @@ Marque a continuación todas las opciones correctas:
 
 ------------------
 
-## Autoevaluación Siete
+## Autoevaluación :seven:
 
 1- Teniendo en cuenta el siguiente código:
 ````pascal
@@ -208,7 +208,7 @@ Indique la respuesta válida.
 
 ---------------
 
-## Autoevaluación Ocho
+## Autoevaluación :eight:
 
 1- Teniendo en cuenta el siguiente módulo con el cual se pretende duplicar todos los valores almacenados en una lista:
 ````pascal
@@ -368,6 +368,324 @@ Seleccione la opción verdadera:
 - [ ] El módulo es incorrecto porque se deben pasar el inicio y el final de la lista para poder insertar un elemento de forma ordenada.
 - [ ] EL módulo es incorrecto, se está pasando la lista por referencia y no hace falta.
 
+---------------
 
+## Autoevaluación :nine:
+
+1- Dado el siguiente programa:
+````pascal
+program punteros;
+type
+    pinteger = ^integer;
+procedure sumar(num : pinteger; valor : integer);
+begin
+   num^ := num^ + valor;
+end;
+var
+   num : pinteger;
+   valor : integer;
+begin
+   new(num);
+   readln(valor);
+   repeat
+      sumar(num,valor);
+      readln(valor);
+   until (valor = 10);
+   writeln(num^);
+end.
+````
+Si se ingresan los valores   2   6    10
+
+- [ ] El programa funciona e imprime el valor 2.
+- [ ] El  programa funciona e imprime el valor 8.
+- [ ] El programa funciona e imprime el valor 16.
+- [ ] El programa funciona e imprime el valor 20.
+- [ ] El programa no compila porque no se puede sumar un puntero con un integer.
+- [ ] El programa no funciona porque no se puede imprimir un puntero.
+- [x] El programa funciona e imprime basura porque no se inicializó el valor apuntado por num.
+
+2- Dado el siguiente programa:
+````pascal
+program punteros;
+type
+    pinteger = ^integer;
+var
+    i : integer;
+    p : pinteger;
+begin
+   for i:= 1 to 10 do
+    begin
+       new(p);
+       p^ := i;
+    end;
+   readln;
+end.
+````
+Considere que Pascal utiliza 4 bytes para almacenar punteros y 2 bytes para almacenar números enteros. 
+
+- [ ] 6 bytes en memoria estática y 60 bytes en memoria dinámica.
+- [ ] 6 bytes en memoria estática y 2 bytes en memoria dinámica.
+- [ ] 6 bytes en memoria estática y 4 bytes en memoria dinámica.
+- [x] 6 bytes en memoria estática y 20 bytes en memoria dinámica.
+- [ ] 2 bytes en memoria estática y 20 bytes en memoria dinámica.
+- [ ] 2 bytes en memoria estática y 60 bytes en memoria dinámica.
+- [ ] 2 bytes en memoria estática y 2 bytes en memoria dinámica.
+- [ ] 2 bytes en memoria estática y 4 bytes en memoria dinámica.
+- [ ] 106 bytes en memoria estática.
+- [ ] 106 bytes en memoria dinámica.
+
+3- Dado el siguiente programa
+````pascal
+program listas;
+type
+   lista = ^nodo;
+   nodo = record
+      dato : integer;
+      sig : lista;
+   end;
+procedure agregarAdelante(var pri : lista; x : integer);
+var
+  aux : lista;
+begin
+   new(aux);
+   aux^.dato := x;
+   aux^.sig := nil;
+   pri := aux;
+end;
+var
+   L : lista;
+   i : integer;
+begin
+   L := nil;
+   for i:= 1 to 10 do
+       agregarAdelante(L,i);
+   Dispose(L);
+end.
+````
+Marque a continuación las afirmaciones correctas:
+
+- [ ] No es necesario pasar el parámetro PRI por referencia, ya que la lista es un puntero, y los punteros se almacenan en memoria dinámica.
+- [ ] La lista no se construye porque la variable AUX se elimina al finalizar el módulo, y por lo tanto el nuevo nodo desaparece.
+- [ ] La lista no se construye porque la variable AUX no fue inicializada en NIL.
+- [x] La lista no se construye porque no se enlaza correctamente cada nuevo nodo a la lista.
+- [ ] El dispose elimina toda la memoria ocupada por los nodos de la lista.
+- [ ] El dispose elimina el primer nodo de la lista, y el puntero pasa a apuntar al resto de la lista.
+
+4- Dado el siguiente programa:
+````pascal
+program listas;
+type
+   lista = ^nodo;
+   nodo = record
+      dato : integer;
+      sig : lista;
+   end;
+   function sumar(L : lista) : integer;
+   var
+       total : integer;
+   begin
+       total := 0;
+       while (L <> nil) do begin
+          total := total + L^.dato;
+          L := L^.sig;
+       end;
+       sumar := total;
+   end;
+ var
+    L1, L2 : lista;    
+begin
+   crearLista(L1);
+   writeln(sumar(L1));
+   L2 := L1;
+   writeln(sumar(L2) );
+end.
+````
+Suponiendo que el módulo crearLista retorna en L1 una lista con los valores  3 -   5 -   2 -   9 .
+
+- [x] Los dos writeln informarán 19.
+- [ ] El primer writeln informará el valor 19 y el segundo informará 0.
+- [ ] Los dos writeln informarán 0.
+- [ ] El segundo writeln generará un error porque se perdió el puntero al inicio de la lista.
+- [ ] El código no compila porque las funciones no pueden recibir parámetros de tipo lista.
+
+5- Dado el siguiente código:
+````pascal
+program listas;
+type
+   lista = ^nodo;
+   nodo = record
+      dato : integer;
+      sig : lista;
+   end;
+
+   var
+       L , nodo1, nodo2 : lista;
+       
+   begin
+      new(L);  //creo un nodo
+      L^.dato := 4;
+      L^.sig := nodo1;
+    
+      new(nodo1);  //creo un segundo nodo
+      nodo1^.dato := 5;
+      nodo1^.sig := nodo2;
+ 
+      new(nodo2);  //creo un tercer nodo
+      nodo2^.dato := 6;
+      nodo2^.sig := nil;
+
+      while (L <> nil) do
+      begin
+        writeln(L^.dato);
+        L := L^.sig;
+      end;
+   end.
+````
+De acuerdo a los conceptos vistos en la TEORÍA (Independientemente de la versión de Pascal):
+
+- [ ] El programa imprime 4 5 6 y finaliza correctamente.
+- [ ] El programa imprime 4 y el "while" realiza 3 iteraciones..
+- [ ] El programa imprime 6 y finaliza correctamente.
+- [ ] El programa no compila porque se están almacenando en L y en nodo1 direcciones de memoria inválidas.
+- [x] El programa compila pero accederá a direcciones de memoria inválidas dentro del while.
+
+---------------
+
+## Autoevaluación 🔟
+
+1- Dado el siguiente modulo:
+````pascal
+type
+    lista = ^nodo
+    nodo = record;
+      dato : integer;
+      sig : lista;
+    end;
+
+function buscar(L:lista; x:integer): boolean;
+begin
+    while (L<>NIL) and (L^.dato <> x) do
+        L := L^.sig;
+    buscar := (L <> NIL);
+end;
+````
+Seleccione la opción verdadera:
+
+- [ ] El modulo arroja un error porque se está comparando L con NIL.
+- [ ] El modulo podría arrojar un error cuando X no está en la lista L.
+- [ ] El modulo funciona, pero luego de su ejecución se pierde la referencia al inicio de la lista.
+- [x] El modulo es correcto, retorna true si el número X está en la lista L, o false en caso contrario.
+- [ ] El modulo podría arrojar un error porque el while debe tener las condiciones en orden intercambiado.
+
+2- Indique cual de las siguientes afirmaciones sobre el modulo imprimirValores es verdadera. 
+````pascal
+type
+  tPersona = record
+    nombre: String;
+    edad: integer;
+  end;
+
+  lista = ^nodo;
+  nodo = record;
+    persona: tPersona;
+    sig: lista;
+  end;
+
+Procedure imprimirValores(L: lista); {Imprime todo los valores de L}
+begin
+  while (L <> NIL) do 
+    writeln(L^.persona.nombre, ' - ', L^.persona.edad);
+end;
+````
+- [ ] Es correcto.
+- [ ] Incorrecto. Debe imprimir writeln(L^.nombre, ' - ', L^.edad);
+- [ ] Incorrecto. La condición del while debe chequear (L^.sig <> NIL).
+- [ ] Incorrecto. La lista debe pasarse por referencia.
+- [x] Incorrecto. Falta avanzar en la lista.
+
+3- Dado el siguiente modulo que agrega un nodo con el valor X a la lista L:
+````pascal
+type
+  lista = ^nodo
+  nodo = record;
+    dato : integer;
+    sig : lista;
+  end;
+
+procedure agregar(var L,ult:lista; x:dato);
+var
+  aux : lista;
+begin
+  new(aux);
+  aux^.dato := x;
+  aux^.sig := NIL;
+  if(L = NIL)then
+    L := aux
+  else
+    ult^.sig := aux;
+  ult:= aux;
+end;
+````
+Seleccione la opción verdadera:
+
+- [ ] El modulo agrega correctamente un elemento al inicio de la lista.
+- [ ] El modulo agrega correctamente un elemento al final de la lista.
+- [ ] El modulo no funciona porque no conecta el nuevo nodo con la lista L.
+- [ ] El modulo no funciona porque se está haciendo new sobre una variable local que se eliminará al finalizar la ejecución del procedure agregar.
+- [ ] El modulo no funciona porque se pierde el inicio de la lista.
+
+4- El siguiente módulo fue creado para buscar un elemento en una lista ordenada ascendente. Indique cuál es la línea de código que debería ir en lugar de ???:
+````pascal
+Function buscar(L:lista; valor:integer):boolean;
+Var
+ act:lista;
+ OK:boolean;
+Begin
+  act:=l; OK:= false; 
+  ???
+  begin
+    act:= act^.sig;
+  end;
+  if (act <> nil) and (act^.elem = valor) then OK:= true;
+  buscar:= OK;
+end;
+````
+- [ ] if (act <> nil) and (act^.elem = valor) then
+- [ ] while (act <> nil) do
+- [x] while (act <> nil) and (act^.elem < valor) do
+- [ ] if (act = nil) and (act^.elem <> valor) then
+- [ ] while (act^.elem < valor) and (act <> nil) do
+- [ ] while (act <> nil) and (act^.elem > valor) do
+
+5- Dado el siguiente modulo que elimina un nodo con el valor X de la lista L, indique cuales de las siguientes afirmaciones son verdaderas:
+````pascal
+type
+  lista = ^nodo
+  nodo = record;
+    dato : integer;
+    sig : lista;
+  end;
+
+procedure eliminar(var L: lista; x:integer);
+var
+  aux, ant : lista;
+begin
+  aux:= L;
+  while (aux <> NIL) and (aux^.dato <> x) do 
+  begin
+    ant:= aux;
+    aux:= aux^.sig;
+  end;
+  if(aux <> NIL) then begin
+    ant^.sig := aux^.sig;
+    dispose(aux);
+  end;
+end;
+```` 
+- [ ] El modulo elimina correctamente un elemento con el valor x.
+- [ ] El modulo no es correcto porque ant y aux deben ser parámetros.
+- [x] El modulo no es correcto porque puede pasar que la instrucción   ant^.sig:= aux^.sig; accede a una posición invalida de memoria.
+- [ ] El modulo no es correcto porque el dispose de aux debe hacerse fuera del if.
+- [x] El modulo no es correcto porque no actualiza L si borra el primer nodo.
 
 
