@@ -872,13 +872,18 @@ type
 {Para que no haya confusiones:primero hice el ejercicio,luego el profesor me lo corrigió y después lo volví a arreglar.
 Dejé los comentarios del profesor para que no me olvidara mi error.}
 
-procedure cargar(var v:anios;anio,punto:integer);
+procedure cargar(var v:anios);
 var temperatura:real;aux:real;
+    anio,punto:integer;
 begin
-  writeln('Ingrese la temperatura promedio anual');
-  readln(temperatura);
-  aux:=v[anio];
-  aux[punto]:= temperatura;  
+  for anio:= anioI to anioF do begin 
+    for punto:= 1 to LUGAR do begin
+      writeln('Ingrese la temperatura promedio anual');
+      readln(temperatura);
+      aux:=v[anio];
+      aux[punto]:= temperatura; 
+    end;
+  end;
 end;
 procedure maximo(promedio:real;var max:real;var anioMax:integer;anio:integer);
 begin
@@ -901,7 +906,7 @@ var
 begin
   maxTemp:= -1;max:= -1;
   anioMayor:= 0;anioMax:= 0;
-  cargar(v,anio,punto);
+  cargar(v);
   for anio:= anioI to anioF do begin {NICO: Primero almacenar, y luego procesar}
     temp:= 0;
     for punto:= 1 to LUGAR do begin
