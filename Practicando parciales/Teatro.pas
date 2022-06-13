@@ -44,7 +44,7 @@ type
     titulo:cadena;
     duracion:integer;
     montoTotal:real;
-    detalle:listaDet;//dentro del vector va la lista
+    detalle:listaDet;//dentro del registro va la lista
   end;
   detalleObra=record //los campos son de lista
     asiento:integer;
@@ -78,6 +78,7 @@ end;
 código de una obra(que podría no existir),y retorne una estructura de datos con título de la obra, duración,
 monto total de todos los tickets vendidos, y asiento, sala y valor de cada ticket vendido para dicha obra.
 Esta información debe estar ordenada por el valor de cada ticket.}
+
 procedure incisoB(L:lista;v:vObras;codObra:integer;var reg:regObra);
 var  var detObra:detalleObra;
 begin
