@@ -38,6 +38,9 @@ begin
     posicion:= -1;
 end;
 ````
+![camel](https://user-images.githubusercontent.com/92184167/173698662-5f34d2bb-8350-4c87-8262-ab328747c9d5.png)
+
+
 ## Problema 2 🉑
 
 **Implementar un módulo que reciba la lista y un valor, e incremente con ese valor cada dato de la lista.**
@@ -147,3 +150,4 @@ begin
   end;
 end;
 ````
+![cf40550af928a2d019c25d714df88f0c](https://user-images.githubusercontent.com/92184167/173698713-35e4215d-eae0-4005-9b7c-e9e98fa3abda.jpg)
