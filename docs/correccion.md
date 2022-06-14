@@ -412,3 +412,17 @@ end;
 
 <!-- TR lineas que separan--> 
 <!-- TD lo que va adentro-->
+
+<table>
+  <tr>
+    <td>    
+     <img src="https://user-images.githubusercontent.com/92184167/173700118-8a9c3b91-a59e-405c-b702-d2722cb4958b.jpg">  
+    </td>
+    <td> 
+     <img src="https://user-images.githubusercontent.com/92184167/173700648-b8b147b1-9a76-427d-b246-85054c6c7a45.jpg">
+    </td>
+    <td>    
+     <img src="https://user-images.githubusercontent.com/92184167/173700440-d6a8a341-b16e-47cb-8e80-986ebe74b2bd.jpg">  
+    </td>
+  </tr>
+</table>
