@@ -688,4 +688,5 @@ end;
 - [ ] El modulo no es correcto porque el dispose de aux debe hacerse fuera del if.
 - [x] El modulo no es correcto porque no actualiza L si borra el primer nodo.
 
+![80098239221c659af4d580a38b5bd884](https://user-images.githubusercontent.com/92184167/173700972-6fc6168b-ede7-4a5e-9bb7-f11215cb61fd.jpg)
 
