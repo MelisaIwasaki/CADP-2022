@@ -43,7 +43,7 @@ type
   vGasto=array[rangoDia]of real;     //b)
   vBici=array[rangoDia]of boolean;
 
-procedure cargarPrecios(v:vTabla);
+procedure cargarPrecios(v:vTabla); //se dispone, no lo probé solo para que compile
 begin
   v[1]:=100;
   v[2]:=200;
