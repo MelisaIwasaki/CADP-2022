@@ -16,7 +16,7 @@
 
 > [AUTOEVALUACION](docs/autoevaluacion2.md) DE 6 A 10
 
-> [おまけ](docs/solucion.md) 🉑
+> [自分の為に](docs/solucion.md) 
 
 ## IDE para instalar :
 
