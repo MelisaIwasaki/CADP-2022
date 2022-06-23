@@ -211,46 +211,54 @@ El valor almacenado en la variable asociada a la operación write, se muestra en
 ## Estructura de control
 Todos los lenguajes de programación tienen un conjunto mínimo de instrucciones que permiten especificar el control del algoritmo que se quiere implementar.  Como mínimo deben contener: secuencia, decisión e iteración.
 
-### Secuencia
-La estructura de control más simple, está representada por una sucesión de operaciones (por ej. asignaciones), en la que el orden de ejecución coincide con el orden físico de aparición de las instrucciones.
+> Secuencia
+ 
+<sup>La estructura de control más simple, está representada por una sucesión de operaciones (por ej. asignaciones), en la que el orden de ejecución coincide con el orden físico de aparición de las instrucciones.</sup>
 
-### Decisión(if)
-En un algoritmo representativo de un problema real es necesario tomar decisiones en función de los datos del problema. {Si la condición es verdadera o falsa, cambia la acción.}
+> Decisión(if)
+ 
+<sup>En un algoritmo representativo de un problema real es necesario tomar decisiones en función de los datos del problema. {Si la condición es verdadera o falsa, cambia la acción.}</sup>
 
-### Iteración
-Puede ocurrir que se desee ejecutar un bloque de instrucciones desconociendo el número exacto de veces que se ejecutan. 
+> Iteración
+ 
+<sup>Puede ocurrir que se desee ejecutar un bloque de instrucciones desconociendo el número exacto de veces que se ejecutan. 
 Para estos casos existen en la mayoría de los lenguajes de programación estructurada las estructuras de control iterativas condicionales. 
 Como su nombre lo indica las acciones se ejecutan dependiendo de la evaluación de la condición. 
-Estas estructuras se clasifican en pre-condicionales y post-condicionales.
+ Estas estructuras se clasifican en pre-condicionales y post-condicionales.,</sup>
 
-**Iteración pre condicionales(while):** Evalúa la condición y en caso de ser verdadera, ejecuta las acciones.Se repite mientras la condición es verdadera.Puede ejecutarse 0, 1 o más veces.
-Importante: el valor inicial de la condición debe ser conocido o evaluable antes de la evaluación de la condición.
-**Iteración post condicionales(repeat until):** Ejecuta las acciones y luego evalúa la condición. Se repite mientras la condición es falsa. Puede ejecutarse  1 o más veces.
+<sup>**Iteración pre condicionales(while):** Evalúa la condición y en caso de ser verdadera, ejecuta las acciones.Se repite mientras la condición es verdadera.Puede ejecutarse 0, 1 o más veces.
+Importante: el valor inicial de la condición debe ser conocido o evaluable antes de la evaluación de la condición.</sup>
+ 
+<sup>**Iteración post condicionales(repeat until):** Ejecuta las acciones y luego evalúa la condición. Se repite mientras la condición es falsa. Puede ejecutarse  1 o más veces.</sup>
 
-### Repetición(for)
-Es una extensión natural de la secuencia. Consiste en  repetir N veces un bloque de acciones. Este número de veces que se deben ejecutar las acciones es fijo y conocido de antemano.
+> Repetición(for)
+ 
+<sup>Es una extensión natural de la secuencia. Consiste en  repetir N veces un bloque de acciones. Este número de veces que se deben ejecutar las acciones es fijo y conocido de antemano.</sup>
 
-For i := 1 to 10 do
+<sup>**For i := 1 to 10 do**
 La variable índice debe ser de tipo ordinal
 La variable índice no puede modificarse dentro del lazo
 La variable índice se incrementa y decrementa automáticamente
-Cuando el for termina la variable índice no tiene valor definido.
+ Cuando el for termina la variable índice no tiene valor definido.</sup>
 
-### Selección(case)
-Permite realizar distintas acciones dependiendo del valor de una variable de tipo ordinal.
-Las opciones deben ser disjuntas.
+> Selección(case)
+ 
+<sup>Permite realizar distintas acciones dependiendo del valor de una variable de tipo ordinal.
+ Las opciones deben ser disjuntas.</sup>
 
 ## Máximos y Mínimos
 Utilizar una variable que representará al máximo o al mínimo.
 Inicializar la variable antes de comenzar la lectura de los datos. El máximo en un valor bajo y el mínimo en un valor alto.
 Actualizar la variable máximo o mínimo cuando corresponda
 
-### Tipo de dato definido por el usuario
+## Tipo de dato definido por el usuario
 Un tipo de dato definido por el usuario es aquel que no existe en la definición del lenguaje, y el programador es el encargado de su especificación.
 
+````pascal
 Type
     identificador = tipo;
-
+````
+ 
 Ventajas de la utilización de los tipos de datos definidos por el usuario:
  
 **Flexibilidad:** en el caso de ser necesario modificar la forma en que se representa el dato, sólo se debe modificar una declaración en lugar de un conjunto de declaraciones de variables.
@@ -289,23 +297,27 @@ Encapsula acciones tareas o funciones.
  
 En ellos se pueden representar los objetivos relevantes del problema a resolver.
 
-### Metodología TOP-DOWN
+**Metodología TOP-DOWN**
  
 ## Modularización:
  
-### Mayor productividad
-Al dividir un sistema de software en módulos funcionalmente independientes, un equipo de desarrollo puede trabajar simultáneamente en varios módulos, incrementando la productividad (es decir reduciendo el tiempo de desarrollo global del sistema). 
+> Mayor productividad
+ 
+<sup>Al dividir un sistema de software en módulos funcionalmente independientes, un equipo de desarrollo puede trabajar simultáneamente en varios módulos, incrementando la productividad (es decir reduciendo el tiempo de desarrollo global del sistema).</sup> 
 
-### Reusabilidad
-Un objetivo fundamental de la Ingeniería de Software es la reusabilidad, es decir la posibilidad de utilizar repetidamente el producto de software desarrollado. Naturalmente la descomposición funcional que ofrece la modularización favorece el reuso.
+> Reusabilidad
+ 
+<sup>Un objetivo fundamental de la Ingeniería de Software es la reusabilidad, es decir la posibilidad de utilizar repetidamente el producto de software desarrollado. Naturalmente la descomposición funcional que ofrece la modularización favorece el reuso.</sup>
 
-### Facilidad de mantenimiento
+> Facilidad de mantenimiento
+ 
+> Facilidad de crecimiento
+ 
+<sup>Los sistemas de software reales crecen (es decir aparecen con el tiempo nuevos requerimientos del usuario). La modularización permite disminuir los riesgos y costos de incorporar nuevas prestaciones a un sistema en funcionamiento.</sup> 
 
-### Facilidad de crecimiento
-Los sistemas de software reales crecen (es decir aparecen con el tiempo nuevos requerimientos del usuario). La modularización permite disminuir los riesgos y costos de incorporar nuevas prestaciones a un sistema en funcionamiento. 
-
-### Legibilidad
-Un efecto de la modularización es una mayor claridad para leer y comprender el código fuente. El ser humano maneja y comprende con mayor facilidad un número limitado de instrucciones directamente relacionadas. 
+> Legibilidad
+ 
+<sup>Un efecto de la modularización es una mayor claridad para leer y comprender el código fuente. El ser humano maneja y comprende con mayor facilidad un número limitado de instrucciones directamente relacionadas.</sup> 
 
 ## Procedure
 Conjunto de instrucciones que realizan una tarea específica y retorna 0, 1 ó más valores.
@@ -313,7 +325,7 @@ Conjunto de instrucciones que realizan una tarea específica y retorna 0, 1 ó m
 ## Function
 Conjunto de instrucciones que realizan una tarea específica y retorna un único valor de tipo simple.
 
-Alcance de las variables:
+## Alcance de las variables:
  
 **Variables globales:** Pueden ser usadas en todo el programa(incluyendo módulos)
  
@@ -356,9 +368,8 @@ La comunicación externa de un módulo con el resto del sistema (puede no existi
 
 ## Tipo de parámetros 
  
-> Por valor
- 
-> Por referencia
+- Por valor 
+- Por referencia
 
 ### Parámetros por valor
 Un dato de entrada por valor es llamado parámetro IN y significa que el módulo recibe (sobre una variable local) un valor proveniente de otro módulo (o del programa principal).
@@ -413,4 +424,75 @@ Es uno de los tipos de datos estructurados, que permiten agrupar diferentes clas
  
 **Campos:** Representan cada uno de los datos que forman el registro.
  
+## Punteros
  
+### Variables estáticas
+La rigidez, ya que no permite que las estructuras varíen su dimensión.
+Las variables y tipos reservan memoria en su declaración y se mantienen durante todo el programa. El lenguaje puede validar previo a la ejecución.(Capacidad limitada)
+
+|Integer: | 4 bytes |
+|:-:|:-:| 
+|Char:    | 1 byte |
+|Real:    | 8 bytes |
+|Boolean: | 1 byte |
+|Registro:| la suma de los campos |
+|Arreglos:| dimFisica *  tipo elemento |
+|Puntero: | 4 bytes |
+
+
+### Variables dinámicas
+Permite modificar en ejecución la memoria utilizada.
+
+### Puntero
+Un puntero es un tipo de variable usada para almacenar la dirección en memoria de otra variable, en lugar de un dato convencional. Es un tipo de datos simple.
+
+Mediante la variable de tipo puntero se accede a una dirección, y en dicha dirección de memoria se encuentra realmente el valor almacenado. 
+
+ ### Características:
+- Es un tipo de dato simple que contiene la dirección donde se encuentra almacenado el dato real.
+- Pueden apuntar solamente a direcciones almacenadas en memoria dinámica (heap).
+- Cada variable de tipo puntero puede apuntar a un único tipo de dato.
+- Una variable de tipo puntero se indica con ^ y ocupa 4 bytes de memoria (stack) para su representación interna en Pascal.
+ 
+````pascal
+TYPE 
+    identificador= ^TipoVariableApuntada;
+````
+ 
+**^TipoVariableApuntada;** ->Puede ser cualquiera de los tipos de datos que hemos visto hasta el momento
+
+Una **variable de tipo puntero** ocupa una cantidad de memoria fija, independiente del tipo de dato al que apunta.
+
+Una **variable de tipo puntero** puede reservar y liberar memoria durante la ejecución del programa.
+
+Un **dato referenciado o apuntado**, como los ejemplos vistos, no tienen memoria asignada, o lo que es lo mismo no existe inicialmente espacio reservado en memoria para este dato
+
+> Creación de una variable puntero.   **new(nue);**
+
+> Destrucción de una variable puntero.   **dispose(act);**
+ 
+- Libera la conexión que existe entre la variable y la posición de memoria.
+- Libera la posición de memoria.
+- La memoria liberada puede utilizarse en otro momento del programa.
+
+> Eliminación de una variable puntero      **L:=nil;**
+ 
+- Libera la conexión que existe entre la variable y la posición de memoria.
+- La memoria sigue ocupada.
+- La memoria no se puede referenciar ni utilizar.
+
+> Asignación entre variables puntero.    **ant:=L;**
+
+> Asignación de un valor al contenido de una variable puntero.   **L^.dato.num:=num;**
+ 
+> Comparación de una variable puntero 
+
+1. if (p = nil) then, compara si el puntero p no tiene dirección asignada.
+2. if (p = q) then, compara si los punteros p y q apuntan a la misma dirección de memoria.
+3. if (p^ = q^) then, compara si los punteros p y q tienen el mismo contenido.
+
+- No se puede hacer read (p), si p es una variable de tipo puntero.
+- No se puede hacer write (p), si p es una variable de tipo puntero.
+- No se puede asignar una dirección a un puntero de manera manual (p:= ABCD).
+- No se pueden realizar operaciones de mayor o menor entre las direcciones de los punteros (p>q)
+
