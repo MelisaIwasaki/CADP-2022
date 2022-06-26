@@ -16,7 +16,6 @@ y retorne:
 3.Cantidad total de compras de clientes con DNI compuesto por, al menos, 3 dígitos pares.
 NOTA: Implementar el programa principal.}
 
-//Creo que lo había hecho así
 
 program panaderia;
 const
@@ -82,18 +81,18 @@ begin
   tresPares:=(par=3);  
 end;
 proedure procesar(L:lista; v:vector;var maxDNI;var vc:vcont;var cantTotal:real);
-var dniActual,maxDNI:integer;
-    cantKg,max:real;
+var dniActual,maxDNI,cantCompras:integer;
+    max:real;
 begin
   max:=-1;cantTotal:=0;
   while(L<>nil)do begin
     dniActual:=L^.dato.dni;
-    cantKg:=0;
+    cantCompras:=0;
     while(L<>nil)and(dniActual=L^.dato.dni)do begin
-      cantKg:=cantKg+ L^.dato.kg;
+      cantCompras:=cantCompras+ 1;    { cantidad de compras, no cant de kg }
       vc[v[L^.dato.cate].cod]:=vc[v[L^.dato.cate].cod]+(L^.dato.kg*v[L^.dato.cate].precio);
       if(tresPares(L^.dato.dni))then
-        cantTotal:=cantTotal+L^.dato.kg;
+        cantTotal:=cantTotal+ 1;     { cantidad de compras, no cant de kg }
       L:=L^.sig;
     end;
     maximo(cantKg,dniActual,max,maxDNI);
@@ -110,4 +109,4 @@ begin
   cargarCategoria(v);
   inicializar(vc);
   procesar(L,v,maxDNI,vc,cantTotal);
-end.
+  end.  {Falta informar los datos que retorna}
