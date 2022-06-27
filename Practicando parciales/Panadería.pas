@@ -80,7 +80,7 @@ begin
   end;
   tresPares:=(par=3);  
 end;
-proedure procesar(L:lista; v:vector;var maxDNI;var vc:vcont;var cantTotal:real);
+proedure procesar(L:lista; v:vector;var maxDNI;var vc:vcont;var cantTotal:integer);
 var dniActual,maxDNI,cantCompras:integer;
     max:real;
 begin
@@ -103,7 +103,7 @@ var
   v:vector;
   vc:vcont;
   maxDNI:integer;
-  cantTotal:real;
+  cantTotal:integer;
 begin
   cargarLista(L); //se dispone
   cargarCategoria(v);
