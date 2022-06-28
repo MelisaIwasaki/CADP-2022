@@ -197,8 +197,7 @@ Una vez declarado un tipo podemos asociar al mismo variables, es decir nombres s
 
 > Otra clase de lenguajes, que verifica el tipo de las variables según su nombre, se denomina auto tipados (self typed).
 
-> Otra clase de lenguajes, que verifica el tipo de las variables según su nombre, se denomina auto tipados (self typed).
-Existe una tercera clase de lenguajes que permiten que una variable tome valores de distinto tipo durante la ejecución de un programa. Esta se denomina dinámicamente tipados (dynamically typed).
+> Existe una tercera clase de lenguajes que permiten que una variable tome valores de distinto tipo durante la ejecución de un programa. Esta se denomina dinámicamente tipados (dynamically typed).
 
 ### READ
 Es una operación que contiene la mayoría de los lenguajes de programación. Se usa para tomar datos desde un dispositivo de entrada (por defecto desde teclado) y asignarlos a las variables correspondientes.
@@ -236,10 +235,10 @@ Importante: el valor inicial de la condición debe ser conocido o evaluable ante
 <sup>Es una extensión natural de la secuencia. Consiste en  repetir N veces un bloque de acciones. Este número de veces que se deben ejecutar las acciones es fijo y conocido de antemano.</sup>
 
 <sup>**For i := 1 to 10 do**
-La variable índice debe ser de tipo ordinal
-La variable índice no puede modificarse dentro del lazo
-La variable índice se incrementa y decrementa automáticamente
- Cuando el for termina la variable índice no tiene valor definido.</sup>
+- La variable índice debe ser de tipo ordinal 
+- La variable índice no puede modificarse dentro del lazo
+- La variable índice se incrementa y decrementa automáticamente
+- Cuando el for termina la variable índice no tiene valor definido.</sup>
 
 > Selección(case)
  
@@ -247,9 +246,9 @@ La variable índice se incrementa y decrementa automáticamente
  Las opciones deben ser disjuntas.</sup>
 
 ## Máximos y Mínimos
-Utilizar una variable que representará al máximo o al mínimo.
-Inicializar la variable antes de comenzar la lectura de los datos. El máximo en un valor bajo y el mínimo en un valor alto.
-Actualizar la variable máximo o mínimo cuando corresponda
+- Utilizar una variable que representará al máximo o al mínimo.
+- Inicializar la variable antes de comenzar la lectura de los datos. El máximo en un valor bajo y el mínimo en un valor alto.
+- Actualizar la variable máximo o mínimo cuando corresponda.
 
 ## Tipo de dato definido por el usuario
 Un tipo de dato definido por el usuario es aquel que no existe en la definición del lenguaje, y el programador es el encargado de su especificación.
