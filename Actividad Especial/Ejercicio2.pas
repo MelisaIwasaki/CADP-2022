@@ -1,6 +1,3 @@
-{Para que no haya confusiones:primero hice el ejercicio,luego el profesor me lo corrigió y después lo volví a arreglar.
-Dejé los comentarios del profesor para que no me olvidara mi error.}
-
 program FisicaYQuimica;
 const
   ATO=3;  //son 30,el 3 es para probar;
@@ -59,7 +56,7 @@ begin
 end;
 function calcularMasa(a:atomo):real;
 begin
-  calcularMasa:= a.protones*proton + a.electrones*electron + a.neutrones*neutron; {NICO: Ok, podriamos usar constantes}
+  calcularMasa:= a.protones*proton + a.electrones*electron + a.neutrones*neutron; 
 end;
 function calcularCarga(a:atomo):integer;
 begin
@@ -80,7 +77,7 @@ begin
   if(atomoA.protones <> atomoB.protones)then
      calcularIsotopo:=0 //protones distintos
   else
-    if(atomoA.neutrones <> atomoB.neutrones)then {NICO: Faltaria retornar si se trata de otro elemento => protones distintos}
+    if(atomoA.neutrones <> atomoB.neutrones)then 
       calcularIsotopo:=1  //configuracion natural
     else
       calcularIsotopo:=-1; //isotopo
@@ -105,14 +102,14 @@ begin
   aMin.electrones:=0;
   aMin.neutrones:=0;
 end;
-procedure minimoMasico(a:atomo;var aMin:atomo;var min:real;masico:real); {NICO: min deberia pasar por referencia}
+procedure minimoMasico(a:atomo;var aMin:atomo;var min:real;masico:real); 
 begin
   if(masico < min)then begin
     min:=masico;
     aMin:=a;
   end;
 end;
-procedure recorrerAtomos(); {NICO: a deberia ser una variable local}
+procedure recorrerAtomos(); 
 var
   aMin:atomo;a:atomo;
   i,carga,cantPositivo,cantNagativo:integer;
@@ -131,7 +128,7 @@ begin
     masico:=calcularMasico(a);
     if(carga = 1)then
       cantPositivo:=cantPositivo + 1
-    else {NICO: Podemos agregar un else} 
+    else 
 		if(carga = -1)then
 			cantNagativo:=cantNagativo + 1
 		else
@@ -155,9 +152,9 @@ end;
 procedure buscar(v:vector;prot:integer;var tabla:tablaPeriodica); //3 de vectores
 var i:rango;
 begin
-  inicializarTabla(tabla);     {NICO: Deberia aprovechar el acceso directo}
+  inicializarTabla(tabla);     
     if(prot = v[prot].atomoB.protones)then 
-       tabla:=v[prot];  //guardo en el registro tabla {NICO: Se puede asignar directamente tabla:= v[pos]}
+       tabla:=v[prot];  //guardo en el registro tabla 
 end;
 function isotopo(a:atomo;v:vector):boolean; //4 de vectores
 var tabla:tablaPeriodica;iso:integer;
@@ -184,7 +181,7 @@ begin
   difeAto.nombre:= tabla.atomoB.nombre;
   difeAto.protones:= tabla.atomoB.protones;
   difeAto.electrones:= tabla.atomoB.electrones - a.electrones;
-  difeAto.neutrones:= tabla.atomoB.neutrones - a.neutrones; {NICO: Quizas es suficiente con retornar un registro atomo}
+  difeAto.neutrones:= tabla.atomoB.neutrones - a.neutrones; 
 end;
 procedure mostrarDiferencia(difeAto:tablaPeriodica);
 begin
@@ -206,8 +203,7 @@ begin
   leerAtomo(a);
   while(a.protones <> 0)do begin
     protActual:=a.protones;
-    while(protActual = a.protones)do begin {NICO: Ok, en este caso puntual no haria falta (a.protones <> 0) ya que la segunda condicion es sobre el mismo campo}
-      v[protActual]:= v[protActual] + 1;
+    while(protActual = a.protones)do begin 
       leerAtomo(a);
     end;
   end;
@@ -250,7 +246,7 @@ begin
     writeln('se trata de un isótopo del dicho elemento');
     
   writeln('Ingrese atomo para ver las diferencias:');
-  leerAtomo(a); {NICO: Se debe leer fuera y recibir por parametro}
+  leerAtomo(a);
   diferencias(v,difeAto,a);
   //mostrarDiferencia(difeAto);//para probar si se cargo
   if(difeAto.neutrones = 0)then
