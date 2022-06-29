@@ -1334,8 +1334,6 @@ d. La empresa que dedica más tiempo al cultivo de maíz
 e. Realizar un módulo que incremente en un mes los tiempos de cultivos de girasol de menos de 5
 hectáreas de todas las empresas que no son estatales.
 }
-{Para que no haya confusiones:primero hice el ejercicio,luego el profesor me lo corrigió y después lo volví a arreglar.
-Dejé los comentarios del profesor para que no me olvidara mi error.}
 program repaso10;
 const
   dimF=20;
@@ -1398,7 +1396,7 @@ begin
     writeln('Ingrese la ciudad');
     readln(e.ciudad);
     writeln('Se leen los cultivos de la empresa');
-    cargarCultivo(e.cultivo,e.dimL); {NICO: Enviar vector dentro del registro}
+    cargarCultivo(e.cultivo,e.dimL); 
   end;
 end;
 procedure agregarAdelante(var L:lista; e:empresa);
@@ -1484,7 +1482,7 @@ begin
     L:=L^.sig;
   end;
   porcentaje:=cantHectSoja*100/hecTotal;
-  writeln('Cantidad de hectareas dedicadas al cultivo de soja:',cantHectSoja);{NICO: informar cant soja}
+  writeln('Cantidad de hectareas dedicadas al cultivo de soja:',cantHectSoja);
   writeln('Porcentaje de hectareas dedicadas al cultivo de soja:',porcentaje:2:2,'%'); 
   writeln('La empresa que dedica más tiempo al cultivo de maíz:',maxNom);
 end;
@@ -1508,7 +1506,7 @@ begin
   L:=nil;
   cargarEmpresa(L);
   recorrerLista(L);
-  moduloE(L);{NICO: el E?}
+  moduloE(L);
 end.
 
 {
