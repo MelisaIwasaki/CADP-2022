@@ -1,3 +1,6 @@
+{Este tema no está en la catedra, es una investigacion personal}
+
+
 {Vectores multidimencionales o matrices
 Se admiten Multidimensional arrays como [x..y, z..t] y así sucesivamente.
 
