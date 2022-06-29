@@ -1401,7 +1401,7 @@ type
   rangoMedio=1..5;
   cadena=string[30];
   viaje=record
-    codigo:rangoAlu; {NICO: Nota: Deberia contemplar el -1 ya que se debe leer (o usar una variable auxiliar de tipo integer, y si es <> -1 copiar a vi.codigo)}
+    codigo:rangoAlu;
     dia:rangoDia;
     facultad:cadena;
     transporte:rangoMedio;
@@ -1414,9 +1414,6 @@ type
   vprecios=array[rangoMedio]of real;  //se dispone
   vcodigo=array[rangoAlu]of lista;  //cada alumno tiene una lista de viajes
   vmedio=array[rangoMedio]of integer;  //transporte más utilizados
-  
-{Para que no haya confusiones:primero hice el ejercicio,luego el profesor me lo corrigió y después lo volví a arreglar.
-Dejé los comentarios del profesor para que no me olvidara mi error.} 
 
 procedure leer(var vi:viaje);
 begin
@@ -1495,9 +1492,9 @@ end;
 procedure recorrer(vc:vcodigo);
 var vm:vmedio;vp:vprecios;
     diaActual,viajesPorDia,cantSeisViajes,cantMasDe80:integer;
-    gastoPorDia: real; {NICO: gastoPorDia debe ser real}
+    gastoPorDia: real; 
     i:rangoAlu;max1,max2,cod1,cod2,Bici,NoBici, combinanBici:integer;
-    L : Lista; {NICO: Falta declarar L auxiliar}
+    L : Lista; 
     ok6,ok8:boolean;
 begin
   ok6:=false; ok8:=false;
@@ -1510,7 +1507,7 @@ begin
     while(L<>nil)do begin     //recorre la lista de un alumno
       diaActual:=L^.dato.dia; 
       viajesPorDia:=0;
-      gastoPorDia:= 0; {NICO: Falta inicializar gasto por dia}
+      gastoPorDia:= 0; 
       while(L<>nil)and(diaActual=L^.dato.dia)do begin  //por dia
         viajesPorDia:=viajesPorDia+1;
         gastoPorDia:=gastoPorDia+vp[L^.dato.transporte];
@@ -1519,9 +1516,9 @@ begin
                                 else   NoBici:=NoBici+1;
         L:=L^.sig;
       end;
-      if(viajesPorDia > 6)then  {NICO: Podria contar cada alumno mas de una vez}
+      if(viajesPorDia > 6)then  
         ok6:=true;
-      if(cantMasDe80 > 80)then   {NICO: Podria contar cada alumno mas de una vez}
+      if(cantMasDe80 > 80)then   
         ok8:=true;
     end;
     if(ok6)then
