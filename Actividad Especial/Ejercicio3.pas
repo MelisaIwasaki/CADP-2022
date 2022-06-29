@@ -1,6 +1,3 @@
-{Para que no haya confusiones:primero hice el ejercicio,luego el profesor me lo corrigió y después lo volví a arreglar.
-Dejé los comentarios del profesor para que no me olvidara mi error.}
-
 program FisicaYQuimica;
 const
   ATO=30;  
@@ -192,8 +189,8 @@ end;
 
 procedure buscar(v:vector;prot:integer;var tabla:tablaPeriodica); 
 begin
-  //inicializarTabla(tabla);     {NICO: No hace falta inicializar, se va a sobreescribir}
-  //  if(prot = v[prot].atomoB.protones)then {NICO: No es necesario, es siempre verdadero}
+  //inicializarTabla(tabla);     
+  //  if(prot = v[prot].atomoB.protones)then 
        tabla:=v[prot];  //guardo en el registro tabla 
 end;
 function isotopo(a:atomo;v:vector):boolean; 
@@ -302,7 +299,7 @@ function masaMolecula(m:molecula):real;
 var masa,masaTotal:real;L:lista;
 begin
   L:= m.atomos;
-  masaTotal:= 0; {NICO: Falta inicializar masaTotal}
+  masaTotal:= 0;
   while(L<>nil)do begin
     masa:= calcularMasa(L^.dato);
     masaTotal:= masaTotal + masa;
@@ -318,7 +315,7 @@ function vecesQueAparece(m:molecula;a:atomo):integer;
 var cant:integer;L:lista;
 begin
   L:= m.atomos;
-  cant:= 0; {NICO: Falta inicializar cant}
+  cant:= 0; 
   while(L<>nil)do begin
     if(a.protones = L^.dato.protones)then
       cant:= cant + 1;
@@ -335,24 +332,23 @@ procedure ocurrencias(m:molecula;var vec:vcont);  //No olvidar que hay 3 vectore
 var L:lista;
 begin 
   L:= m.atomos;
-  inicializar(vec);{NICO: Deberia inicializar vec en 0}
+  inicializar(vec);
   while(L<>nil)do begin
-    vec[L^.dato.protones]:= vec[L^.dato.protones] + 1; {NICO: Ok, tambien podria retornar una lista con atomo - cantidad, para no tener toda la tabla mayormente en 0}
-    L:=L^.sig;
+    vec[L^.dato.protones]:= vec[L^.dato.protones] + 1; 
   end;
 end;
 { 6. Realice un módulo que reciba dos moléculas A y B, y retorne una nueva molécula,
 resultante de la unión de A y B (macromolécula).}
 procedure macromolecula(moleA,moleB:molecula;var moleUnion:molecula);  
 var
-	LA, LB : lista;{NICO: Falta declarar listas auxiliares}
+	LA, LB : lista;
 begin  
   moleUnion.nom:='macromolecula';
   LA:= moleA.atomos;  //LA,LB,LU -> puntero q apunta el primero de la lista
   LB:= moleB.atomos;
-  moleUnion.atomos:=nil; {NICO: Para agregar no necesitamos auxiliar}
+  moleUnion.atomos:=nil; 
   {main.pas(352,40) Error: Incompatible type for arg no. 2: Got "lista", expected "atomo"}
-  {NICO: Debe recorrer LA agregando cada elemento a moleUnion.atomos}
+  
   while(LA<>nil)do begin
     agregarAdelante(moleUnion.atomos,LA^.dato);
     LA:=LA^.sig;
@@ -389,7 +385,7 @@ var L:lista;ok:boolean;
 begin
   L:= m.atomos;
   while(L<>nil)do begin
-    if(L^.dato.protones = a.protones)then {NICO: Debe borrar todos los atomos que corresponda, no solo uno}
+    if(L^.dato.protones = a.protones)then 
       borrar(L,a.protones,ok);
     L:=L^.sig;
   end;
@@ -400,7 +396,7 @@ molécula M (o sea, una nueva molécula M2 o submolécula) con una copia de todo
 átomos de M hasta el elemento E inclusive. El elemento E podría no existir}
 
 procedure hacerCopia(m:molecula;elemE:atomo;var M2:molecula);
-var L:lista;                   {NICO: Deberia recorrer la lista de m.atomos hasta encontrar elemE (o terminar) agregando cada uno a M2.atomos}
+var L:lista;                   
 begin
   M2:= m;
   L:=m.atomos;
