@@ -866,12 +866,9 @@ const
   anioF= 2022;
 type
  
-  vector= array[1..100]of real;  {temperatura de cada anio}
-  anios= array[1972..2022]of vector; {NICO: Para que concuerde con el indice del FOR}
+  vector= array[1..100]of real; 
+  anios= array[1972..2022]of vector; 
   
-{Para que no haya confusiones:primero hice el ejercicio,luego el profesor me lo corrigió y después lo volví a arreglar.
-Dejé los comentarios del profesor para que no me olvidara mi error.}
-
 procedure cargar(var v:anios);
 var temperatura:real;aux:real;
     anio,punto:integer;
@@ -900,17 +897,17 @@ begin
   end;
 end;
 var
-  v:anios; {NICO: anios contiene vectores}
+  v:anios; 
   anio,punto,anioMayor,anioMax:integer;
   temp,max,promedio,maxTemp:real;
 begin
   maxTemp:= -1;max:= -1;
   anioMayor:= 0;anioMax:= 0;
   cargar(v);
-  for anio:= anioI to anioF do begin {NICO: Primero almacenar, y luego procesar}
+  for anio:= anioI to anioF do begin 
     temp:= 0;
     for punto:= 1 to LUGAR do begin
-      temp:= temp+v[anio][punto]; {NICO: Con anio actual}
+      temp:= temp+v[anio][punto]; 
       mayor(v[anio][punto],maxTemp,anio,anioMayor); 
     end;
     promedio:= temp/LUGAR;
