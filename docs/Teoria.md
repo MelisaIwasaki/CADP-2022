@@ -335,17 +335,17 @@ Conjunto de instrucciones que realizan una tarea específica y retorna un único
 
 Si es una variable utilizada en un proceso:
  
-> Se busca si es variable local
+1. Se busca si es variable local
  
-> Se busca si es un parámetro
+2. Se busca si es un parámetro
  
-> Se busca si es variable global al programa
+3. Se busca si es variable global al programa
  
 Si es una variable usada en un programa:
  
-> Se busca si es variable local al programa
+1. Se busca si es variable local al programa
  
-> Se busca si es variable global al programa
+2. Se busca si es variable global al programa
 
 ### Variables globales
 - Demasiados identificadores
