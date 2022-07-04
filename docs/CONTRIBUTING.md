@@ -4,7 +4,7 @@
 
 Un arreglo (ARRAY) es una estructura de datos compuesta que permite acceder a cada componente por una variable índice, que da la posición de la componente dentro de la estructura de datos.
 
-## VECTOR :  ***Arreglo de una sola dimensión***
+## ***Arreglo de una sola dimensión***
 
 Es una colección de elementos que se guardan consecutivamente en la memoria y se pueden referenciar a 
 través de un índice.
@@ -221,7 +221,9 @@ end;
 ````
 ## Búsqueda de un elemento
 Vector desordenado: Se debe recorrer todo el vertor (en el peor de los casos), y detener la búsqueda en el momento que se encuentra el dato buscado o que se terminó el vector.
+
 Vector ordenado: Se debe aprovechar el orden, existen al menos dos formas: búsqueda mejorada y búsqueda dicotómica.
+
 ````pascal
 function buscar (a:números; dimL:integer, num:integer): boolean;
 Var
