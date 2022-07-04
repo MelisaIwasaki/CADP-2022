@@ -285,9 +285,10 @@ Significa dividir un problema en partes funcionalmente independientes, que encap
 No se trata simplemente de subdividir el código de un sistema de software en bloques con un número de instrucciones dado.
  
 Separar en funciones lógicas con datos propios y datos de comunicación perfectamente especificados.
--Cada subproblema está en un mismo nivel de detalle.
--Cada subproblema puede resolverse independientemente.
--Las soluciones de los subproblemas puede combinarse para resolver el problema original.
+ 
+- Cada subproblema está en un mismo nivel de detalle.
+- Cada subproblema puede resolverse independientemente.
+- Las soluciones de los subproblemas puede combinarse para resolver el problema original.
  
 ### Modularización - Módulo
 Tarea específica bien definida se comunican entre sí adecuadamente y cooperan para conseguir un objetivo común.
