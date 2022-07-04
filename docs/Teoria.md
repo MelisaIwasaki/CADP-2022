@@ -401,7 +401,7 @@ Permite al programador definir un tipo al que se asocian diferentes datos que ti
  
 **Estática:** El tamaño de la estructura no varía durante la ejecución del programa.
  
-**Dinámica:** El tamaño de la estructura no varía durante la ejecución del programa.
+**Dinámica:** La cantidad de elementos puede variar, por lo tanto, puede variar la memoria ocupada en tiempo de ejecución.
 
 > Acceso
  
