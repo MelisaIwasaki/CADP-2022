@@ -76,7 +76,6 @@ Un tipo de dato es una clase de objetos de datos ligados a un conjunto de operac
 - Tienen un conjunto de operaciones permitidas
 - Tienen una representación interna
 
- ![TIPO](https://user-images.githubusercontent.com/92184167/174393601-a3f8af60-b167-4949-b819-a16ecc41eeab.png)
 
 **SIMPLE:** aquellos que toman un único valor, en un momento determinado, de todos los permitidos para ese tipo.
 
@@ -475,7 +474,7 @@ Un **dato referenciado o apuntado**, como los ejemplos vistos, no tienen memoria
 - Libera la posición de memoria.
 - La memoria liberada puede utilizarse en otro momento del programa.
 
-> Eliminación de una variable puntero      **L:=nil;**
+> Eliminación de una variable puntero      **p:=nil;**
  
 - Libera la conexión que existe entre la variable y la posición de memoria.
 - La memoria sigue ocupada.
