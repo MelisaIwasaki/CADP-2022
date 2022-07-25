@@ -16,7 +16,7 @@
 
 > [AUTOEVALUACION](docs/autoevaluacion2.md) DE 6 A 10
 
-> [幸せ](docs/solucion.md) 
+> [NOTAS](docs/solucion.md) 
 
 ## IDE para instalar :
 
