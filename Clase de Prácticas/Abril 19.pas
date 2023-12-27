@@ -1,5 +1,5 @@
 programa  ejer3prac3 ;
-constante
+const
 	unesco = 23.435 ;
 
 type
@@ -10,7 +10,7 @@ type
 		cantDoc:integer;
 		cantAlu:integer;
 		localidad:str30;
-	fin ;
+	end ;
 	
 	regMin = record
 		cue:integer;
